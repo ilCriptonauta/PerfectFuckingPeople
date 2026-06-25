@@ -454,7 +454,8 @@ export default function LeaderboardPage() {
         </div>
       ) : (
         <div className="leaderboard-table-card">
-          <table className="leaderboard-table">
+          <div className="leaderboard-table-responsive">
+            <table className="leaderboard-table">
             <thead>
               <tr>
                 <th style={{ width: '10%' }}>Rank</th>
@@ -661,6 +662,7 @@ export default function LeaderboardPage() {
             </tbody>
           </table>
         </div>
+      </div>
       )}
 
       {isGiveawayOpen && createPortal(

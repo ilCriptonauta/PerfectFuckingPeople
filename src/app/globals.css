@@ -1782,4 +1782,166 @@ a {
   to { transform: scale(1.03); }
 }
 
+/* Mobile and Responsive Layout Optimizations */
+
+.leaderboard-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Modals Scroll Safety */
+.modal-content {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Media Queries */
+@media (max-width: 991px) {
+  .gallery-banner-row {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .leaderboard-container {
+    padding: 1.5rem 1rem;
+  }
+  .leaderboard-header h1 {
+    font-size: 2.2rem;
+  }
+  .leaderboard-header p {
+    font-size: 1rem;
+  }
+  .leaderboard-table th, 
+  .leaderboard-table td {
+    padding: 12px 16px;
+  }
+  .expanded-detail-container {
+    padding: 16px 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  /* Banner adjustments */
+  .gallery-banner-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .og-status-card, 
+  .leaderboard-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    padding: 24px 16px;
+  }
+  .og-status-banner-content, 
+  .leaderboard-card-content {
+    text-align: center;
+  }
+  .leaderboard-card-arrow {
+    transform: rotate(90deg);
+  }
+  .leaderboard-card:hover .leaderboard-card-arrow {
+    transform: rotate(90deg) translateY(4px);
+  }
+
+  /* Tabs wrapping adjustments */
+  .season-tabs-container {
+    border-radius: 20px;
+    gap: 8px;
+    padding: 6px;
+    margin: 1.5rem 0;
+  }
+  .season-tab {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  /* Table styling */
+  .leaderboard-table th, 
+  .leaderboard-table td {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+  .btn-action {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    gap: 4px;
+  }
+  .herotag-name {
+    font-size: 0.8rem;
+  }
+  .rank-cell {
+    font-size: 0.95rem;
+  }
+  .rank-badge {
+    width: 26px;
+    height: 26px;
+    font-size: 0.95rem;
+  }
+
+  /* Giveaway Modal */
+  .giveaway-modal {
+    padding: 1.5rem 1.2rem;
+    border-radius: 20px;
+  }
+  .giveaway-title {
+    font-size: 1.4rem;
+  }
+  .giveaway-drum-container {
+    height: 90px;
+    margin-bottom: 1.5rem;
+  }
+  .giveaway-drum-text {
+    font-size: 0.95rem;
+  }
+  .giveaway-drum-text.winner {
+    font-size: 1.15rem;
+  }
+  .giveaway-winner-detail {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .winner-tag {
+    font-size: 1.2rem;
+  }
+  .winner-address-box {
+    font-size: 0.75rem;
+    padding: 6px 10px;
+  }
+
+  /* About Modal */
+  .modal-content {
+    padding: 24px 16px;
+    border-radius: 16px;
+  }
+  .modal-title {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .leaderboard-header h1 {
+    font-size: 1.7rem;
+  }
+  
+  /* Card Back adjustments for small widths */
+  .nft-card-back {
+    padding: 16px;
+  }
+  .nft-card-back h3 {
+    font-size: 1.20rem !important;
+    margin-bottom: 12px !important;
+    margin-top: 5px !important;
+  }
+  .nft-card-back div {
+    gap: 12px !important;
+  }
+  .nft-card-back .btn-about {
+    padding: 6px 16px !important;
+  }
+}
+
 

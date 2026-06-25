@@ -1,0 +1,3 @@
+Perfect Fucking Home
+
+Ho una collezione NFTs su rete Multiversx. La collezione in questione è questa PFP-717e46 - qui il link ufficiale da explorer https://explorer.multiversx.com/collections/PFP-717e46Ora dobbiamo realizzare una pagina web molto figa e moderna con una grafica che catturi subito l’attenzione dell’utente. A cosa serve questa pagina?Dopo che l’utente ha effetuato il login con il suo wallet Multiversx potrà visionare gli NFTs della collezione presenti nel suo wallet. Quando l’utente esegue il click su un singolo NFT questo dovrà trasformarsi in una carta. Dovrà esserci quindi un layout che riprende la numerazione del titolo e la mission tra gli attributi del singolo NFT. 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useGetIsLoggedIn } from "@multiversx/sdk-dapp/out/react/account/useGetIsLoggedIn";
@@ -22,30 +22,45 @@ export default function GalleryPage() {
 
     const { nfts, isLoading, error, address } = useWalletNFTs(simulateAddress || undefined);
     const [selectedSeason, setSelectedSeason] = useState<string>("all");
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
-    const getNFTSeasonNumber = (nft: MultiversXNFT): number => {
+    const getNFTSeasonValue = (nft: MultiversXNFT): string => {
         const seasonAttr = nft.metadata?.attributes?.find(
             (a) => a.trait_type?.toLowerCase() === "season"
         );
-        if (!seasonAttr) return 0;
-        const valStr = String(seasonAttr.value);
+        if (!seasonAttr) return "";
+        const valStr = String(seasonAttr.value).trim().toLowerCase();
+        if (valStr.includes("collectibles")) {
+            return "collectibles";
+        }
         const match = valStr.match(/\d+/);
-        return match ? parseInt(match[0], 10) : 0;
+        return match ? match[0] : "";
     };
 
     const isOG = !isLoading && nfts.some((nft: MultiversXNFT) => {
-        const seasonNum = getNFTSeasonNumber(nft);
-        return seasonNum >= 1 && seasonNum <= 5;
+        const seasonVal = getNFTSeasonValue(nft);
+        const seasonNum = parseInt(seasonVal, 10);
+        return !isNaN(seasonNum) && seasonNum >= 1 && seasonNum <= 5;
     });
 
     const filteredNfts = nfts.filter((nft: MultiversXNFT) => {
         if (selectedSeason === "all") return true;
-        const seasonNum = getNFTSeasonNumber(nft);
-        return String(seasonNum) === selectedSeason;
+        return getNFTSeasonValue(nft) === selectedSeason;
     });
 
     useEffect(() => {
         setMounted(true);
+        
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsDropdownOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
     }, []);
 
     useEffect(() => {
@@ -144,22 +159,49 @@ export default function GalleryPage() {
                     </Link>
                 </div>
 
-                <div className="season-tabs-container">
+                <div 
+                    ref={dropdownRef}
+                    className={`custom-dropdown-container ${isDropdownOpen ? 'open' : ''}`}
+                >
                     <button 
-                        onClick={() => setSelectedSeason("all")} 
-                        className={`season-tab ${selectedSeason === "all" ? "active-all" : ""}`}
+                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                        className="custom-dropdown-trigger"
                     >
-                        All
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <span className={`dropdown-badge-dot ${
+                                selectedSeason === "all" ? "badge-all" :
+                                selectedSeason === "collectibles" ? "badge-collectibles" :
+                                `badge-${selectedSeason}`
+                            }`} />
+                            {selectedSeason === "all" ? "All Perfect People" :
+                             selectedSeason === "collectibles" ? "Collectibles" :
+                             `Season ${selectedSeason}`}
+                        </span>
+                        <span className="custom-dropdown-arrow">▼</span>
                     </button>
-                    {[1, 2, 3, 4, 5].map((season) => (
-                        <button
-                            key={season}
-                            onClick={() => setSelectedSeason(String(season))}
-                            className={`season-tab ${selectedSeason === String(season) ? `active-${season}` : ""}`}
-                        >
-                            Season {season}
-                        </button>
-                    ))}
+                    <div className="custom-dropdown-menu">
+                        {[
+                            { id: "all", label: "All Perfect People", badgeClass: "badge-all" },
+                            { id: "1", label: "Season 1", badgeClass: "badge-1" },
+                            { id: "2", label: "Season 2", badgeClass: "badge-2" },
+                            { id: "3", label: "Season 3", badgeClass: "badge-3" },
+                            { id: "4", label: "Season 4", badgeClass: "badge-4" },
+                            { id: "5", label: "Season 5", badgeClass: "badge-5" },
+                            { id: "collectibles", label: "Collectibles", badgeClass: "badge-collectibles" }
+                        ].map((season) => (
+                            <button
+                                key={season.id}
+                                onClick={() => {
+                                    setSelectedSeason(season.id);
+                                    setIsDropdownOpen(false);
+                                }}
+                                className={`custom-dropdown-item item-${season.id} ${selectedSeason === season.id ? `active-${season.id}` : ''}`}
+                            >
+                                <span className={`dropdown-badge-dot ${season.badgeClass}`} />
+                                {season.label}
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
                 <div style={{ marginBottom: '2rem' }}>
@@ -171,7 +213,7 @@ export default function GalleryPage() {
                             </>
                         ) : (
                             <>
-                                Showing <span style={{ color: 'var(--accent-secondary)', fontWeight: 'bold' }}>{filteredNfts.length}</span> of {nfts.length} Perfect Fucking People (Season {selectedSeason})
+                                Showing <span style={{ color: 'var(--accent-secondary)', fontWeight: 'bold' }}>{filteredNfts.length}</span> of {nfts.length} Perfect Fucking People ({selectedSeason === "collectibles" ? "Collectibles" : `Season ${selectedSeason}`})
                             </>
                         )}
                     </p>

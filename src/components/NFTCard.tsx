@@ -25,7 +25,8 @@ export function NFTCard({ nft }: NFTCardProps) {
     const background = getAttribute('Background');
     
     const getSeasonGlowClass = () => {
-        const valStr = String(season);
+        const valStr = String(season).toLowerCase();
+        if (valStr.includes('collectibles')) return 'season-collectibles-glow';
         const match = valStr.match(/\d+/);
         const num = match ? parseInt(match[0], 10) : null;
         if (num === 1) return 'season-1-glow';
@@ -41,8 +42,8 @@ export function NFTCard({ nft }: NFTCardProps) {
     const match = nft.name.match(/\d+/);
     const number = match ? match[0] : '';
     
-    // Get highest res image possible
-    const imageUrl = nft.url || nft.media?.[0]?.url || nft.media?.[0]?.thumbnailUrl;
+    // Get optimized thumbnail first for gallery grid performance
+    const imageUrl = nft.media?.[0]?.thumbnailUrl || nft.url || nft.media?.[0]?.url;
 
     // Get custom story from stories.json or fallback to description
     const customStoryEntry = (storiesData as Record<string, { name: string; story: string }>)[nft.identifier];

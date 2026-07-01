@@ -169,7 +169,7 @@ export function HeroSection() {
                                 )?.value || nft.name || 'P.F.P';
                                 const match = nft.name.match(/\d+/);
                                 const charId = match ? `#${match[0]}` : '';
-                                const imageUrl = nft.url || nft.media?.[0]?.url || nft.media?.[0]?.thumbnailUrl;
+                                const imageUrl = nft.media?.[0]?.thumbnailUrl || nft.url || nft.media?.[0]?.url;
 
                                 return (
                                     <div key={`${nft.identifier}-${idx}`} className="marquee-card">
@@ -262,17 +262,7 @@ export function HeroSection() {
                 </div>
                 
                 {/* Stats Footer (remains fixed at the bottom of the viewport) */}
-                <div className="glass-panel" style={{
-                    position: 'fixed',
-                    bottom: '2rem',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    display: 'flex',
-                    gap: '3rem',
-                    padding: '1rem 3rem',
-                    borderRadius: '100px',
-                    zIndex: 10
-                }}>
+                <div className="glass-panel fixed-stats-pill">
                     <div style={{ textAlign: 'center' }}>
                         <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>
                             {displayCount}

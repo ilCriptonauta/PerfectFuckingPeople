@@ -156,7 +156,7 @@ export function HeroSection() {
                         margin: '0 auto 1rem auto'
                     }}>
                         Connect your MultiversX wallet to view your unique Perfect Fucking People NFTs.{' '}
-                        {displayCount} items. 4 Seasons. 100% 1/1.
+                        {displayCount} items. 5 Seasons + Collectibles. 100% 1/1.
                     </p>
                 </div>
 
@@ -270,7 +270,7 @@ export function HeroSection() {
                         <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Total Items</div>
                     </div>
                     <div style={{ textAlign: 'center' }}>
-                        <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>4</div>
+                        <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>5 + 1</div>
                         <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Seasons</div>
                     </div>
                     <div style={{ textAlign: 'center' }}>

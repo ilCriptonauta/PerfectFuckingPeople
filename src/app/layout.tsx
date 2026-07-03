@@ -5,6 +5,18 @@ import { MXProvider } from "@/components/MXProvider";
 export const metadata: Metadata = {
   title: "Perfect Fucking Home",
   description: "Your perfect home for the PFP-717e46 NFT Collection on MultiversX",
+  openGraph: {
+    title: "Perfect Fucking Home",
+    description: "Your perfect home for the PFP-717e46 NFT Collection on MultiversX",
+    siteName: "Perfect Fucking People",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Perfect Fucking Home",
+    description: "Your perfect home for the PFP-717e46 NFT Collection on MultiversX",
+  },
 };
 
 export default function RootLayout({

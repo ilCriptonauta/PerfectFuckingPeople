@@ -257,12 +257,27 @@ export default function LeaderboardPage() {
   const ensureAllDetailsLoaded = async (currentHoldersList: Holder[]) => {
     setIsFetchingAllDetails(true);
     try {
-      // Fetch all NFTs with owners in a single request
-      const res = await fetch(`https://api.multiversx.com/nfts?collection=${COLLECTION_ID}&size=200&withOwner=true`);
-      if (!res.ok) {
-        throw new Error("Failed to fetch collection NFTs with owners");
+      // Fetch all NFTs with owners (paging by 100 to avoid MultiversX API size limits)
+      let allNftsWithOwner: any[] = [];
+      let from = 0;
+      const pageSize = 100;
+      let hasMore = true;
+
+      while (hasMore) {
+        const res = await fetch(
+          `https://api.multiversx.com/nfts?collection=${COLLECTION_ID}&from=${from}&size=${pageSize}&withOwner=true`
+        );
+        if (!res.ok) {
+          throw new Error("Failed to fetch collection NFTs with owners");
+        }
+        const data = await res.json();
+        allNftsWithOwner = [...allNftsWithOwner, ...data];
+        if (data.length < pageSize) {
+          hasMore = false;
+        } else {
+          from += pageSize;
+        }
       }
-      const allNftsWithOwner = await res.json();
 
       // Group NFTs by owner
       const grouped: Record<string, NFTItem[]> = {};

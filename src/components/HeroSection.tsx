@@ -317,7 +317,7 @@ export function HeroSection() {
                             <span className="text-gradient">Perfect Fucking People</span>
                         </h2>
                         <p className="banner-desc">
-                            Own a piece of the most iconic MultiversX 1/1 collection. Explore the official secondary marketplace on OOX to purchase your first P.F.P and unlock the digital gallery of your wallet. <strong style={{ color: 'var(--text-primary)' }}>Entry price 25 USDC</strong>.
+                            Own a piece of the most iconic MultiversX 1/1 collection. Explore the official secondary marketplace on OOX to purchase your P.F.P and unlock the digital gallery of your wallet. <strong style={{ color: 'var(--text-primary)' }}>Seasons 1-5 starting at 30 USDC, Collectibles at 25 USDC</strong>.
                         </p>
                         
                         <a 
@@ -434,7 +434,7 @@ export function HeroSection() {
                         <div className="ecosystem-badge core">Seasons 1 - 5</div>
                         <h3 className="ecosystem-card-title">The Core Seasons</h3>
                         <p className="ecosystem-card-desc">
-                            The original drops that built the project's foundation. Composed entirely of exclusive 1/1s with unique attributes, backgrounds, and storylines.
+                            The original drops that built the project's foundation. Composed entirely of exclusive 1/1s with unique attributes, backgrounds, and storylines. Available on the market starting at 30 USDC.
                         </p>
                         <ul className="ecosystem-list">
                             <li><span>🛡️</span> <strong>Handcrafted 1/1s:</strong> Every single character is a completely unique digital work of art.</li>
@@ -448,12 +448,12 @@ export function HeroSection() {
                         <div className="ecosystem-badge expansion">Expansion</div>
                         <h3 className="ecosystem-card-title">The Collectibles</h3>
                         <p className="ecosystem-card-desc">
-                            An ongoing, wider collection of rare items and special editions. These are never sold directly on standard drops.
+                            An ongoing, wider collection of rare items and special editions. Available on the market starting at 25 USDC.
                         </p>
                         <ul className="ecosystem-list">
                             <li><span>🚀</span> <strong>Continuous Growth:</strong> New Collectibles are introduced dynamically as the universe expands.</li>
                             <li><span>💎</span> <strong>Unique Rarity:</strong> Feature ultra-rare attributes, special backgrounds, and distinct lore.</li>
-                            <li><span>🎁</span> <strong>Closed Circle:</strong> These items can only be allocated and earned through community giveaways.</li>
+                            <li><span>🎁</span> <strong>OG Perks:</strong> In addition to being listed on the market, one Collectible is gifted to an OG holder every month.</li>
                         </ul>
                     </div>
                 </div>
@@ -464,7 +464,7 @@ export function HeroSection() {
                     <div className="giveaway-content">
                         <h3 className="giveaway-title-main">Monthly OG Giveaways</h3>
                         <p className="giveaway-desc-main">
-                            Collectibles are not for sale. Instead, **once a month**, we run exclusive giveaways specifically for **OG holders** (those owning at least one NFT from Seasons 1-5). One Collectible NFT is sent directly to a randomly selected OG's wallet as a free reward. Become an OG today to join the cycle!
+                            While Collectibles are available for purchase on the marketplace, **once a month** we run exclusive giveaways specifically for **OG holders** (those owning at least one NFT from Seasons 1-5). One Collectible NFT is sent directly to a randomly selected OG's wallet as a free gift. Become an OG today to join the cycle!
                         </p>
                     </div>
                 </div>

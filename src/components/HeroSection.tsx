@@ -392,6 +392,84 @@ export function HeroSection() {
                 </div>
             </section>
 
+            {/* Ecosystem (Seasons vs Collectibles) Section */}
+            <section 
+                style={{
+                    minHeight: '70vh',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: '6rem 2rem',
+                    position: 'relative',
+                    background: 'linear-gradient(to bottom, #07030e 0%, #0d061c 50%, #07030e 100%)',
+                    overflow: 'hidden',
+                    borderTop: '1px solid rgba(124, 58, 237, 0.1)'
+                }}
+            >
+                {/* Background Decor */}
+                <div style={{
+                    position: 'absolute',
+                    top: '20%', right: '10%',
+                    width: '400px', height: '400px',
+                    background: 'radial-gradient(circle, rgba(168, 85, 247, 0.05) 0%, rgba(10, 10, 15, 0) 70%)',
+                    borderRadius: '50%',
+                    zIndex: 0,
+                    pointerEvents: 'none'
+                }} />
+                
+                <div style={{ textAlign: 'center', marginBottom: '4rem', zIndex: 1, maxWidth: '800px' }}>
+                    <div className="banner-subtitle">Ecosystem Structure</div>
+                    <h2 className="banner-title" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800 }}>
+                        Seasons vs <span className="text-gradient">Collectibles</span>
+                    </h2>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', marginTop: '12px', lineHeight: 1.6 }}>
+                        Understanding the Perfect Fucking People lifecycle, distribution rules, and exclusive rewards.
+                    </p>
+                </div>
+
+                <div className="ecosystem-grid" style={{ zIndex: 1 }}>
+                    {/* Core Seasons Card */}
+                    <div className="ecosystem-card core-seasons">
+                        <div className="ecosystem-badge core">Seasons 1 - 5</div>
+                        <h3 className="ecosystem-card-title">The Core Seasons</h3>
+                        <p className="ecosystem-card-desc">
+                            The original drops that built the project's foundation. Composed entirely of exclusive 1/1s with unique attributes, backgrounds, and storylines.
+                        </p>
+                        <ul className="ecosystem-list">
+                            <li><span>🛡️</span> <strong>Handcrafted 1/1s:</strong> Every single character is a completely unique digital work of art.</li>
+                            <li><span>🔒</span> <strong>Collector's Keys:</strong> Purchasing a P.F.P from these seasons is the only way to gain membership.</li>
+                            <li><span>👑</span> <strong>OG Privilege:</strong> Holding at least one core P.F.P instantly grants you the prestigious **OG Status**.</li>
+                        </ul>
+                    </div>
+
+                    {/* Collectibles Card */}
+                    <div className="ecosystem-card collectibles">
+                        <div className="ecosystem-badge expansion">Expansion</div>
+                        <h3 className="ecosystem-card-title">The Collectibles</h3>
+                        <p className="ecosystem-card-desc">
+                            An ongoing, wider collection of rare items and special editions. These are never sold directly on standard drops.
+                        </p>
+                        <ul className="ecosystem-list">
+                            <li><span>🚀</span> <strong>Continuous Growth:</strong> New Collectibles are introduced dynamically as the universe expands.</li>
+                            <li><span>💎</span> <strong>Unique Rarity:</strong> Feature ultra-rare attributes, special backgrounds, and distinct lore.</li>
+                            <li><span>🎁</span> <strong>Closed Circle:</strong> These items can only be allocated and earned through community giveaways.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                {/* Giveaway Explainer Panel */}
+                <div className="ecosystem-giveaway-panel" style={{ zIndex: 1 }}>
+                    <div className="giveaway-icon">🎁</div>
+                    <div className="giveaway-content">
+                        <h3 className="giveaway-title-main">Monthly OG Giveaways</h3>
+                        <p className="giveaway-desc-main">
+                            Collectibles are not for sale. Instead, **once a month**, we run exclusive giveaways specifically for **OG holders** (those owning at least one NFT from Seasons 1-5). One Collectible NFT is sent directly to a randomly selected OG's wallet as a free reward. Become an OG today to join the cycle!
+                        </p>
+                    </div>
+                </div>
+            </section>
+
             {/* Collection Data Section */}
             <section 
                 style={{

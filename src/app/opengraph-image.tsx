@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og';
-import allNfts from '../data/all_nfts.json';
+import ogNfts from '../data/og_nfts.json';
 
 // Route segment config
 export const runtime = 'edge';
@@ -15,19 +15,12 @@ export const contentType = 'image/png';
 
 export default async function Image() {
   // Select a random NFT from the collection
-  const randomIndex = Math.floor(Math.random() * allNfts.length);
-  const nft = allNfts[randomIndex];
+  const randomIndex = Math.floor(Math.random() * ogNfts.length);
+  const nft = ogNfts[randomIndex];
   
-  const charName = nft.metadata?.attributes?.find(
-    (a: any) => a.trait_type?.toLowerCase() === 'character'
-  )?.value || nft.name || 'P.F.P';
-  
-  const season = nft.metadata?.attributes?.find(
-    (a: any) => a.trait_type?.toLowerCase() === 'season'
-  )?.value || '1';
-
-  // Get image URL
-  const imageUrl = nft.media?.[0]?.thumbnailUrl || nft.url || nft.media?.[0]?.url;
+  const charName = nft.charName;
+  const season = nft.season;
+  const imageUrl = nft.imageUrl;
 
   return new ImageResponse(
     (

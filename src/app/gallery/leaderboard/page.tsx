@@ -257,36 +257,41 @@ export default function LeaderboardPage() {
   const ensureAllDetailsLoaded = async (currentHoldersList: Holder[]) => {
     setIsFetchingAllDetails(true);
     try {
-      const fetchPromises = currentHoldersList.map(async (holder) => {
-        if (nftDetails[holder.address] || loadingDetails[holder.address]) {
-          return null;
-        }
-        try {
-          const res = await fetch(`https://api.multiversx.com/accounts/${holder.address}/nfts?collections=${COLLECTION_ID}&size=100`);
-          if (!res.ok) throw new Error("Failed to fetch");
-          const data = await res.json();
-          return { address: holder.address, nfts: data || [] };
-        } catch (e) {
-          console.error(`Error pre-fetching for ${holder.address}`, e);
-          return { address: holder.address, nfts: [] };
+      // Fetch all NFTs with owners in a single request
+      const res = await fetch(`https://api.multiversx.com/nfts?collection=${COLLECTION_ID}&size=200&withOwner=true`);
+      if (!res.ok) {
+        throw new Error("Failed to fetch collection NFTs with owners");
+      }
+      const allNftsWithOwner = await res.json();
+
+      // Group NFTs by owner
+      const grouped: Record<string, NFTItem[]> = {};
+      allNftsWithOwner.forEach((nft: any) => {
+        const ownerAddr = nft.owner;
+        if (ownerAddr) {
+          if (!grouped[ownerAddr]) {
+            grouped[ownerAddr] = [];
+          }
+          grouped[ownerAddr].push({
+            identifier: nft.identifier,
+            name: nft.name,
+            url: nft.url,
+            media: nft.media,
+            metadata: nft.metadata
+          });
         }
       });
 
-      const results = await Promise.all(fetchPromises);
-      const updatedDetails = { ...nftDetails };
-      let updatedAny = false;
-      results.forEach((r) => {
-        if (r) {
-          updatedDetails[r.address] = r.nfts;
-          updatedAny = true;
-        }
+      // Update nftDetails state with the grouped data
+      const newNftDetails = { ...nftDetails };
+      currentHoldersList.forEach(holder => {
+        newNftDetails[holder.address] = grouped[holder.address] || [];
       });
-      if (updatedAny) {
-        setNftDetails(updatedDetails);
-      }
-      return updatedDetails;
+
+      setNftDetails(newNftDetails);
+      return newNftDetails;
     } catch (err: any) {
-      console.error("Error pre-fetching OG data:", err);
+      console.error("Error pre-fetching OG data in bulk:", err);
       return nftDetails;
     } finally {
       setIsFetchingAllDetails(false);

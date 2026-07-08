@@ -3,9 +3,11 @@ import { NFTCard } from "./NFTCard";
 
 interface NFTGridProps {
     nfts: MultiversXNFT[];
+    flippedCardId: string | null;
+    onFlip: (id: string) => void;
 }
 
-export function NFTGrid({ nfts }: NFTGridProps) {
+export function NFTGrid({ nfts, flippedCardId, onFlip }: NFTGridProps) {
     if (!nfts || nfts.length === 0) {
         return (
             <div className="glass-panel" style={{ padding: '3rem', textAlign: 'center', marginTop: '2rem' }}>
@@ -26,7 +28,12 @@ export function NFTGrid({ nfts }: NFTGridProps) {
             width: '100%'
         }}>
             {nfts.map((nft) => (
-                <NFTCard key={nft.identifier} nft={nft} />
+                <NFTCard 
+                    key={nft.identifier} 
+                    nft={nft} 
+                    isFlipped={flippedCardId === nft.identifier}
+                    onFlip={() => onFlip(nft.identifier)}
+                />
             ))}
         </div>
     );

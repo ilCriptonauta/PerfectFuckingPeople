@@ -8,10 +8,11 @@ import storiesData from '@/data/stories.json';
 
 interface NFTCardProps {
     nft: MultiversXNFT;
+    isFlipped: boolean;
+    onFlip: () => void;
 }
 
-export function NFTCard({ nft }: NFTCardProps) {
-    const [isFlipped, setIsFlipped] = useState(false);
+export function NFTCard({ nft, isFlipped, onFlip }: NFTCardProps) {
     const [hasBeenFlipped, setHasBeenFlipped] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -49,9 +50,9 @@ export function NFTCard({ nft }: NFTCardProps) {
     const customStoryEntry = (storiesData as Record<string, { name: string; story: string }>)[nft.identifier];
     const storyToShow = (customStoryEntry && customStoryEntry.story) || nft.metadata?.description || "No story available for this character.";
 
-    const handleClick = () => {
-        const next = !isFlipped;
-        setIsFlipped(next);
+    const handleClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        onFlip();
         if (!hasBeenFlipped) setHasBeenFlipped(true);
     };
 

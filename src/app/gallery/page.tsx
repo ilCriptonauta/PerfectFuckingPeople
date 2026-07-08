@@ -23,6 +23,7 @@ export default function GalleryPage() {
     const { nfts, isLoading, error, address } = useWalletNFTs(simulateAddress || undefined);
     const [selectedSeason, setSelectedSeason] = useState<string>("all");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [flippedCardId, setFlippedCardId] = useState<string | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const getNFTSeasonValue = (nft: MultiversXNFT): string => {
@@ -57,9 +58,16 @@ export default function GalleryPage() {
                 setIsDropdownOpen(false);
             }
         };
+
+        const handleDocumentClick = () => {
+            setFlippedCardId(null);
+        };
+        
         document.addEventListener("mousedown", handleClickOutside);
+        document.addEventListener("click", handleDocumentClick);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("click", handleDocumentClick);
         };
     }, []);
 
@@ -227,7 +235,13 @@ export default function GalleryPage() {
                     </div>
                 )}
                 
-                {!isLoading && !error && <NFTGrid nfts={filteredNfts} />}
+                {!isLoading && !error && (
+                    <NFTGrid 
+                        nfts={filteredNfts} 
+                        flippedCardId={flippedCardId}
+                        onFlip={(id) => setFlippedCardId(prev => prev === id ? null : id)}
+                    />
+                )}
             </main>
         </div>
     );

@@ -10,9 +10,10 @@ interface NFTCardProps {
     nft: MultiversXNFT;
     isFlipped: boolean;
     onFlip: () => void;
+    isUnowned?: boolean;
 }
 
-export function NFTCard({ nft, isFlipped, onFlip }: NFTCardProps) {
+export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false }: NFTCardProps) {
     const [hasBeenFlipped, setHasBeenFlipped] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -58,7 +59,7 @@ export function NFTCard({ nft, isFlipped, onFlip }: NFTCardProps) {
 
     return (
         <div 
-            className={`nft-card-perspective ${isFlipped ? 'flipped' : ''}`}
+            className={`nft-card-perspective ${isFlipped ? 'flipped' : ''} ${isUnowned ? 'unowned-card' : ''}`}
             onClick={handleClick}
         >
             <div className="nft-card-inner">
@@ -73,6 +74,11 @@ export function NFTCard({ nft, isFlipped, onFlip }: NFTCardProps) {
                         borderTopRightRadius: '19px',
                         overflow: 'hidden'
                     }}>
+                        {isUnowned && (
+                            <div className="lock-badge">
+                                🔒 Locked
+                            </div>
+                        )}
                         {imageUrl ? (
                             <img 
                                 src={imageUrl} 

@@ -7,6 +7,7 @@ import { useGetIsLoggedIn } from "@multiversx/sdk-dapp/out/react/account/useGetI
 import { ConnectButton } from "@/components/ConnectButton";
 import { useWalletNFTs } from "@/hooks/useWalletNFTs";
 import { NFTGrid } from "@/components/NFTGrid";
+import { NFTCarousel } from "@/components/NFTCarousel";
 import { LoadingSkeleton } from "@/components/LoadingSkeleton";
 import { MultiversXNFT } from "@/types/nft.types";
 
@@ -24,6 +25,9 @@ export default function GalleryPage() {
     const [selectedSeason, setSelectedSeason] = useState<string>("all");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [flippedCardId, setFlippedCardId] = useState<string | null>(null);
+    const [viewMode, setViewMode] = useState<"grid" | "carousel" | "all">("grid");
+    const [allCollectionNfts, setAllCollectionNfts] = useState<MultiversXNFT[]>([]);
+    const [isAllNftsLoading, setIsAllNftsLoading] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const getNFTSeasonValue = (nft: MultiversXNFT): string => {
@@ -50,6 +54,11 @@ export default function GalleryPage() {
         return getNFTSeasonValue(nft) === selectedSeason;
     });
 
+    const filteredAllNfts = allCollectionNfts.filter((nft: MultiversXNFT) => {
+        if (selectedSeason === "all") return true;
+        return getNFTSeasonValue(nft) === selectedSeason;
+    });
+
     useEffect(() => {
         setMounted(true);
         
@@ -69,6 +78,19 @@ export default function GalleryPage() {
         
         document.addEventListener("mousedown", handleClickOutside);
         document.addEventListener("click", handleDocumentClick);
+
+        // Fetch all collection NFTs
+        setIsAllNftsLoading(true);
+        fetch("https://api.multiversx.com/collections/PFP-717e46/nfts?size=100")
+            .then(res => res.json())
+            .then(data => {
+                if (Array.isArray(data)) {
+                    setAllCollectionNfts(data);
+                }
+            })
+            .catch(err => console.error("Error fetching all NFTs:", err))
+            .finally(() => setIsAllNftsLoading(false));
+
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
             document.removeEventListener("click", handleDocumentClick);
@@ -216,22 +238,64 @@ export default function GalleryPage() {
                     </div>
                 </div>
 
+                {/* View Mode Tabs */}
+                <div className="view-mode-tabs">
+                    <button 
+                        className={`view-mode-btn ${viewMode === "grid" ? "active" : ""}`}
+                        onClick={() => setViewMode("grid")}
+                        title="Grid View"
+                    >
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                        <span>Grid</span>
+                    </button>
+                    <button 
+                        className={`view-mode-btn ${viewMode === "carousel" ? "active" : ""}`}
+                        onClick={() => setViewMode("carousel")}
+                        title="Carousel View"
+                    >
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg>
+                        <span>Carousel</span>
+                    </button>
+                    <button 
+                        className={`view-mode-btn ${viewMode === "all" ? "active" : ""}`}
+                        onClick={() => setViewMode("all")}
+                        title="All Collection"
+                    >
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                        <span>All Collection</span>
+                    </button>
+                </div>
+
                 <div style={{ marginBottom: '2rem' }}>
-                    <h2 style={{ fontSize: '1.5rem', marginBottom: '8px' }}>Your Collection</h2>
+                    <h2 style={{ fontSize: '1.5rem', marginBottom: '8px' }}>
+                        {viewMode === "all" ? "Complete Collection" : "Your Collection"}
+                    </h2>
                     <p style={{ color: 'var(--text-secondary)' }}>
-                        {selectedSeason === "all" ? (
-                            <>
-                                You own <span style={{ color: 'var(--accent-secondary)', fontWeight: 'bold' }}>{nfts.length}</span> Perfect Fucking People
-                            </>
+                        {viewMode === "all" ? (
+                            selectedSeason === "all" ? (
+                                <>
+                                    Showing all <span style={{ color: 'var(--accent-secondary)', fontWeight: 'bold' }}>{allCollectionNfts.length}</span> Perfect Fucking People in the collection
+                                </>
+                            ) : (
+                                <>
+                                    Showing <span style={{ color: 'var(--accent-secondary)', fontWeight: 'bold' }}>{filteredAllNfts.length}</span> of {allCollectionNfts.length} Perfect Fucking People ({selectedSeason === "collectibles" ? "Collectibles" : `Season ${selectedSeason}`})
+                                </>
+                            )
                         ) : (
-                            <>
-                                Showing <span style={{ color: 'var(--accent-secondary)', fontWeight: 'bold' }}>{filteredNfts.length}</span> of {nfts.length} Perfect Fucking People ({selectedSeason === "collectibles" ? "Collectibles" : `Season ${selectedSeason}`})
-                            </>
+                            selectedSeason === "all" ? (
+                                <>
+                                    You own <span style={{ color: 'var(--accent-secondary)', fontWeight: 'bold' }}>{nfts.length}</span> Perfect Fucking People
+                                </>
+                            ) : (
+                                <>
+                                    Showing <span style={{ color: 'var(--accent-secondary)', fontWeight: 'bold' }}>{filteredNfts.length}</span> of {nfts.length} Perfect Fucking People ({selectedSeason === "collectibles" ? "Collectibles" : `Season ${selectedSeason}`})
+                                </>
+                            )
                         )}
                     </p>
                 </div>
 
-                {isLoading && <LoadingSkeleton />}
+                {((isLoading && viewMode !== "all") || (isAllNftsLoading && viewMode === "all")) && <LoadingSkeleton />}
                 
                 {error && (
                     <div className="glass-panel" style={{ padding: '2rem', textAlign: 'center', color: '#ff4d4d' }}>
@@ -239,12 +303,36 @@ export default function GalleryPage() {
                     </div>
                 )}
                 
-                {!isLoading && !error && (
-                    <NFTGrid 
-                        nfts={filteredNfts} 
-                        flippedCardId={flippedCardId}
-                        onFlip={(id) => setFlippedCardId(prev => prev === id ? null : id)}
-                    />
+                {!error && (
+                    <>
+                        {/* Grid View */}
+                        {viewMode === "grid" && !isLoading && (
+                            <NFTGrid 
+                                nfts={filteredNfts} 
+                                flippedCardId={flippedCardId}
+                                onFlip={(id) => setFlippedCardId(prev => prev === id ? null : id)}
+                            />
+                        )}
+
+                        {/* Carousel View */}
+                        {viewMode === "carousel" && !isLoading && (
+                            <NFTCarousel 
+                                nfts={filteredNfts} 
+                                flippedCardId={flippedCardId}
+                                onFlip={(id) => setFlippedCardId(prev => prev === id ? null : id)}
+                            />
+                        )}
+
+                        {/* All Collection View */}
+                        {viewMode === "all" && !isAllNftsLoading && (
+                            <NFTGrid 
+                                nfts={filteredAllNfts} 
+                                ownedNfts={nfts}
+                                flippedCardId={flippedCardId}
+                                onFlip={(id) => setFlippedCardId(prev => prev === id ? null : id)}
+                            />
+                        )}
+                    </>
                 )}
             </main>
         </div>

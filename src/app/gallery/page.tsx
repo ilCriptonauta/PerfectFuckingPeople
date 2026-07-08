@@ -59,7 +59,11 @@ export default function GalleryPage() {
             }
         };
 
-        const handleDocumentClick = () => {
+        const handleDocumentClick = (event: MouseEvent) => {
+            const target = event.target as HTMLElement;
+            if (target.closest('.nft-card-perspective')) {
+                return;
+            }
             setFlippedCardId(null);
         };
         

@@ -347,7 +347,10 @@ export default function LeaderboardPage() {
       });
     };
 
-    const ogHolders = holders.filter(h => checkIsOGWithDetails(h.address, activeDetails));
+    const ogHolders = holders.filter(h => 
+      h.address !== "erd1vhkwevjs3v0564x7j4j7z2jl4n9zhpfvys9ddvn5m6j40fqn4fssxl65u8" &&
+      checkIsOGWithDetails(h.address, activeDetails)
+    );
 
     if (ogHolders.length === 0) {
       setDrawingDisplay("No OG Holders found!");

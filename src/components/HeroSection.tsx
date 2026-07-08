@@ -74,7 +74,7 @@ export function HeroSection() {
             .catch(() => {});
 
         // Fetch PFP NFTs for the home page carousel
-        fetch("https://api.multiversx.com/collections/PFP-717e46/nfts?size=60")
+        fetch("https://api.multiversx.com/collections/PFP-717e46/nfts?size=100")
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data) && data.length > 0) {
@@ -551,13 +551,13 @@ export function HeroSection() {
                         <div className="stat-label">Listed Items</div>
                         <div className="stat-value">
                             {collectionStats.nftsListed !== null 
-                                ? `${collectionStats.nftsListed} / ${totalItems || 60}` 
+                                ? `${collectionStats.nftsListed} / ${totalItems || 85}` 
                                 : "—"
                             }
                         </div>
                         <div className="stat-sublabel">
                             {collectionStats.nftsListed !== null 
-                                ? `${((collectionStats.nftsListed / (totalItems || 60)) * 100).toFixed(0)}% of supply listed` 
+                                ? `${((collectionStats.nftsListed / (totalItems || 85)) * 100).toFixed(0)}% of supply listed` 
                                 : "Listed on OOX"
                             }
                         </div>

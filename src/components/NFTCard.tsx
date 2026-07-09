@@ -59,25 +59,6 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false }: NFTCardPr
         if (!hasBeenFlipped) setHasBeenFlipped(true);
     };
 
-    const handleDownload = async (e: React.MouseEvent) => {
-        e.stopPropagation(); // Prevent card from flipping back
-        if (!downloadUrl) return;
-        try {
-            const response = await fetch(downloadUrl);
-            const blob = await response.blob();
-            const blobUrl = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = blobUrl;
-            link.download = `${nft.name || 'nft'}.png`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(blobUrl);
-        } catch (error) {
-            console.error("Failed to download image directly, opening in new tab", error);
-            window.open(downloadUrl, '_blank');
-        }
-    };
 
     return (
         <div 
@@ -214,8 +195,11 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false }: NFTCardPr
                         >
                             About Character
                         </button>
-                        <button
-                            onClick={handleDownload}
+                        <a
+                            href={downloadUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
                             className="btn-download"
                             title="Download NFT Image"
                             style={{
@@ -246,7 +230,7 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false }: NFTCardPr
                                 <polyline points="7 10 12 15 17 10" />
                                 <line x1="12" y1="15" x2="12" y2="3" />
                             </svg>
-                        </button>
+                        </a>
                     </div>
                     
                     <div style={{ 

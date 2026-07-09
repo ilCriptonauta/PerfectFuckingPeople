@@ -2549,4 +2549,21 @@ a {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
+/* ── Download Button Styling ── */
+.btn-download {
+  background: rgba(236, 72, 153, 0.1);
+  border: 1px solid rgba(236, 72, 153, 0.4);
+  color: var(--accent-secondary);
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 10px rgba(236, 72, 153, 0.15);
+}
+
+.btn-download:hover {
+  transform: translateY(-1px);
+  background: rgba(236, 72, 153, 0.25);
+  border-color: rgba(236, 72, 153, 0.8);
+  box-shadow: 0 6px 15px rgba(236, 72, 153, 0.35);
+  color: #fff;
+}
+
 

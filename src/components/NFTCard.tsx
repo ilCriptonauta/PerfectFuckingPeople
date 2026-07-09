@@ -46,6 +46,8 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false }: NFTCardPr
     
     // Get optimized thumbnail first for gallery grid performance
     const imageUrl = nft.media?.[0]?.thumbnailUrl || nft.url || nft.media?.[0]?.url;
+    // Get high resolution image for downloading
+    const downloadUrl = nft.url || nft.media?.[0]?.url || nft.media?.[0]?.thumbnailUrl;
 
     // Get custom story from stories.json or fallback to description
     const customStoryEntry = (storiesData as Record<string, { name: string; story: string }>)[nft.identifier];
@@ -55,6 +57,26 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false }: NFTCardPr
         e.stopPropagation();
         onFlip();
         if (!hasBeenFlipped) setHasBeenFlipped(true);
+    };
+
+    const handleDownload = async (e: React.MouseEvent) => {
+        e.stopPropagation(); // Prevent card from flipping back
+        if (!downloadUrl) return;
+        try {
+            const response = await fetch(downloadUrl);
+            const blob = await response.blob();
+            const blobUrl = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = blobUrl;
+            link.download = `${nft.name || 'nft'}.png`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(blobUrl);
+        } catch (error) {
+            console.error("Failed to download image directly, opening in new tab", error);
+            window.open(downloadUrl, '_blank');
+        }
     };
 
     return (
@@ -173,7 +195,7 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false }: NFTCardPr
                         </div>
                     </div>
 
-                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '24px', marginBottom: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginTop: '24px', marginBottom: '8px' }}>
                         <button
                             onClick={(e) => {
                                 e.stopPropagation(); // Prevent card from flipping back
@@ -191,6 +213,39 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false }: NFTCardPr
                             }}
                         >
                             About Character
+                        </button>
+                        <button
+                            onClick={handleDownload}
+                            className="btn-download"
+                            title="Download NFT Image"
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                padding: '8px',
+                                width: '36px',
+                                height: '36px',
+                                borderRadius: '8px',
+                                border: '1px solid rgba(236, 72, 153, 0.4)',
+                                color: 'var(--accent-secondary)',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            <svg 
+                                xmlns="http://www.w3.org/2000/svg" 
+                                width="18" 
+                                height="18" 
+                                viewBox="0 0 24 24" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                strokeWidth="2.5" 
+                                strokeLinecap="round" 
+                                strokeLinejoin="round"
+                            >
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="7 10 12 15 17 10" />
+                                <line x1="12" y1="15" x2="12" y2="3" />
+                            </svg>
                         </button>
                     </div>
                     

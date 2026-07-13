@@ -49,6 +49,24 @@ export default function GalleryPage() {
         return !isNaN(seasonNum) && seasonNum >= 1 && seasonNum <= 5;
     });
 
+    const isCollector = !isLoading && nfts.some((nft: MultiversXNFT) => {
+        return getNFTSeasonValue(nft) === "collectibles";
+    });
+
+    const isWhale = !isLoading && nfts.length > 10;
+
+    const isSerialCollector = !isLoading && [1, 2, 3, 4, 5].every((s) => 
+        nfts.some((nft) => {
+            const seasonVal = getNFTSeasonValue(nft);
+            const seasonNum = parseInt(seasonVal, 10);
+            return !isNaN(seasonNum) && seasonNum === s;
+        })
+    );
+
+    const isPerfectHolder = isOG && isCollector && isWhale && isSerialCollector;
+
+    const unlockedCount = [isOG, isCollector, isWhale, isSerialCollector, isPerfectHolder].filter(Boolean).length;
+
     const filteredNfts = nfts.filter((nft: MultiversXNFT) => {
         if (selectedSeason === "all") return true;
         return getNFTSeasonValue(nft) === selectedSeason;
@@ -156,23 +174,29 @@ export default function GalleryPage() {
 
             <main style={{ marginTop: '3rem' }}>
                 <div className="gallery-banner-row">
-                    {/* Left Card: OG Status */}
-                    <div className={`og-status-card ${!isOG ? 'inactive' : ''}`}>
-                        <div className={`og-badge ${!isOG ? 'inactive' : ''}`} style={{ cursor: 'default', animation: 'none' }}>
-                            <span className="og-badge-star">★</span> {isOG ? 'P.F.P OG' : 'OG Locked'}
+                    {/* Left Card: Badges Card */}
+                    <Link 
+                        href={isSimulating ? `/gallery/badges?simulate=${simulateAddress}` : "/gallery/badges"} 
+                        className="badges-card"
+                    >
+                        <div className="badges-card-badge">
+                            🏅
                         </div>
-                        <div className="og-status-banner-content">
-                            <div className="og-status-banner-title">
-                                {isOG ? 'OG Status Active' : 'OG Status Inactive'}
+                        <div className="badges-card-content">
+                            <div className="badges-card-title">
+                                My Badges
                             </div>
-                            <div className="og-status-banner-desc">
-                                {isOG 
-                                    ? 'As a holder of at least one P.F.P from Seasons 1-5, you have unlocked the OG role!'
-                                    : 'Hold at least one P.F.P from Seasons 1-5 to unlock the exclusive OG role!'
+                            <div className="badges-card-desc">
+                                {isLoading 
+                                    ? "Loading achievements..." 
+                                    : `You have unlocked ${unlockedCount} of 5 achievements. Click to view them.`
                                 }
                             </div>
                         </div>
-                    </div>
+                        <div className="badges-card-arrow">
+                            →
+                        </div>
+                    </Link>
 
                     {/* Right Card: Leaderboard CTA */}
                     <Link href={isSimulating ? `/gallery/leaderboard?simulate=${simulateAddress}` : "/gallery/leaderboard"} className="leaderboard-card">

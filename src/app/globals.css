@@ -320,6 +320,9 @@ a {
     grid-template-columns: 1.2fr 0.8fr;
     gap: 5rem;
   }
+  .banner-grid.swapped {
+    grid-template-columns: 0.8fr 1.2fr;
+  }
 }
 
 .banner-content {
@@ -802,6 +805,28 @@ a {
 .nft-card-perspective:hover .nft-card-back.season-default-glow {
   border-color: var(--border-hover) !important;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(124, 58, 237, 0.2) !important;
+}
+
+/* All Collection View: OG Role (Gold / Golden) */
+.all-collection-og-glow {
+  border: 1.5px solid rgba(255, 215, 0, 0.5) !important;
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.15), inset 0 0 20px rgba(255, 215, 0, 0.05) !important;
+}
+.nft-card-perspective:hover .nft-card-front.all-collection-og-glow,
+.nft-card-perspective:hover .nft-card-back.all-collection-og-glow {
+  border-color: rgba(255, 215, 0, 0.9) !important;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(255, 215, 0, 0.55), inset 0 0 20px rgba(255, 215, 0, 0.15) !important;
+}
+
+/* All Collection View: Collectibles (Fluo Cyan/Light Blue) */
+.all-collection-collectibles-glow {
+  border: 1.5px solid rgba(0, 243, 255, 0.5) !important;
+  box-shadow: 0 4px 20px rgba(0, 243, 255, 0.15), inset 0 0 20px rgba(0, 243, 255, 0.05) !important;
+}
+.nft-card-perspective:hover .nft-card-front.all-collection-collectibles-glow,
+.nft-card-perspective:hover .nft-card-back.all-collection-collectibles-glow {
+  border-color: rgba(0, 243, 255, 0.9) !important;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(0, 243, 255, 0.55), inset 0 0 20px rgba(0, 243, 255, 0.15) !important;
 }
 
 /* Season Tabs Styling */
@@ -2819,6 +2844,28 @@ a {
   background: rgba(255, 255, 255, 0.05);
   color: var(--text-secondary);
   border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ── Lore Page Custom Layout ── */
+.lore-chapter-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+  align-items: center;
+  width: 100%;
+}
+
+.lore-chapter-text {
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .lore-chapter-row {
+    grid-template-columns: 1.2fr 0.8fr;
+  }
+  .lore-chapter-row.even-row {
+    grid-template-columns: 0.8fr 1.2fr;
+  }
 }
 
 

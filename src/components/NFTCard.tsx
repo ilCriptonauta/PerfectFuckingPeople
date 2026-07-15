@@ -11,9 +11,10 @@ interface NFTCardProps {
     isFlipped: boolean;
     onFlip: () => void;
     isUnowned?: boolean;
+    isAllCollectionView?: boolean;
 }
 
-export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false }: NFTCardProps) {
+export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false, isAllCollectionView = false }: NFTCardProps) {
     const [hasBeenFlipped, setHasBeenFlipped] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -27,6 +28,18 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false }: NFTCardPr
     const background = getAttribute('Background');
     
     const getSeasonGlowClass = () => {
+        if (isAllCollectionView && !isUnowned) {
+            const valStr = String(season).toLowerCase();
+            if (valStr.includes('collectibles')) {
+                return 'all-collection-collectibles-glow';
+            }
+            const match = valStr.match(/\d+/);
+            const num = match ? parseInt(match[0], 10) : null;
+            if (num && num >= 1 && num <= 5) {
+                return 'all-collection-og-glow';
+            }
+        }
+
         const valStr = String(season).toLowerCase();
         if (valStr.includes('collectibles')) return 'season-collectibles-glow';
         const match = valStr.match(/\d+/);

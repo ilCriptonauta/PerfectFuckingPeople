@@ -3,6 +3,8 @@
 import { useEffect, useState, useRef } from "react";
 import { ConnectButton } from "./ConnectButton";
 import { MultiversXNFT } from "@/types/nft.types";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 const shuffleArray = <T,>(array: T[]): T[] => {
     const arr = [...array];
@@ -14,9 +16,13 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 };
 
 export function HeroSection() {
+    const searchParams = useSearchParams();
+    const simulateAddress = searchParams.get("simulate");
+
     const [totalItems, setTotalItems] = useState<number | null>(null);
     const [carouselNfts, setCarouselNfts] = useState<MultiversXNFT[]>([]);
     const [bannerNft, setBannerNft] = useState<MultiversXNFT | null>(null);
+    const [loreNft, setLoreNft] = useState<MultiversXNFT | null>(null);
     const [collectionStats, setCollectionStats] = useState<{
         floorPrice: number | null;
         holderCount: number | null;
@@ -83,6 +89,8 @@ export function HeroSection() {
                     setCarouselNfts(shuffled.slice(0, 12));
                     // Pick a random one for the banner card
                     setBannerNft(shuffled[12] || shuffled[0]);
+                    // Pick another random one for the lore section card
+                    setLoreNft(shuffled[13] || shuffled[1] || shuffled[0]);
                 }
             })
             .catch((err) => {
@@ -276,6 +284,115 @@ export function HeroSection() {
                     <div style={{ textAlign: 'center' }}>
                         <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>1/1</div>
                         <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Uniqueness</div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Fucking Lore Section */}
+            <section 
+                style={{
+                    minHeight: '75vh',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: '6rem 2rem',
+                    position: 'relative',
+                    background: 'linear-gradient(to bottom, #0a0a0f 0%, #060e17 50%, #0a0a0f 100%)',
+                    overflow: 'hidden',
+                    borderTop: '1px solid rgba(124, 58, 237, 0.15)'
+                }}
+            >
+                {/* Visual Ambient Light */}
+                <div style={{
+                    position: 'absolute',
+                    top: '30%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: '600px',
+                    height: '300px',
+                    background: 'radial-gradient(ellipse, rgba(124, 58, 237, 0.06) 0%, rgba(10, 10, 15, 0) 70%)',
+                    borderRadius: '50%',
+                    zIndex: 0,
+                    pointerEvents: 'none'
+                }} />
+
+                <div className="banner-grid swapped" style={{ maxWidth: '1000px', zIndex: 1 }}>
+                    <div>
+                        {/* Premium 3D Card Display */}
+                        <div className="banner-nft-card" style={{ border: '1px solid rgba(124, 58, 237, 0.25)' }}>
+                            <img 
+                                src={loreNft ? (loreNft.url || loreNft.media?.[0]?.url || loreNft.media?.[0]?.thumbnailUrl) : "/pfp_nft_banner_preview.png"} 
+                                alt={loreNft ? loreNft.name : "PFP NFT Preview"} 
+                                className="banner-nft-image"
+                                style={{ objectFit: 'cover' }}
+                                loading="lazy"
+                            />
+                            <div className="banner-nft-info">
+                                <div>
+                                    <div className="banner-nft-name">
+                                        {loreNft 
+                                            ? (loreNft.metadata?.attributes?.find(
+                                                a => a.trait_type?.toLowerCase() === 'character'
+                                              )?.value || loreNft.name)
+                                            : "PFP-717e46 #042"
+                                        }
+                                    </div>
+                                    <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                                        {loreNft 
+                                            ? `Perfect Fucking People ${loreNft.name.match(/\d+/) ? `#${loreNft.name.match(/\d+/)?.[0]}` : ''}`
+                                            : "Perfect Fucking People"
+                                        }
+                                    </div>
+                                </div>
+                                <div style={{ textAlign: 'right' }}>
+                                    <div className="banner-nft-price" style={{ color: 'var(--accent-primary)' }}>P.F.P LORE</div>
+                                    <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                                        Featured
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="banner-content">
+                        <div className="banner-subtitle" style={{ color: 'var(--accent-primary)' }}>Project Lore</div>
+                        <h2 className="banner-title" style={{ fontWeight: 800 }}>
+                            Enter the <br />
+                            <span className="text-gradient">Fucking World</span>
+                        </h2>
+                        <p className="banner-desc">
+                            A simulated dimension of absolute perfection, held together by cold mainframe code. Discover the glitched history, unlikely guardians, and the rebels fighting to break free from their digital parameters.
+                        </p>
+                        
+                        <Link 
+                            href={simulateAddress ? `/gallery/lore?simulate=${simulateAddress}` : "/gallery/lore"}
+                            className="btn-primary"
+                            style={{ 
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '10px',
+                                textDecoration: 'none',
+                                padding: '14px 36px',
+                                borderRadius: '12px',
+                                fontSize: '1.05rem',
+                                boxShadow: '0 8px 30px rgba(124, 58, 237, 0.3)'
+                            }}
+                        >
+                            <span>Read the Full Story</span>
+                            <svg 
+                                width="18" 
+                                height="18" 
+                                viewBox="0 0 24 24" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                strokeWidth="2.5" 
+                                strokeLinecap="round" 
+                                strokeLinejoin="round"
+                            >
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </Link>
                     </div>
                 </div>
             </section>

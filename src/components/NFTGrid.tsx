@@ -35,6 +35,7 @@ export function NFTGrid({ nfts, flippedCardId, onFlip, ownedNfts }: NFTGridProps
                     isFlipped={flippedCardId === nft.identifier}
                     onFlip={() => onFlip(nft.identifier)}
                     isUnowned={ownedNfts !== undefined && !ownedNfts.some((o) => o.identifier === nft.identifier)}
+                    isAllCollectionView={ownedNfts !== undefined}
                 />
             ))}
         </div>

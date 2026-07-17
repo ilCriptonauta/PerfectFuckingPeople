@@ -797,6 +797,17 @@ a {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(249, 115, 22, 0.35), inset 0 0 15px rgba(249, 115, 22, 0.1) !important;
 }
 
+/* Season: Honorary - Neon Crimson/Red */
+.season-honorary-glow {
+  border: 1px solid rgba(239, 68, 68, 0.35) !important;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.1), inset 0 0 20px rgba(239, 68, 68, 0.05) !important;
+}
+.nft-card-perspective:hover .nft-card-front.season-honorary-glow,
+.nft-card-perspective:hover .nft-card-back.season-honorary-glow {
+  border-color: rgba(239, 68, 68, 0.75) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(239, 68, 68, 0.35), inset 0 0 15px rgba(239, 68, 68, 0.1) !important;
+}
+
 /* Default / Other Seasons */
 .season-default-glow {
   border: 1px solid var(--border) !important;
@@ -827,6 +838,17 @@ a {
 .nft-card-perspective:hover .nft-card-back.all-collection-collectibles-glow {
   border-color: rgba(0, 243, 255, 0.9) !important;
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(0, 243, 255, 0.55), inset 0 0 20px rgba(0, 243, 255, 0.15) !important;
+}
+
+/* All Collection View: Honorary (Fluo Red/Orange Gradient) */
+.all-collection-honorary-glow {
+  border: 1.5px solid rgba(239, 68, 68, 0.5) !important;
+  box-shadow: 0 4px 20px rgba(239, 68, 68, 0.15), inset 0 0 20px rgba(239, 68, 68, 0.05) !important;
+}
+.nft-card-perspective:hover .nft-card-front.all-collection-honorary-glow,
+.nft-card-perspective:hover .nft-card-back.all-collection-honorary-glow {
+  border-color: rgba(239, 68, 68, 0.9) !important;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(239, 68, 68, 0.55), inset 0 0 20px rgba(239, 68, 68, 0.15) !important;
 }
 
 /* Season Tabs Styling */
@@ -1058,6 +1080,12 @@ a {
   border-color: rgba(249, 115, 22, 0.3);
 }
 
+.custom-dropdown-item.active-honorary, .custom-dropdown-item.item-honorary:hover {
+  color: #fee2e2;
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
 /* Badge dot for dropdown items */
 .dropdown-badge-dot {
   width: 8px;
@@ -1072,6 +1100,7 @@ a {
 .badge-4 { background: #ec4899; box-shadow: 0 0 8px #ec4899; }
 .badge-5 { background: #a855f7; box-shadow: 0 0 8px #a855f7; }
 .badge-collectibles { background: #f97316; box-shadow: 0 0 8px #f97316; }
+.badge-honorary { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
 
 /* Gallery Banner Layout Split */
 .gallery-banner-row {

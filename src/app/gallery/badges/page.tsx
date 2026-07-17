@@ -20,6 +20,13 @@ function BadgesContent() {
     }, []);
 
     const getNFTSeasonValue = (nft: MultiversXNFT): string => {
+        const honoraryAttr = nft.metadata?.attributes?.find(
+            (a) => a.trait_type?.toLowerCase() === "honorary"
+        );
+        if (honoraryAttr) {
+            return "honorary";
+        }
+
         const seasonAttr = nft.metadata?.attributes?.find(
             (a) => a.trait_type?.toLowerCase() === "season"
         );

@@ -26,8 +26,13 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false, isAllCollec
     const mission = getAttribute('Mission');
     const season = getAttribute('Season');
     const background = getAttribute('Background');
+    const honorary = getAttribute('Honorary');
     
     const getSeasonGlowClass = () => {
+        if (honorary !== 'N/A') {
+            return isAllCollectionView && !isUnowned ? 'all-collection-honorary-glow' : 'season-honorary-glow';
+        }
+
         if (isAllCollectionView && !isUnowned) {
             const valStr = String(season).toLowerCase();
             if (valStr.includes('collectibles')) {

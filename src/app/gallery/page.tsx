@@ -31,6 +31,13 @@ export default function GalleryPage() {
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const getNFTSeasonValue = (nft: MultiversXNFT): string => {
+        const honoraryAttr = nft.metadata?.attributes?.find(
+            (a) => a.trait_type?.toLowerCase() === "honorary"
+        );
+        if (honoraryAttr) {
+            return "honorary";
+        }
+
         const seasonAttr = nft.metadata?.attributes?.find(
             (a) => a.trait_type?.toLowerCase() === "season"
         );
@@ -43,7 +50,7 @@ export default function GalleryPage() {
         return match ? match[0] : "";
     };
 
-    const isOG = !isLoading && nfts.some((nft: MultiversXNFT) => {
+    const isOriginalOG = !isLoading && nfts.some((nft: MultiversXNFT) => {
         const seasonVal = getNFTSeasonValue(nft);
         const seasonNum = parseInt(seasonVal, 10);
         return !isNaN(seasonNum) && seasonNum >= 1 && seasonNum <= 5;
@@ -63,9 +70,9 @@ export default function GalleryPage() {
         })
     );
 
-    const isPerfectHolder = isOG && isCollector && isWhale && isSerialCollector;
+    const isPerfectHolder = isOriginalOG && isCollector && isWhale && isSerialCollector;
 
-    const unlockedCount = [isOG, isCollector, isWhale, isSerialCollector, isPerfectHolder].filter(Boolean).length;
+    const unlockedCount = [isOriginalOG, isCollector, isWhale, isSerialCollector, isPerfectHolder].filter(Boolean).length;
 
     const filteredNfts = nfts.filter((nft: MultiversXNFT) => {
         if (selectedSeason === "all") return true;
@@ -118,9 +125,9 @@ export default function GalleryPage() {
     useEffect(() => {
         // Don't redirect if simulating
         if (mounted && !isLoggedIn && !isSimulating) {
-            router.push("/");
+            window.location.href = "/";
         }
-    }, [isLoggedIn, router, mounted, isSimulating]);
+    }, [isLoggedIn, mounted, isSimulating]);
 
     if (!mounted || (!isLoggedIn && !isSimulating)) {
         return null;
@@ -229,10 +236,12 @@ export default function GalleryPage() {
                             <span className={`dropdown-badge-dot ${
                                 selectedSeason === "all" ? "badge-all" :
                                 selectedSeason === "collectibles" ? "badge-collectibles" :
+                                selectedSeason === "honorary" ? "badge-honorary" :
                                 `badge-${selectedSeason}`
                             }`} />
                             {selectedSeason === "all" ? "All Perfect People" :
                              selectedSeason === "collectibles" ? "Collectibles" :
+                             selectedSeason === "honorary" ? "Honorary" :
                              `Season ${selectedSeason}`}
                         </span>
                         <span className="custom-dropdown-arrow">▼</span>
@@ -245,7 +254,8 @@ export default function GalleryPage() {
                             { id: "3", label: "Season 3", badgeClass: "badge-3" },
                             { id: "4", label: "Season 4", badgeClass: "badge-4" },
                             { id: "5", label: "Season 5", badgeClass: "badge-5" },
-                            { id: "collectibles", label: "Collectibles", badgeClass: "badge-collectibles" }
+                            { id: "collectibles", label: "Collectibles", badgeClass: "badge-collectibles" },
+                            { id: "honorary", label: "Honorary", badgeClass: "badge-honorary" }
                         ].map((season) => (
                             <button
                                 key={season.id}

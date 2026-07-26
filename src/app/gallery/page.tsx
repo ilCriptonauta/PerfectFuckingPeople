@@ -106,7 +106,7 @@ export default function GalleryPage() {
 
         // Fetch all collection NFTs
         setIsAllNftsLoading(true);
-        fetch("https://api.multiversx.com/collections/PFP-717e46/nfts?size=100")
+        fetch("https://api.multiversx.com/collections/PFP-717e46/nfts?size=500")
             .then(res => res.json())
             .then(data => {
                 if (Array.isArray(data)) {

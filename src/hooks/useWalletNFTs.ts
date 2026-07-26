@@ -24,7 +24,7 @@ export function useWalletNFTs(simulatedAddress?: string) {
             try {
                 // Fetch up to 100 NFTs from the collection for the address
                 const response = await fetch(
-                    `https://api.multiversx.com/accounts/${address}/nfts?collections=${COLLECTION_ID}&size=100`
+                    `https://api.multiversx.com/accounts/${address}/nfts?collections=${COLLECTION_ID}&size=500`
                 );
                 
                 if (!response.ok) {

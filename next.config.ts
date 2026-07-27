@@ -11,6 +11,15 @@ const nextConfig: NextConfig = {
         buffer: require.resolve('buffer/'),
       };
     }
+
+    config.module.rules.push({
+      test: /\.m?js$/,
+      type: "javascript/auto",
+      resolve: {
+        fullySpecified: false,
+      },
+    });
+
     return config;
   },
 };

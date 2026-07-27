@@ -122,12 +122,21 @@ export default function GalleryPage() {
         };
     }, []);
 
+    const targetNft = searchParams.get("nft");
+
     useEffect(() => {
-        // Don't redirect if simulating
-        if (mounted && !isLoggedIn && !isSimulating) {
+        if (targetNft) {
+            setFlippedCardId(targetNft);
+            setViewMode("all");
+        }
+    }, [targetNft]);
+
+    useEffect(() => {
+        // Don't redirect if simulating or landing on shared NFT link
+        if (mounted && !isLoggedIn && !isSimulating && !targetNft) {
             window.location.href = "/";
         }
-    }, [isLoggedIn, mounted, isSimulating]);
+    }, [isLoggedIn, mounted, isSimulating, targetNft]);
 
     if (!mounted || (!isLoggedIn && !isSimulating)) {
         return null;

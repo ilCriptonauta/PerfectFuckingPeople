@@ -169,13 +169,17 @@ export function HolderCardStudio({ nft, isOpen, onClose }: HolderCardStudioProps
             setIsGenerating(false);
         }
 
+        // Compose Option A Share Link (Dynamic Twitter OG Card Preview + Direct NFT Landing)
+        const baseUrl = typeof window !== "undefined" ? window.location.origin : "https://pfp-nft.com";
+        const shareUrl = `${baseUrl}/share/${encodeURIComponent(nft.identifier)}?theme=${encodeURIComponent(theme)}${customTag.trim() ? `&tag=${encodeURIComponent(customTag.trim())}` : ''}`;
+
         // Compose X Tweet text
         const tweetText = `Proud Holder of P.F.P #${number} (${character})! 🚀\n\n` +
             `Mission: "${mission !== "N/A" ? mission : "Perfect Fucking People"}"\n\n` +
             (customTag.trim() ? `Holder: ${customTag.trim()}\n\n` : "") +
             `Check out my custom PFP Holder Card! @ilCriptonauta #MultiversX #PFPCollection #EGLD`;
 
-        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(shareUrl)}`;
         window.open(twitterUrl, "_blank", "noopener,noreferrer");
     };
 

@@ -17,18 +17,24 @@ export async function generateMetadata({ params, searchParams }: SharePageProps)
 
     let character = "PFP Character";
     let number = identifier.split("-").pop() || "";
+    let season = "Collectibles";
     let mission = "Perfect Fucking People";
+    let imageUrl = "";
 
     if (identifier) {
         try {
             const res = await fetch(`https://api.multiversx.com/nfts/${identifier}`);
             if (res.ok) {
                 const nft = await res.json();
+                imageUrl = nft.media?.[0]?.thumbnailUrl || nft.url || nft.media?.[0]?.url || "";
                 const match = nft.name?.match(/\d+/);
                 if (match) number = match[0];
 
                 const charAttr = nft.metadata?.attributes?.find((a: any) => a.trait_type === "Character");
                 if (charAttr) character = String(charAttr.value);
+
+                const seasonAttr = nft.metadata?.attributes?.find((a: any) => a.trait_type === "Season");
+                if (seasonAttr) season = String(seasonAttr.value);
 
                 const missionAttr = nft.metadata?.attributes?.find((a: any) => a.trait_type === "Mission");
                 if (missionAttr) mission = String(missionAttr.value);
@@ -42,7 +48,19 @@ export async function generateMetadata({ params, searchParams }: SharePageProps)
     const description = `"${mission}" - Verified Holder Card on MultiversX`;
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://perfect-fucking-home.vercel.app";
     const shareUrl = `${baseUrl}/share/${encodeURIComponent(identifier)}?theme=${encodeURIComponent(theme)}${tag ? `&tag=${encodeURIComponent(tag)}` : ""}`;
-    const ogImageUrl = `${baseUrl}/api/og/card?id=${encodeURIComponent(identifier)}&theme=${encodeURIComponent(theme)}&tag=${encodeURIComponent(tag)}`;
+    
+    // Pass pre-resolved metadata in query params for instant sub-200ms Vercel OG image rendering
+    const ogParams = new URLSearchParams({
+        id: identifier,
+        theme,
+        tag,
+        char: character,
+        num: number,
+        seas: season,
+        miss: mission,
+        ...(imageUrl ? { img: imageUrl } : {})
+    });
+    const ogImageUrl = `${baseUrl}/api/og/card?${ogParams.toString()}`;
 
     return {
         title,

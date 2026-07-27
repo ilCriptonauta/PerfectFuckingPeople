@@ -8,13 +8,14 @@ export async function GET(request: NextRequest) {
         const theme = (searchParams.get("theme") || "cyberpunk") as "cyberpunk" | "gold" | "minimal" | "holographic";
         const tag = searchParams.get("tag") || "";
 
-        let character = "PFP Character";
-        let number = id.split("-").pop() || "";
-        let season = "Collectibles";
-        let mission = "Perfect Fucking People";
-        let imageUrl = "";
+        let character = searchParams.get("char") || "PFP Character";
+        let number = searchParams.get("num") || id.split("-").pop() || "";
+        let season = searchParams.get("seas") || "Collectibles";
+        let mission = searchParams.get("miss") || "Perfect Fucking People";
+        let imageUrl = searchParams.get("img") || "";
 
-        if (id) {
+        // Only fetch from API if parameters were not pre-resolved
+        if (id && !searchParams.get("char")) {
             try {
                 const res = await fetch(`https://api.multiversx.com/nfts/${id}`);
                 if (res.ok) {
@@ -169,6 +170,9 @@ export async function GET(request: NextRequest) {
             {
                 width: 1200,
                 height: 630,
+                headers: {
+                    "Cache-Control": "public, max-age=31536000, s-maxage=31536000, immutable",
+                },
             }
         );
     } catch (e: any) {

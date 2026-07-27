@@ -67,9 +67,34 @@ export async function generateMetadata({ params, searchParams }: SharePageProps)
     };
 }
 
-export default async function SharePage({ params }: SharePageProps) {
-    const { identifier } = await params;
+import { SharedNFTClient } from "./SharedNFTClient";
+import { MultiversXNFT } from "@/types/nft.types";
 
-    // Redirect human visitors to Option A: Gallery viewing that specific NFT!
-    redirect(`/gallery?nft=${encodeURIComponent(identifier)}`);
+export default async function SharePage({ params, searchParams }: SharePageProps) {
+    const { identifier } = await params;
+    const { theme = "cyberpunk", tag = "" } = await searchParams;
+
+    let nft: MultiversXNFT | null = null;
+
+    if (identifier) {
+        try {
+            const res = await fetch(`https://api.multiversx.com/nfts/${identifier}`);
+            if (res.ok) {
+                nft = await res.json();
+            }
+        } catch (e) {
+            console.error("Error fetching NFT for share page:", e);
+        }
+    }
+
+    if (!nft) {
+        return (
+            <div style={{ padding: "80px", textAlign: "center", color: "#ffffff", background: "#06060a", minHeight: "100vh" }}>
+                <h2>NFT Not Found</h2>
+                <p>The requested NFT could not be loaded.</p>
+            </div>
+        );
+    }
+
+    return <SharedNFTClient nft={nft} theme={theme} tag={tag} />;
 }

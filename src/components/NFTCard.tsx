@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import { MultiversXNFT } from '@/types/nft.types';
 import Image from 'next/image';
 import storiesData from '@/data/stories.json';
+import { HolderCardStudio } from './HolderCardStudio';
 
 interface NFTCardProps {
     nft: MultiversXNFT;
@@ -17,6 +18,7 @@ interface NFTCardProps {
 export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false, isAllCollectionView = false }: NFTCardProps) {
     const [hasBeenFlipped, setHasBeenFlipped] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isStudioOpen, setIsStudioOpen] = useState(false);
 
     const getAttribute = (traitType: string) => {
         return nft.metadata?.attributes?.find(a => a.trait_type === traitType)?.value || 'N/A';
@@ -194,24 +196,58 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false, isAllCollec
                         </div>
                     </div>
 
-                    <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginTop: '24px', marginBottom: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '14px', marginTop: '20px', marginBottom: '8px' }}>
                         <button
                             onClick={(e) => {
                                 e.stopPropagation(); // Prevent card from flipping back
                                 setIsModalOpen(true);
                             }}
                             className="btn-about"
+                            title="About Character"
                             style={{
-                                padding: '8px 24px',
-                                borderRadius: '8px',
-                                fontSize: '0.8rem',
-                                fontWeight: 'bold',
-                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: '36px',
+                                height: '36px',
+                                borderRadius: '10px',
                                 border: '1px solid rgba(124, 58, 237, 0.4)',
-                                color: '#f3e8ff',
+                                background: 'rgba(124, 58, 237, 0.15)',
+                                color: '#d8b4fe',
+                                cursor: 'pointer',
+                                transition: 'all 0.2s ease',
                             }}
                         >
-                            About Character
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="16" x2="12" y2="12" />
+                                <line x1="12" y1="8" x2="12.01" y2="8" />
+                            </svg>
+                        </button>
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setIsStudioOpen(true);
+                            }}
+                            className="btn-share"
+                            title="Create & Share Holder Card on X"
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: '36px',
+                                height: '36px',
+                                borderRadius: '10px',
+                                border: '1px solid rgba(236, 72, 153, 0.4)',
+                                background: 'rgba(236, 72, 153, 0.15)',
+                                color: '#fbcfe8',
+                                cursor: 'pointer',
+                                transition: 'all 0.2s ease',
+                            }}
+                        >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
                         </button>
                         <a
                             href={downloadUrl}
@@ -224,13 +260,14 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false, isAllCollec
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                padding: '8px',
                                 width: '36px',
                                 height: '36px',
-                                borderRadius: '8px',
-                                border: '1px solid rgba(236, 72, 153, 0.4)',
-                                color: 'var(--accent-secondary)',
+                                borderRadius: '10px',
+                                border: '1px solid rgba(56, 189, 248, 0.4)',
+                                background: 'rgba(56, 189, 248, 0.15)',
+                                color: '#7dd3fc',
                                 cursor: 'pointer',
+                                transition: 'all 0.2s ease',
                             }}
                         >
                             <svg 
@@ -252,8 +289,8 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false, isAllCollec
                     </div>
                     
                     <div style={{ 
-                        marginTop: '24px', 
-                        paddingTop: '16px', 
+                        marginTop: '16px', 
+                        paddingTop: '12px', 
                         borderTop: '1px solid rgba(255,255,255,0.1)',
                         fontSize: '0.75rem',
                         color: 'var(--text-secondary)',
@@ -264,6 +301,13 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false, isAllCollec
                     </div>
                 </div>
             </div>
+
+            {/* Holder Card Studio */}
+            <HolderCardStudio 
+                nft={nft}
+                isOpen={isStudioOpen}
+                onClose={() => setIsStudioOpen(false)}
+            />
 
             {isModalOpen && typeof document !== 'undefined' && createPortal(
                 <div 
@@ -295,6 +339,30 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false, isAllCollec
                                 <div><strong>ID:</strong> {nft.identifier}</div>
                                 <div><strong>Season:</strong> {season}</div>
                                 <div><strong>Mission:</strong> "{mission}"</div>
+                            </div>
+
+                            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'flex-end' }}>
+                                <button
+                                    onClick={() => {
+                                        setIsModalOpen(false);
+                                        setIsStudioOpen(true);
+                                    }}
+                                    style={{
+                                        padding: '10px 20px',
+                                        borderRadius: '10px',
+                                        background: 'linear-gradient(90deg, #ec4899, #7c3aed)',
+                                        color: '#ffffff',
+                                        border: 'none',
+                                        fontWeight: 'bold',
+                                        fontSize: '0.85rem',
+                                        cursor: 'pointer',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '8px'
+                                    }}
+                                >
+                                    🎨 Open Card Studio for X
+                                </button>
                             </div>
                         </div>
                     </div>

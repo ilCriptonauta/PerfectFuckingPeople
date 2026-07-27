@@ -3,6 +3,7 @@ import "./globals.css";
 import { MXProvider } from "@/components/MXProvider";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://pfp-nft.com"),
   title: "Perfect Fucking Home",
   description: "Your perfect home for the PFP-717e46 NFT Collection on MultiversX",
   openGraph: {

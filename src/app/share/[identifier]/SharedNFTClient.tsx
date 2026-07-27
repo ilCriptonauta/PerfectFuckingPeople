@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { NFTCard } from "@/components/NFTCard";
+import Image from "next/image";
 import { MultiversXNFT } from "@/types/nft.types";
 import storiesData from "@/data/stories.json";
 
@@ -13,31 +12,72 @@ interface SharedNFTClientProps {
 }
 
 export function SharedNFTClient({ nft, theme = "cyberpunk", tag = "" }: SharedNFTClientProps) {
-    const [isFlipped, setIsFlipped] = useState(false);
-
     const getAttribute = (traitType: string) => {
         return nft.metadata?.attributes?.find((a) => a.trait_type === traitType)?.value || "N/A";
     };
 
-    const character = getAttribute("Character");
-    const mission = getAttribute("Mission");
-    const season = getAttribute("Season");
-    const background = getAttribute("Background");
+    const character = String(getAttribute("Character"));
+    const mission = String(getAttribute("Mission"));
+    const season = String(getAttribute("Season"));
+    const background = String(getAttribute("Background"));
 
     const storyEntry = (storiesData as Record<string, { story: string }>)[nft.identifier];
     const storyText = storyEntry ? storyEntry.story : `A legendary piece of the Perfect Fucking People collection on MultiversX.`;
 
-    const themeColors: Record<string, { border: string; accent: string; bg: string }> = {
-        cyberpunk: { border: "#ec4899", accent: "#f472b6", bg: "rgba(236, 72, 153, 0.15)" },
-        gold: { border: "#f59e0b", accent: "#fbbf24", bg: "rgba(245, 158, 11, 0.15)" },
-        minimal: { border: "#a1a1aa", accent: "#e4e4e7", bg: "rgba(161, 161, 170, 0.15)" },
-        holographic: { border: "#38bdf8", accent: "#818cf8", bg: "rgba(56, 189, 248, 0.15)" },
+    const imageUrl = nft.media?.[0]?.url || nft.url || "";
+    const numberMatch = nft.name?.match(/\d+/);
+    const nftNumber = String(numberMatch ? numberMatch[0] : nft.identifier.split("-").pop() || "");
+
+    const themeColors: Record<
+        string,
+        { pageBg: string; border: string; accent: string; cardBox: string; glow: string; buttonGradient: string }
+    > = {
+        cyberpunk: {
+            pageBg: "linear-gradient(135deg, #09090e 0%, #170d2b 50%, #260933 100%)",
+            border: "#ec4899",
+            accent: "#f472b6",
+            cardBox: "rgba(15, 12, 29, 0.85)",
+            glow: "0 0 50px rgba(236, 72, 153, 0.35)",
+            buttonGradient: "linear-gradient(90deg, #ec4899, #8b5cf6)",
+        },
+        gold: {
+            pageBg: "linear-gradient(135deg, #0f0b05 0%, #261b09 50%, #140d04 100%)",
+            border: "#f59e0b",
+            accent: "#fbbf24",
+            cardBox: "rgba(24, 18, 10, 0.85)",
+            glow: "0 0 50px rgba(245, 158, 11, 0.35)",
+            buttonGradient: "linear-gradient(90deg, #f59e0b, #d97706)",
+        },
+        minimal: {
+            pageBg: "linear-gradient(135deg, #09090b 0%, #141419 50%, #1c1c24 100%)",
+            border: "#a1a1aa",
+            accent: "#e4e4e7",
+            cardBox: "rgba(18, 18, 22, 0.85)",
+            glow: "0 0 50px rgba(161, 161, 170, 0.25)",
+            buttonGradient: "linear-gradient(90deg, #52525b, #27272a)",
+        },
+        holographic: {
+            pageBg: "linear-gradient(135deg, #0b132b 0%, #1c1b4b 50%, #2e1045 100%)",
+            border: "#38bdf8",
+            accent: "#818cf8",
+            cardBox: "rgba(15, 23, 42, 0.85)",
+            glow: "0 0 50px rgba(56, 189, 248, 0.35)",
+            buttonGradient: "linear-gradient(90deg, #38bdf8, #818cf8, #c084fc)",
+        },
     };
 
     const currentTheme = themeColors[theme] || themeColors.cyberpunk;
 
     return (
-        <div style={{ minHeight: "100vh", background: "#06060a", color: "#ffffff", fontFamily: "sans-serif" }}>
+        <div
+            style={{
+                minHeight: "100vh",
+                background: currentTheme.pageBg,
+                color: "#ffffff",
+                fontFamily: "sans-serif",
+                transition: "background 0.3s ease",
+            }}
+        >
             {/* Header Navbar */}
             <header
                 style={{
@@ -50,7 +90,7 @@ export function SharedNFTClient({ nft, theme = "cyberpunk", tag = "" }: SharedNF
                     position: "sticky",
                     top: 0,
                     zIndex: 50,
-                    background: "rgba(6, 6, 10, 0.8)",
+                    background: "rgba(6, 6, 10, 0.7)",
                 }}
             >
                 <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "12px" }}>
@@ -59,7 +99,7 @@ export function SharedNFTClient({ nft, theme = "cyberpunk", tag = "" }: SharedNF
                             width: "36px",
                             height: "36px",
                             borderRadius: "50%",
-                            background: "linear-gradient(135deg, #ec4899, #8b5cf6)",
+                            background: currentTheme.buttonGradient,
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
@@ -75,86 +115,133 @@ export function SharedNFTClient({ nft, theme = "cyberpunk", tag = "" }: SharedNF
                     </span>
                 </Link>
 
-                <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-                    <Link
-                        href="/gallery?simulate=erd1"
-                        style={{
-                            padding: "10px 20px",
-                            borderRadius: "10px",
-                            background: "rgba(255, 255, 255, 0.08)",
-                            color: "#ffffff",
-                            textDecoration: "none",
-                            fontSize: "0.9rem",
-                            fontWeight: "bold",
-                            border: "1px solid rgba(255, 255, 255, 0.15)",
-                            transition: "all 0.2s ease",
-                        }}
-                    >
-                        🖼️ Explore Gallery
-                    </Link>
-                    <Link
-                        href="/"
-                        style={{
-                            padding: "10px 22px",
-                            borderRadius: "10px",
-                            background: "linear-gradient(90deg, #ec4899, #8b5cf6)",
-                            color: "#ffffff",
-                            textDecoration: "none",
-                            fontSize: "0.9rem",
-                            fontWeight: "bold",
-                            boxShadow: "0 0 15px rgba(236, 72, 153, 0.4)",
-                        }}
-                    >
-                        ⚡ Connect Wallet
-                    </Link>
-                </div>
+                <Link
+                    href="/"
+                    style={{
+                        padding: "10px 22px",
+                        borderRadius: "10px",
+                        background: currentTheme.buttonGradient,
+                        color: "#ffffff",
+                        textDecoration: "none",
+                        fontSize: "0.9rem",
+                        fontWeight: "bold",
+                        boxShadow: currentTheme.glow,
+                    }}
+                >
+                    ⚡ Connect Wallet
+                </Link>
             </header>
 
-            {/* Main Stage */}
+            {/* Main Content Stage (Vertical Top-Down Layout) */}
             <main
                 style={{
-                    maxWidth: "1200px",
+                    maxWidth: "680px",
                     margin: "0 auto",
-                    padding: "60px 20px",
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))",
-                    gap: "60px",
+                    padding: "40px 20px 80px 20px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "36px",
                     alignItems: "center",
                 }}
             >
-                {/* 3D NFT Card Container */}
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
+                {/* TOP: Static Themed NFT Card (No Flip) */}
+                <div
+                    style={{
+                        width: "100%",
+                        maxWidth: "480px",
+                        borderRadius: "24px",
+                        background: currentTheme.cardBox,
+                        border: `3px solid ${currentTheme.border}`,
+                        boxShadow: currentTheme.glow,
+                        padding: "16px",
+                        boxSizing: "border-box",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "12px",
+                    }}
+                >
+                    {/* Image Container with Badge */}
                     <div
                         style={{
                             position: "relative",
-                            padding: "16px",
-                            borderRadius: "24px",
-                            background: currentTheme.bg,
-                            border: `2px solid ${currentTheme.border}`,
-                            boxShadow: `0 0 40px ${currentTheme.border}33`,
+                            width: "100%",
+                            paddingTop: "100%", // 1:1 Aspect Ratio
+                            borderRadius: "16px",
+                            overflow: "hidden",
+                            background: "rgba(0, 0, 0, 0.4)",
+                            border: "1px solid rgba(255, 255, 255, 0.1)",
                         }}
                     >
-                        <NFTCard
-                            nft={nft}
-                            isFlipped={isFlipped}
-                            onFlip={() => setIsFlipped((prev) => !prev)}
-                            isUnowned={false}
-                        />
+                        {imageUrl && (
+                            <Image
+                                src={imageUrl}
+                                alt={character}
+                                fill
+                                style={{ objectFit: "cover" }}
+                                unoptimized
+                            />
+                        )}
+                        {/* Number Badge */}
+                        <div
+                            style={{
+                                position: "absolute",
+                                top: "12px",
+                                right: "12px",
+                                background: "rgba(0, 0, 0, 0.75)",
+                                backdropFilter: "blur(6px)",
+                                border: `1px solid ${currentTheme.border}`,
+                                color: "#ffffff",
+                                padding: "4px 10px",
+                                borderRadius: "12px",
+                                fontSize: "0.85rem",
+                                fontWeight: "bold",
+                            }}
+                        >
+                            #{nftNumber}
+                        </div>
                     </div>
-                    <p style={{ color: "rgba(255, 255, 255, 0.5)", fontSize: "0.85rem" }}>
-                        💡 Click card to flip 3D view
-                    </p>
+
+                    {/* Card Title & Collection Footer */}
+                    <div
+                        style={{
+                            padding: "12px",
+                            textAlign: "center",
+                            background: "rgba(0, 0, 0, 0.3)",
+                            borderRadius: "12px",
+                        }}
+                    >
+                        <div style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#ffffff" }}>
+                            {character}
+                        </div>
+                        <div style={{ fontSize: "0.85rem", color: "rgba(255, 255, 255, 0.6)", marginTop: "2px" }}>
+                            P.F.P Collection
+                        </div>
+                    </div>
                 </div>
 
-                {/* NFT Story & Details Panel */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+                {/* BOTTOM: Full NFT Details Section */}
+                <div
+                    style={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "24px",
+                        background: currentTheme.cardBox,
+                        border: `1px solid ${currentTheme.border}66`,
+                        borderRadius: "24px",
+                        padding: "32px",
+                        boxSizing: "border-box",
+                        boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5)",
+                    }}
+                >
+                    {/* Badge & Title */}
                     <div>
                         <div
                             style={{
                                 display: "inline-block",
                                 padding: "6px 14px",
                                 borderRadius: "20px",
-                                background: currentTheme.bg,
+                                background: "rgba(255, 255, 255, 0.06)",
                                 color: currentTheme.accent,
                                 border: `1px solid ${currentTheme.border}`,
                                 fontSize: "0.8rem",
@@ -166,12 +253,12 @@ export function SharedNFTClient({ nft, theme = "cyberpunk", tag = "" }: SharedNF
                         >
                             ✓ VERIFIED MULTIVERSX HOLDER CARD
                         </div>
-                        <h1 style={{ fontSize: "2.8rem", fontWeight: "900", margin: 0, lineHeight: "1.1" }}>
-                            {nft.name || `${character} #${nft.identifier.split("-").pop()}`}
+                        <h1 style={{ fontSize: "2.4rem", fontWeight: "900", margin: 0, lineHeight: "1.1" }}>
+                            P.F.P #{nftNumber}
                         </h1>
                         {tag && (
                             <div style={{ fontSize: "1.1rem", color: currentTheme.accent, marginTop: "8px", fontWeight: "bold" }}>
-                                🏷️ Shared by: {tag}
+                                🏷️ Holder: {tag}
                             </div>
                         )}
                     </div>
@@ -179,7 +266,7 @@ export function SharedNFTClient({ nft, theme = "cyberpunk", tag = "" }: SharedNF
                     {/* Mission Quote */}
                     <div
                         style={{
-                            background: "rgba(255, 255, 255, 0.03)",
+                            background: "rgba(255, 255, 255, 0.04)",
                             borderLeft: `4px solid ${currentTheme.border}`,
                             padding: "16px 20px",
                             borderRadius: "0 16px 16px 0",
@@ -218,7 +305,7 @@ export function SharedNFTClient({ nft, theme = "cyberpunk", tag = "" }: SharedNF
                     </div>
 
                     {/* Lore Box */}
-                    <div style={{ background: "rgba(255, 255, 255, 0.03)", padding: "20px", borderRadius: "16px", border: "1px solid rgba(255, 255, 255, 0.08)" }}>
+                    <div style={{ background: "rgba(255, 255, 255, 0.04)", padding: "20px", borderRadius: "16px", border: "1px solid rgba(255, 255, 255, 0.08)" }}>
                         <h3 style={{ fontSize: "0.9rem", color: "rgba(255, 255, 255, 0.6)", marginTop: 0, textTransform: "uppercase", letterSpacing: "1px" }}>
                             📜 Universe Story
                         </h3>
@@ -227,26 +314,25 @@ export function SharedNFTClient({ nft, theme = "cyberpunk", tag = "" }: SharedNF
                         </p>
                     </div>
 
-                    {/* CTA Actions */}
-                    <div style={{ display: "flex", gap: "16px", marginTop: "10px" }}>
-                        <Link
-                            href="/"
-                            style={{
-                                flex: 1,
-                                padding: "16px",
-                                borderRadius: "14px",
-                                background: "linear-gradient(90deg, #ec4899, #7c3aed)",
-                                color: "#ffffff",
-                                textDecoration: "none",
-                                textAlign: "center",
-                                fontWeight: "bold",
-                                fontSize: "1rem",
-                                boxShadow: "0 4px 20px rgba(236, 72, 153, 0.4)",
-                            }}
-                        >
-                            ⚡ Connect Wallet & Create Yours
-                        </Link>
-                    </div>
+                    {/* CTA Action Button */}
+                    <Link
+                        href="/"
+                        style={{
+                            padding: "18px",
+                            borderRadius: "14px",
+                            background: currentTheme.buttonGradient,
+                            color: "#ffffff",
+                            textDecoration: "none",
+                            textAlign: "center",
+                            fontWeight: "bold",
+                            fontSize: "1.05rem",
+                            boxShadow: currentTheme.glow,
+                            transition: "all 0.2s ease",
+                            marginTop: "8px",
+                        }}
+                    >
+                        ⚡ Connect Wallet & Create Yours
+                    </Link>
                 </div>
             </main>
         </div>

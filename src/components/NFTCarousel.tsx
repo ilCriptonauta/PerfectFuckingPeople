@@ -8,9 +8,10 @@ interface NFTCarouselProps {
     nfts: MultiversXNFT[];
     flippedCardId: string | null;
     onFlip: (id: string) => void;
+    ownedNfts?: MultiversXNFT[];
 }
 
-export function NFTCarousel({ nfts, flippedCardId, onFlip }: NFTCarouselProps) {
+export function NFTCarousel({ nfts, flippedCardId, onFlip, ownedNfts }: NFTCarouselProps) {
     const [activeIndex, setActiveIndex] = useState(0);
     const touchStartX = useRef<number | null>(null);
 
@@ -148,6 +149,8 @@ export function NFTCarousel({ nfts, flippedCardId, onFlip }: NFTCarouselProps) {
                                 nft={nft} 
                                 isFlipped={flippedCardId === nft.identifier}
                                 onFlip={() => onFlip(nft.identifier)}
+                                isUnowned={ownedNfts !== undefined && !ownedNfts.some((o) => o.identifier === nft.identifier)}
+                                isAllCollectionView={ownedNfts !== undefined}
                             />
                         </div>
                     );

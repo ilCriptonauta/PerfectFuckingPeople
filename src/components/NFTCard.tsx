@@ -224,31 +224,33 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false, isAllCollec
                                 <line x1="12" y1="8" x2="12.01" y2="8" />
                             </svg>
                         </button>
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setIsStudioOpen(true);
-                            }}
-                            className="btn-share"
-                            title="Create & Share Holder Card on X"
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                width: '36px',
-                                height: '36px',
-                                borderRadius: '10px',
-                                border: '1px solid rgba(236, 72, 153, 0.4)',
-                                background: 'rgba(236, 72, 153, 0.15)',
-                                color: '#fbcfe8',
-                                cursor: 'pointer',
-                                transition: 'all 0.2s ease',
-                            }}
-                        >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                            </svg>
-                        </button>
+                        {!isUnowned && (
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setIsStudioOpen(true);
+                                }}
+                                className="btn-share"
+                                title="Create & Share Holder Card on X"
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: '36px',
+                                    height: '36px',
+                                    borderRadius: '10px',
+                                    border: '1px solid rgba(236, 72, 153, 0.4)',
+                                    background: 'rgba(236, 72, 153, 0.15)',
+                                    color: '#fbcfe8',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s ease',
+                                }}
+                            >
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                </svg>
+                            </button>
+                        )}
                         <a
                             href={downloadUrl}
                             target="_blank"
@@ -341,29 +343,31 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false, isAllCollec
                                 <div><strong>Mission:</strong> "{mission}"</div>
                             </div>
 
-                            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'flex-end' }}>
-                                <button
-                                    onClick={() => {
-                                        setIsModalOpen(false);
-                                        setIsStudioOpen(true);
-                                    }}
-                                    style={{
-                                        padding: '10px 20px',
-                                        borderRadius: '10px',
-                                        background: 'linear-gradient(90deg, #ec4899, #7c3aed)',
-                                        color: '#ffffff',
-                                        border: 'none',
-                                        fontWeight: 'bold',
-                                        fontSize: '0.85rem',
-                                        cursor: 'pointer',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '8px'
-                                    }}
-                                >
-                                    🎨 Open Card Studio for X
-                                </button>
-                            </div>
+                            {!isUnowned && (
+                                <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'flex-end' }}>
+                                    <button
+                                        onClick={() => {
+                                            setIsModalOpen(false);
+                                            setIsStudioOpen(true);
+                                        }}
+                                        style={{
+                                            padding: '10px 20px',
+                                            borderRadius: '10px',
+                                            background: 'linear-gradient(90deg, #ec4899, #7c3aed)',
+                                            color: '#ffffff',
+                                            border: 'none',
+                                            fontWeight: 'bold',
+                                            fontSize: '0.85rem',
+                                            cursor: 'pointer',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '8px'
+                                        }}
+                                    >
+                                        🎨 Open Card Studio for X
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>,

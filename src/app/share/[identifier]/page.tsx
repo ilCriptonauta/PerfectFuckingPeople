@@ -40,14 +40,19 @@ export async function generateMetadata({ params, searchParams }: SharePageProps)
 
     const title = `P.F.P #${number} (${character}) | Perfect Fucking People`;
     const description = `"${mission}" - Verified Holder Card on MultiversX`;
-    const ogImageUrl = `/api/og/card?id=${encodeURIComponent(identifier)}&theme=${encodeURIComponent(theme)}&tag=${encodeURIComponent(tag)}`;
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://perfect-fucking-home.vercel.app";
+    const shareUrl = `${baseUrl}/share/${encodeURIComponent(identifier)}?theme=${encodeURIComponent(theme)}${tag ? `&tag=${encodeURIComponent(tag)}` : ""}`;
+    const ogImageUrl = `${baseUrl}/api/og/card?id=${encodeURIComponent(identifier)}&theme=${encodeURIComponent(theme)}&tag=${encodeURIComponent(tag)}`;
 
     return {
         title,
         description,
+        metadataBase: new URL(baseUrl),
         openGraph: {
             title,
             description,
+            url: shareUrl,
+            siteName: "Perfect Fucking People",
             type: "website",
             images: [
                 {
@@ -63,6 +68,7 @@ export async function generateMetadata({ params, searchParams }: SharePageProps)
             title,
             description,
             images: [ogImageUrl],
+            creator: "@ilCriptonauta",
         },
     };
 }

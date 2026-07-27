@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { MultiversXNFT } from "@/types/nft.types";
@@ -12,6 +13,8 @@ interface SharedNFTClientProps {
 }
 
 export function SharedNFTClient({ nft, theme = "cyberpunk", tag = "" }: SharedNFTClientProps) {
+    const [isFlipped, setIsFlipped] = useState(false);
+
     const getAttribute = (traitType: string) => {
         return nft.metadata?.attributes?.find((a) => a.trait_type === traitType)?.value || "N/A";
     };
@@ -36,7 +39,7 @@ export function SharedNFTClient({ nft, theme = "cyberpunk", tag = "" }: SharedNF
             pageBg: "linear-gradient(135deg, #09090e 0%, #170d2b 50%, #260933 100%)",
             border: "#ec4899",
             accent: "#f472b6",
-            cardBox: "rgba(15, 12, 29, 0.85)",
+            cardBox: "rgba(15, 12, 29, 0.95)",
             glow: "0 0 50px rgba(236, 72, 153, 0.35)",
             buttonGradient: "linear-gradient(90deg, #ec4899, #8b5cf6)",
         },
@@ -44,7 +47,7 @@ export function SharedNFTClient({ nft, theme = "cyberpunk", tag = "" }: SharedNF
             pageBg: "linear-gradient(135deg, #0f0b05 0%, #261b09 50%, #140d04 100%)",
             border: "#f59e0b",
             accent: "#fbbf24",
-            cardBox: "rgba(24, 18, 10, 0.85)",
+            cardBox: "rgba(24, 18, 10, 0.95)",
             glow: "0 0 50px rgba(245, 158, 11, 0.35)",
             buttonGradient: "linear-gradient(90deg, #f59e0b, #d97706)",
         },
@@ -52,7 +55,7 @@ export function SharedNFTClient({ nft, theme = "cyberpunk", tag = "" }: SharedNF
             pageBg: "linear-gradient(135deg, #09090b 0%, #141419 50%, #1c1c24 100%)",
             border: "#a1a1aa",
             accent: "#e4e4e7",
-            cardBox: "rgba(18, 18, 22, 0.85)",
+            cardBox: "rgba(18, 18, 22, 0.95)",
             glow: "0 0 50px rgba(161, 161, 170, 0.25)",
             buttonGradient: "linear-gradient(90deg, #52525b, #27272a)",
         },
@@ -60,7 +63,7 @@ export function SharedNFTClient({ nft, theme = "cyberpunk", tag = "" }: SharedNF
             pageBg: "linear-gradient(135deg, #0b132b 0%, #1c1b4b 50%, #2e1045 100%)",
             border: "#38bdf8",
             accent: "#818cf8",
-            cardBox: "rgba(15, 23, 42, 0.85)",
+            cardBox: "rgba(15, 23, 42, 0.95)",
             glow: "0 0 50px rgba(56, 189, 248, 0.35)",
             buttonGradient: "linear-gradient(90deg, #38bdf8, #818cf8, #c084fc)",
         },
@@ -75,7 +78,6 @@ export function SharedNFTClient({ nft, theme = "cyberpunk", tag = "" }: SharedNF
                 background: currentTheme.pageBg,
                 color: "#ffffff",
                 fontFamily: "sans-serif",
-                transition: "background 0.3s ease",
             }}
         >
             {/* Header Navbar */}
@@ -132,208 +134,281 @@ export function SharedNFTClient({ nft, theme = "cyberpunk", tag = "" }: SharedNF
                 </Link>
             </header>
 
-            {/* Main Content Stage (Vertical Top-Down Layout) */}
+            {/* Main Stage: 3D Flip Holder Card Stage */}
             <main
                 style={{
-                    maxWidth: "680px",
+                    maxWidth: "600px",
                     margin: "0 auto",
                     padding: "40px 20px 80px 20px",
                     display: "flex",
                     flexDirection: "column",
-                    gap: "36px",
                     alignItems: "center",
+                    gap: "28px",
                 }}
             >
-                {/* TOP: Static Themed NFT Card (No Flip) */}
+                {/* 3D Perspective Container */}
                 <div
                     style={{
+                        perspective: "1200px",
                         width: "100%",
-                        maxWidth: "480px",
-                        borderRadius: "24px",
-                        background: currentTheme.cardBox,
-                        border: `3px solid ${currentTheme.border}`,
-                        boxShadow: currentTheme.glow,
-                        padding: "16px",
-                        boxSizing: "border-box",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "12px",
+                        maxWidth: "500px",
+                        cursor: "pointer",
                     }}
+                    onClick={() => setIsFlipped((prev) => !prev)}
                 >
-                    {/* Image Container with Badge */}
+                    {/* Inner Card Flipper */}
                     <div
                         style={{
                             position: "relative",
                             width: "100%",
-                            paddingTop: "100%", // 1:1 Aspect Ratio
-                            borderRadius: "16px",
-                            overflow: "hidden",
-                            background: "rgba(0, 0, 0, 0.4)",
-                            border: "1px solid rgba(255, 255, 255, 0.1)",
+                            minHeight: "680px",
+                            transition: "transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
+                            transformStyle: "preserve-3d",
+                            transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
                         }}
                     >
-                        {imageUrl && (
-                            <Image
-                                src={imageUrl}
-                                alt={character}
-                                fill
-                                style={{ objectFit: "cover" }}
-                                unoptimized
-                            />
-                        )}
-                        {/* Number Badge */}
+                        {/* FRONT FACE: Exact Holder Card Layout (Allegato 2) */}
                         <div
                             style={{
                                 position: "absolute",
-                                top: "12px",
-                                right: "12px",
-                                background: "rgba(0, 0, 0, 0.75)",
-                                backdropFilter: "blur(6px)",
-                                border: `1px solid ${currentTheme.border}`,
-                                color: "#ffffff",
-                                padding: "4px 10px",
-                                borderRadius: "12px",
-                                fontSize: "0.85rem",
-                                fontWeight: "bold",
+                                inset: 0,
+                                backfaceVisibility: "hidden",
+                                WebkitBackfaceVisibility: "hidden",
+                                background: currentTheme.cardBox,
+                                border: `3px solid ${currentTheme.border}`,
+                                borderRadius: "28px",
+                                boxShadow: currentTheme.glow,
+                                padding: "24px",
+                                boxSizing: "border-box",
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "space-between",
+                                gap: "16px",
                             }}
                         >
-                            #{nftNumber}
-                        </div>
-                    </div>
+                            {/* Card Header inside Frame */}
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                                <div>
+                                    <div style={{ fontSize: "1.15rem", fontWeight: "900", color: currentTheme.accent, letterSpacing: "0.5px" }}>
+                                        PERFECT FUCKING PEOPLE
+                                    </div>
+                                    <div style={{ fontSize: "0.8rem", color: "rgba(255, 255, 255, 0.6)", marginTop: "2px" }}>
+                                        MultiversX Official Collection
+                                    </div>
+                                </div>
+                                <div
+                                    style={{
+                                        background: currentTheme.buttonGradient,
+                                        color: "#ffffff",
+                                        padding: "6px 14px",
+                                        borderRadius: "20px",
+                                        fontSize: "0.75rem",
+                                        fontWeight: "bold",
+                                        letterSpacing: "0.5px",
+                                    }}
+                                >
+                                    ✓ VERIFIED HOLDER
+                                </div>
+                            </div>
 
-                    {/* Card Title & Collection Footer */}
-                    <div
-                        style={{
-                            padding: "12px",
-                            textAlign: "center",
-                            background: "rgba(0, 0, 0, 0.3)",
-                            borderRadius: "12px",
-                        }}
-                    >
-                        <div style={{ fontSize: "1.2rem", fontWeight: "bold", color: "#ffffff" }}>
-                            {character}
-                        </div>
-                        <div style={{ fontSize: "0.85rem", color: "rgba(255, 255, 255, 0.6)", marginTop: "2px" }}>
-                            P.F.P Collection
-                        </div>
-                    </div>
-                </div>
+                            {/* Square NFT Image Box */}
+                            <div
+                                style={{
+                                    position: "relative",
+                                    width: "100%",
+                                    paddingTop: "100%",
+                                    borderRadius: "20px",
+                                    overflow: "hidden",
+                                    background: "rgba(0, 0, 0, 0.5)",
+                                    border: "1px solid rgba(255, 255, 255, 0.15)",
+                                }}
+                            >
+                                {imageUrl && (
+                                    <Image
+                                        src={imageUrl}
+                                        alt={character}
+                                        fill
+                                        style={{ objectFit: "cover" }}
+                                        unoptimized
+                                    />
+                                )}
+                                {/* Badge Number */}
+                                <div
+                                    style={{
+                                        position: "absolute",
+                                        top: "14px",
+                                        right: "14px",
+                                        background: "rgba(0, 0, 0, 0.8)",
+                                        backdropFilter: "blur(6px)",
+                                        border: `1px solid ${currentTheme.border}`,
+                                        color: "#ffffff",
+                                        padding: "4px 12px",
+                                        borderRadius: "12px",
+                                        fontSize: "0.9rem",
+                                        fontWeight: "800",
+                                    }}
+                                >
+                                    #{nftNumber}
+                                </div>
+                            </div>
 
-                {/* BOTTOM: Full NFT Details Section */}
-                <div
-                    style={{
-                        width: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "24px",
-                        background: currentTheme.cardBox,
-                        border: `1px solid ${currentTheme.border}66`,
-                        borderRadius: "24px",
-                        padding: "32px",
-                        boxSizing: "border-box",
-                        boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5)",
-                    }}
-                >
-                    {/* Badge & Title */}
-                    <div>
+                            {/* Details Box inside Frame */}
+                            <div
+                                style={{
+                                    background: "rgba(0, 0, 0, 0.5)",
+                                    border: "1px solid rgba(255, 255, 255, 0.12)",
+                                    borderRadius: "18px",
+                                    padding: "16px 20px",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    gap: "8px",
+                                }}
+                            >
+                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                    <div style={{ fontSize: "1.4rem", fontWeight: "800", color: "#ffffff" }}>
+                                        {character}
+                                    </div>
+                                    <div style={{ fontSize: "0.9rem", color: currentTheme.accent, fontWeight: "bold" }}>
+                                        Season {season}
+                                    </div>
+                                </div>
+
+                                <div style={{ height: "1px", background: "rgba(255, 255, 255, 0.1)", margin: "2px 0" }} />
+
+                                <div style={{ fontSize: "1rem", fontStyle: "italic", color: "rgba(255, 255, 255, 0.85)", lineHeight: "1.4" }}>
+                                    "{mission !== "N/A" ? mission : "Perfect Fucking People"}"
+                                </div>
+                            </div>
+
+                            {/* Card Footer Watermark */}
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.8rem", color: "rgba(255, 255, 255, 0.45)" }}>
+                                <div>ID: {nft.identifier}</div>
+                                <div>{tag.trim() ? tag : "@ilCriptonauta"}</div>
+                            </div>
+                        </div>
+
+                        {/* BACK FACE: Detailed Info & Story Lore */}
                         <div
                             style={{
-                                display: "inline-block",
-                                padding: "6px 14px",
-                                borderRadius: "20px",
-                                background: "rgba(255, 255, 255, 0.06)",
-                                color: currentTheme.accent,
-                                border: `1px solid ${currentTheme.border}`,
-                                fontSize: "0.8rem",
-                                fontWeight: "bold",
-                                textTransform: "uppercase",
-                                letterSpacing: "1px",
-                                marginBottom: "12px",
+                                position: "absolute",
+                                inset: 0,
+                                backfaceVisibility: "hidden",
+                                WebkitBackfaceVisibility: "hidden",
+                                transform: "rotateY(180deg)",
+                                background: currentTheme.cardBox,
+                                border: `3px solid ${currentTheme.border}`,
+                                borderRadius: "28px",
+                                boxShadow: currentTheme.glow,
+                                padding: "28px",
+                                boxSizing: "border-box",
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "space-between",
+                                gap: "16px",
                             }}
                         >
-                            ✓ VERIFIED MULTIVERSX HOLDER CARD
-                        </div>
-                        <h1 style={{ fontSize: "2.4rem", fontWeight: "900", margin: 0, lineHeight: "1.1" }}>
-                            P.F.P #{nftNumber}
-                        </h1>
-                        {tag && (
-                            <div style={{ fontSize: "1.1rem", color: currentTheme.accent, marginTop: "8px", fontWeight: "bold" }}>
-                                🏷️ Holder: {tag}
+                            <div>
+                                <div
+                                    style={{
+                                        display: "inline-block",
+                                        padding: "4px 12px",
+                                        borderRadius: "16px",
+                                        background: "rgba(255, 255, 255, 0.08)",
+                                        color: currentTheme.accent,
+                                        border: `1px solid ${currentTheme.border}`,
+                                        fontSize: "0.75rem",
+                                        fontWeight: "bold",
+                                        textTransform: "uppercase",
+                                        letterSpacing: "1px",
+                                        marginBottom: "8px",
+                                    }}
+                                >
+                                    ✓ CHARACTER DETAILS
+                                </div>
+                                <h2 style={{ fontSize: "1.8rem", fontWeight: "900", margin: "4px 0 12px 0" }}>
+                                    P.F.P #{nftNumber} - {character}
+                                </h2>
+
+                                {/* Mission */}
+                                <div
+                                    style={{
+                                        background: "rgba(255, 255, 255, 0.04)",
+                                        borderLeft: `4px solid ${currentTheme.border}`,
+                                        padding: "12px 16px",
+                                        borderRadius: "0 12px 12px 0",
+                                        fontSize: "0.95rem",
+                                        fontStyle: "italic",
+                                        color: "rgba(255, 255, 255, 0.9)",
+                                        marginBottom: "16px",
+                                    }}
+                                >
+                                    "{mission !== "N/A" ? mission : "Perfect Fucking People"}"
+                                </div>
+
+                                {/* Attributes */}
+                                <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "8px", marginBottom: "16px" }}>
+                                    <div style={{ background: "rgba(255, 255, 255, 0.05)", padding: "10px", borderRadius: "10px" }}>
+                                        <div style={{ fontSize: "0.7rem", color: "rgba(255, 255, 255, 0.5)", textTransform: "uppercase" }}>Character</div>
+                                        <div style={{ fontSize: "0.9rem", fontWeight: "bold", marginTop: "2px" }}>{character}</div>
+                                    </div>
+                                    <div style={{ background: "rgba(255, 255, 255, 0.05)", padding: "10px", borderRadius: "10px" }}>
+                                        <div style={{ fontSize: "0.7rem", color: "rgba(255, 255, 255, 0.5)", textTransform: "uppercase" }}>Season</div>
+                                        <div style={{ fontSize: "0.9rem", fontWeight: "bold", marginTop: "2px" }}>{season}</div>
+                                    </div>
+                                    <div style={{ background: "rgba(255, 255, 255, 0.05)", padding: "10px", borderRadius: "10px" }}>
+                                        <div style={{ fontSize: "0.7rem", color: "rgba(255, 255, 255, 0.5)", textTransform: "uppercase" }}>Background</div>
+                                        <div style={{ fontSize: "0.9rem", fontWeight: "bold", marginTop: "2px" }}>{background}</div>
+                                    </div>
+                                    <div style={{ background: "rgba(255, 255, 255, 0.05)", padding: "10px", borderRadius: "10px" }}>
+                                        <div style={{ fontSize: "0.7rem", color: "rgba(255, 255, 255, 0.5)", textTransform: "uppercase" }}>Collection</div>
+                                        <div style={{ fontSize: "0.9rem", fontWeight: "bold", marginTop: "2px" }}>PFP-717e46</div>
+                                    </div>
+                                </div>
+
+                                {/* Lore Paragraph */}
+                                <div style={{ background: "rgba(255, 255, 255, 0.04)", padding: "14px", borderRadius: "12px" }}>
+                                    <div style={{ fontSize: "0.75rem", color: "rgba(255, 255, 255, 0.5)", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "6px" }}>
+                                        📜 Universe Story
+                                    </div>
+                                    <p style={{ fontSize: "0.85rem", lineHeight: "1.5", color: "rgba(255, 255, 255, 0.8)", margin: 0 }}>
+                                        {storyText}
+                                    </p>
+                                </div>
                             </div>
-                        )}
-                    </div>
 
-                    {/* Mission Quote */}
-                    <div
-                        style={{
-                            background: "rgba(255, 255, 255, 0.04)",
-                            borderLeft: `4px solid ${currentTheme.border}`,
-                            padding: "16px 20px",
-                            borderRadius: "0 16px 16px 0",
-                            fontSize: "1.1rem",
-                            fontStyle: "italic",
-                            color: "rgba(255, 255, 255, 0.9)",
-                        }}
-                    >
-                        "{mission !== "N/A" ? mission : "Perfect Fucking People"}"
-                    </div>
-
-                    {/* Attributes Grid */}
-                    <div
-                        style={{
-                            display: "grid",
-                            gridTemplateColumns: "repeat(2, 1fr)",
-                            gap: "12px",
-                        }}
-                    >
-                        <div style={{ background: "rgba(255, 255, 255, 0.05)", padding: "14px", borderRadius: "12px", border: "1px solid rgba(255, 255, 255, 0.08)" }}>
-                            <div style={{ fontSize: "0.75rem", color: "rgba(255, 255, 255, 0.5)", textTransform: "uppercase" }}>Character</div>
-                            <div style={{ fontSize: "1rem", fontWeight: "bold", marginTop: "4px" }}>{character}</div>
-                        </div>
-                        <div style={{ background: "rgba(255, 255, 255, 0.05)", padding: "14px", borderRadius: "12px", border: "1px solid rgba(255, 255, 255, 0.08)" }}>
-                            <div style={{ fontSize: "0.75rem", color: "rgba(255, 255, 255, 0.5)", textTransform: "uppercase" }}>Season</div>
-                            <div style={{ fontSize: "1rem", fontWeight: "bold", marginTop: "4px" }}>{season}</div>
-                        </div>
-                        <div style={{ background: "rgba(255, 255, 255, 0.05)", padding: "14px", borderRadius: "12px", border: "1px solid rgba(255, 255, 255, 0.08)" }}>
-                            <div style={{ fontSize: "0.75rem", color: "rgba(255, 255, 255, 0.5)", textTransform: "uppercase" }}>Background</div>
-                            <div style={{ fontSize: "1rem", fontWeight: "bold", marginTop: "4px" }}>{background}</div>
-                        </div>
-                        <div style={{ background: "rgba(255, 255, 255, 0.05)", padding: "14px", borderRadius: "12px", border: "1px solid rgba(255, 255, 255, 0.08)" }}>
-                            <div style={{ fontSize: "0.75rem", color: "rgba(255, 255, 255, 0.5)", textTransform: "uppercase" }}>Collection</div>
-                            <div style={{ fontSize: "1rem", fontWeight: "bold", marginTop: "4px" }}>PFP-717e46</div>
+                            {/* Back Footer */}
+                            <div style={{ textAlign: "center", fontSize: "0.75rem", color: "rgba(255, 255, 255, 0.5)" }}>
+                                💡 Click to flip back
+                            </div>
                         </div>
                     </div>
-
-                    {/* Lore Box */}
-                    <div style={{ background: "rgba(255, 255, 255, 0.04)", padding: "20px", borderRadius: "16px", border: "1px solid rgba(255, 255, 255, 0.08)" }}>
-                        <h3 style={{ fontSize: "0.9rem", color: "rgba(255, 255, 255, 0.6)", marginTop: 0, textTransform: "uppercase", letterSpacing: "1px" }}>
-                            📜 Universe Story
-                        </h3>
-                        <p style={{ fontSize: "0.95rem", lineHeight: "1.6", color: "rgba(255, 255, 255, 0.8)", margin: 0 }}>
-                            {storyText}
-                        </p>
-                    </div>
-
-                    {/* CTA Action Button */}
-                    <Link
-                        href="/"
-                        style={{
-                            padding: "18px",
-                            borderRadius: "14px",
-                            background: currentTheme.buttonGradient,
-                            color: "#ffffff",
-                            textDecoration: "none",
-                            textAlign: "center",
-                            fontWeight: "bold",
-                            fontSize: "1.05rem",
-                            boxShadow: currentTheme.glow,
-                            transition: "all 0.2s ease",
-                            marginTop: "8px",
-                        }}
-                    >
-                        ⚡ Connect Wallet & Create Yours
-                    </Link>
                 </div>
+
+                {/* Subtitle Hint */}
+                <p style={{ color: "rgba(255, 255, 255, 0.6)", fontSize: "0.9rem", margin: 0 }}>
+                    💡 Click card to flip 3D view
+                </p>
+
+                {/* CTA Action Button below stage */}
+                <Link
+                    href="/"
+                    style={{
+                        width: "100%",
+                        maxWidth: "500px",
+                        padding: "18px",
+                        borderRadius: "14px",
+                        background: currentTheme.buttonGradient,
+                        color: "#ffffff",
+                        textDecoration: "none",
+                        textAlign: "center",
+                        fontWeight: "bold",
+                        fontSize: "1.1rem",
+                        boxShadow: currentTheme.glow,
+                        transition: "all 0.2s ease",
+                    }}
+                >
+                    ⚡ Connect Wallet & Create Yours
+                </Link>
             </main>
         </div>
     );

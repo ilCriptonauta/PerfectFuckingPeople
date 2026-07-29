@@ -63,6 +63,7 @@ export default function LeaderboardPage() {
   // Giveaway states
   const [isGiveawayOpen, setIsGiveawayOpen] = useState<boolean>(false);
   const [giveawayWinner, setGiveawayWinner] = useState<Holder | null>(null);
+  const [winnerStats, setWinnerStats] = useState<{ tickets: number; totalTickets: number; odds: string } | null>(null);
   const [isWinnerAddressCopied, setIsWinnerAddressCopied] = useState<boolean>(false);
   const [isDrawing, setIsDrawing] = useState<boolean>(false);
   const [drawingDisplay, setDrawingDisplay] = useState<string>("");
@@ -328,28 +329,29 @@ export default function LeaderboardPage() {
   const startGiveaway = async () => {
     setIsGiveawayOpen(true);
     setGiveawayWinner(null);
+    setWinnerStats(null);
     setIsDrawing(true);
-    setDrawingDisplay("Initializing...");
+    setDrawingDisplay("Initializing Raffle Pool...");
     setIsWinnerAddressCopied(false);
 
-    // Ensure details are loaded to identify who qualifies as OG
+    // Ensure details are loaded to identify who qualifies as OG and calculate tickets
     let activeDetails = nftDetails;
     const missingAny = holders.some(h => !nftDetails[h.address]);
     if (missingAny) {
       activeDetails = await ensureAllDetailsLoaded(holders);
     }
 
-    const checkIsOGWithDetails = (addr: string, details: Record<string, NFTItem[]>) => {
+    const getOGCount = (addr: string, details: Record<string, NFTItem[]>) => {
       const userNfts = details[addr] || [];
-      return userNfts.some((nft) => {
+      return userNfts.filter((nft) => {
         const cat = getNFTSeasonCategory(nft);
         return cat.label.startsWith("Season");
-      });
+      }).length;
     };
 
     const ogHolders = holders.filter(h => 
       h.address !== "erd1vhkwevjs3v0564x7j4j7z2jl4n9zhpfvys9ddvn5m6j40fqn4fssxl65u8" &&
-      checkIsOGWithDetails(h.address, activeDetails)
+      getOGCount(h.address, activeDetails) > 0
     );
 
     if (ogHolders.length === 0) {
@@ -358,20 +360,31 @@ export default function LeaderboardPage() {
       return;
     }
 
-    runDrawAnimation(ogHolders);
+    // Build weighted raffle ticket pool: 1 ticket per OG NFT owned
+    const rafflePool: { holder: Holder; tickets: number }[] = [];
+    ogHolders.forEach(h => {
+      const tickets = getOGCount(h.address, activeDetails);
+      for (let i = 0; i < tickets; i++) {
+        rafflePool.push({ holder: h, tickets });
+      }
+    });
+
+    runDrawAnimation(rafflePool);
   };
 
-  const runDrawAnimation = (ogHolders: Holder[]) => {
+  const runDrawAnimation = (rafflePool: { holder: Holder; tickets: number }[]) => {
     setIsDrawing(true);
     setGiveawayWinner(null);
+    setWinnerStats(null);
 
     let speed = 50;
     let iterations = 0;
     const maxIterations = 35;
+    const totalTickets = rafflePool.length;
 
     const cycle = () => {
-      const randomHolder = ogHolders[Math.floor(Math.random() * ogHolders.length)];
-      const displayText = randomHolder.username || getShortAddress(randomHolder.address);
+      const randomEntry = rafflePool[Math.floor(Math.random() * rafflePool.length)];
+      const displayText = randomEntry.holder.username || getShortAddress(randomEntry.holder.address);
       setDrawingDisplay(displayText);
       
       iterations++;
@@ -380,8 +393,16 @@ export default function LeaderboardPage() {
         speed += iterations * 2.5;
         setTimeout(cycle, speed);
       } else {
-        const winner = ogHolders[Math.floor(Math.random() * ogHolders.length)];
+        const winnerEntry = rafflePool[Math.floor(Math.random() * rafflePool.length)];
+        const winner = winnerEntry.holder;
+        const odds = ((winnerEntry.tickets / totalTickets) * 100).toFixed(2);
+        
         setGiveawayWinner(winner);
+        setWinnerStats({
+          tickets: winnerEntry.tickets,
+          totalTickets,
+          odds
+        });
         setDrawingDisplay(winner.username || getShortAddress(winner.address));
         setIsDrawing(false);
       }
@@ -692,7 +713,7 @@ export default function LeaderboardPage() {
         <div className="giveaway-overlay" onClick={() => !isDrawing && setIsGiveawayOpen(false)}>
           <div className="giveaway-modal" onClick={(e) => e.stopPropagation()}>
             <h2 className="giveaway-title">🎉 OG Monthly Giveaway 🎉</h2>
-            <div className="giveaway-subtitle">Random raffle draw among Season 1-5 holders</div>
+            <div className="giveaway-subtitle">Weighted raffle draw among Season 1-5 holders (+1 Ticket per OG NFT)</div>
 
             <div className={`giveaway-drum-container ${isDrawing ? 'drawing' : ''}`}>
               <div className={`giveaway-drum-text ${giveawayWinner ? 'winner' : ''}`}>
@@ -700,11 +721,24 @@ export default function LeaderboardPage() {
               </div>
             </div>
 
-            {giveawayWinner && (
+            {giveawayWinner && winnerStats && (
               <div className="giveaway-winner-detail">
                 <div className="winner-congrats">✨ Lucky Winner Selected ✨</div>
                 <div className="winner-tag">
                   {giveawayWinner.username || "Anonymous PFP Collector"}
+                </div>
+                <div style={{
+                  fontSize: '0.85rem',
+                  color: 'var(--accent-primary)',
+                  fontWeight: 'bold',
+                  margin: '8px 0',
+                  padding: '6px 14px',
+                  background: 'rgba(236, 72, 153, 0.12)',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(236, 72, 153, 0.3)',
+                  display: 'inline-block'
+                }}>
+                  🎟️ OG NFTs Owned: {winnerStats.tickets} ({winnerStats.odds}% Winning Odds)
                 </div>
                 <div className="winner-address-box">
                   {giveawayWinner.address}

@@ -682,13 +682,13 @@ export function HeroSection() {
                         <div className="stat-label">Listed Items</div>
                         <div className="stat-value">
                             {collectionStats.nftsListed !== null 
-                                ? `${collectionStats.nftsListed} / ${totalItems || 89}` 
+                                ? `${collectionStats.nftsListed} / ${totalItems || 110}` 
                                 : "—"
                             }
                         </div>
                         <div className="stat-sublabel">
                             {collectionStats.nftsListed !== null 
-                                ? `${((collectionStats.nftsListed / (totalItems || 89)) * 100).toFixed(0)}% of supply listed` 
+                                ? `${((collectionStats.nftsListed / (totalItems || 110)) * 100).toFixed(0)}% of supply listed` 
                                 : "Listed on OOX"
                             }
                         </div>

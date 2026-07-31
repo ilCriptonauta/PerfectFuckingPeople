@@ -119,8 +119,8 @@ function ProfileContent() {
     const unlockedCount = [isOG, isCollector, isWhale, isSerialCollector, isHonorary, isPerfectHolder].filter(Boolean).length;
     const progressPercent = (unlockedCount / 6) * 100;
 
-    // Calculate Giveaway Odds (Total OG Tickets in circulation = 89)
-    const TOTAL_OG_TICKETS = 89;
+    // Calculate Giveaway Odds (Total OG Tickets in circulation = 75)
+    const TOTAL_OG_TICKETS = 75;
     const winningOdds = ogTickets > 0 ? ((ogTickets / TOTAL_OG_TICKETS) * 100).toFixed(2) : "0.00";
 
     // Determine Welcome Name:

@@ -84,9 +84,19 @@ function ProfileContent() {
     // Determine seasons held and OG counts
     const heldSeasons = new Set<number>();
     let hasCollectibles = false;
+    let hasHonorary = false;
+    let honoraryNames: string[] = [];
     let ogTickets = 0;
 
     nfts.forEach((nft) => {
+        const honoraryAttr = nft.metadata?.attributes?.find(
+            (a) => a.trait_type?.toLowerCase() === "honorary"
+        );
+        if (honoraryAttr && honoraryAttr.value) {
+            hasHonorary = true;
+            honoraryNames.push(String(honoraryAttr.value));
+        }
+
         const sVal = getNFTSeasonValue(nft);
         if (sVal === "collectibles") {
             hasCollectibles = true;
@@ -103,10 +113,11 @@ function ProfileContent() {
     const isCollector = hasCollectibles;
     const isWhale = nfts.length > 10;
     const isSerialCollector = [1, 2, 3, 4, 5].every((s) => heldSeasons.has(s));
+    const isHonorary = hasHonorary;
     const isPerfectHolder = isOG && isCollector && isWhale && isSerialCollector;
 
-    const unlockedCount = [isOG, isCollector, isWhale, isSerialCollector, isPerfectHolder].filter(Boolean).length;
-    const progressPercent = (unlockedCount / 5) * 100;
+    const unlockedCount = [isOG, isCollector, isWhale, isSerialCollector, isHonorary, isPerfectHolder].filter(Boolean).length;
+    const progressPercent = (unlockedCount / 6) * 100;
 
     // Calculate Giveaway Odds (Total OG Tickets in circulation = 89)
     const TOTAL_OG_TICKETS = 89;
@@ -302,7 +313,7 @@ function ProfileContent() {
                                     🏅 My Achievements & Badges
                                 </h3>
                                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', margin: '4px 0 0 0' }}>
-                                    Unlocked {unlockedCount} of 5 badges
+                                    Unlocked {unlockedCount} of 6 badges
                                 </p>
                             </div>
 
@@ -321,7 +332,7 @@ function ProfileContent() {
                         <div className="badge-progress-card" style={{ marginBottom: '1.5rem' }}>
                             <div className="badge-progress-header">
                                 <span className="badge-progress-title">Overall Progress</span>
-                                <span className="badge-progress-stats">{unlockedCount} / 5 Unlocked ({progressPercent.toFixed(0)}%)</span>
+                                <span className="badge-progress-stats">{unlockedCount} / 6 Unlocked ({progressPercent.toFixed(0)}%)</span>
                             </div>
                             <div className="badge-progress-bar-bg">
                                 <div 
@@ -443,6 +454,30 @@ function ProfileContent() {
                                     </div>
                                     <span className="badge-detail-card-status-badge">
                                         {isSerialCollector ? "Unlocked" : "Locked"}
+                                    </span>
+                                </div>
+
+                                {/* 5. Honorary */}
+                                <div className={`badge-detail-card carousel-badge-card ${isHonorary ? 'unlocked' : 'locked'}`}>
+                                    <div className="badge-detail-card-icon">
+                                        🎖️
+                                        {!isHonorary && <div className="badge-detail-card-lock">🔒</div>}
+                                    </div>
+                                    <h3 className="badge-detail-card-title">Honorary</h3>
+                                    <p className="badge-detail-card-desc">
+                                        Awarded to holders of a special Honorary NFT tribute in the Perfect Fucking People universe.
+                                    </p>
+                                    <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '16px', textAlign: 'left', width: '100%' }}>
+                                        <strong>Requirement:</strong> Hold ≥ 1 Honorary NFT
+                                        <div style={{ marginTop: '6px', color: isHonorary ? '#10b981' : 'var(--text-secondary)' }}>
+                                            {isHonorary 
+                                                ? `✅ Honorary NFT found: ${honoraryNames.join(', ')}` 
+                                                : "❌ No Honorary NFTs found in wallet"
+                                            }
+                                        </div>
+                                    </div>
+                                    <span className="badge-detail-card-status-badge">
+                                        {isHonorary ? "Unlocked" : "Locked"}
                                     </span>
                                 </div>
 

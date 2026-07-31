@@ -37,7 +37,21 @@ export function HeroSection() {
         averagePrice: null,
     });
     
+    const [isScrolled, setIsScrolled] = useState<boolean>(false);
     const bannerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 60) {
+                setIsScrolled(true);
+            } else {
+                setIsScrolled(false);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     useEffect(() => {
         // Fetch supply count from MultiversX API
@@ -269,8 +283,8 @@ export function HeroSection() {
                     </button>
                 </div>
                 
-                {/* Stats Footer (remains fixed at the bottom of the viewport) */}
-                <div className="glass-panel fixed-stats-pill">
+                {/* Stats Footer (disappears smoothly when scrolling down) */}
+                <div className={`glass-panel fixed-stats-pill ${isScrolled ? 'scrolled-hidden' : ''}`}>
                     <div style={{ textAlign: 'center' }}>
                         <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>
                             {displayCount}

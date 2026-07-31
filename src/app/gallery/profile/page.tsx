@@ -4,6 +4,7 @@ import { useEffect, useState, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useWalletNFTs } from "@/hooks/useWalletNFTs";
+import { useNFTHoldingTimes } from "@/hooks/useNFTHoldingTimes";
 import { MultiversXNFT } from "@/types/nft.types";
 
 function ProfileContent() {
@@ -25,6 +26,8 @@ function ProfileContent() {
     const shortAddress = displayAddress
         ? `${displayAddress.slice(0, 6)}...${displayAddress.slice(-4)}`
         : "";
+
+    const { holdingTimes } = useNFTHoldingTimes(nfts, displayAddress);
 
     useEffect(() => {
         setMounted(true);
@@ -134,19 +137,26 @@ function ProfileContent() {
         }
     });
 
+    // Holding Streak & Diamond Hands calculations
+    const holdingDaysList = Object.values(holdingTimes).map((h) => h.daysHeld);
+    const maxDaysHeld = holdingDaysList.length > 0 ? Math.max(...holdingDaysList) : 0;
+    const isDiamondHands = maxDaysHeld >= 365;
+    const diamondHandsBonusTickets = maxDaysHeld >= 14 ? 1 : 0;
+
     const isOG = heldSeasons.size > 0;
     const isCollector = hasCollectibles;
     const isWhale = nfts.length > 10;
     const isSerialCollector = [1, 2, 3, 4, 5].every((s) => heldSeasons.has(s));
     const isHonorary = hasHonorary;
-    const isPerfectHolder = isOG && isCollector && isWhale && isSerialCollector;
+    const isPerfectHolder = isOG && isCollector && isWhale && isSerialCollector && isDiamondHands;
 
-    const unlockedCount = [isOG, isCollector, isWhale, isSerialCollector, isHonorary, isPerfectHolder].filter(Boolean).length;
-    const progressPercent = (unlockedCount / 6) * 100;
+    const unlockedCount = [isOG, isCollector, isWhale, isSerialCollector, isHonorary, isDiamondHands, isPerfectHolder].filter(Boolean).length;
+    const progressPercent = (unlockedCount / 7) * 100;
 
-    // Calculate Giveaway Odds (Total OG Tickets in circulation = 75)
+    // Calculate Giveaway Odds (Total OG Base Pool = 75)
     const TOTAL_OG_TICKETS = 75;
-    const winningOdds = ogTickets > 0 ? ((ogTickets / TOTAL_OG_TICKETS) * 100).toFixed(2) : "0.00";
+    const totalUserTickets = ogTickets + diamondHandsBonusTickets;
+    const winningOdds = totalUserTickets > 0 ? ((totalUserTickets / TOTAL_OG_TICKETS) * 100).toFixed(2) : "0.00";
 
     // Determine Welcome Name:
     // 1. Herotag if available (e.g. "@francesco")
@@ -241,7 +251,7 @@ function ProfileContent() {
                     <div className="profile-top-grid">
                         {/* Left Column: Welcome Greeting */}
                         <div className="profile-welcome-panel glass-panel">
-                            <div className="profile-avatar-badge" style={{ overflow: 'hidden', padding: 0, border: '2px solid rgba(236, 72, 153, 0.4)' }}>
+                            <div className="profile-avatar-badge" style={{ overflow: 'hidden', padding: 0, border: '3px solid rgba(236, 72, 153, 0.6)' }}>
                                 {userAvatar?.imageUrl ? (
                                     <img 
                                         src={userAvatar.imageUrl} 
@@ -263,10 +273,15 @@ function ProfileContent() {
                                 <h2 className="profile-welcome-title">
                                     {welcomeName}
                                 </h2>
-                                <p className="profile-welcome-address">
-                                    Wallet: <code>{displayAddress}</code>
-                                </p>
-                                <div className="profile-welcome-tags">
+                                {userAvatar?.character && (
+                                    <div style={{ fontSize: '0.82rem', color: '#ec4899', fontWeight: 700, margin: '2px 0 6px 0', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                        <span style={{ opacity: 0.8 }}>🎭 Avatar PFP:</span>
+                                        <span style={{ color: 'var(--text-primary)', background: 'rgba(236, 72, 153, 0.15)', padding: '2px 8px', borderRadius: '6px', border: '1px solid rgba(236, 72, 153, 0.3)' }}>
+                                            {userAvatar.character}
+                                        </span>
+                                    </div>
+                                )}
+                                <div className="profile-welcome-tags" style={{ marginTop: '4px' }}>
                                     <span className="profile-tag purple">
                                         🖼️ {nfts.length} NFTs Held
                                     </span>
@@ -274,8 +289,13 @@ function ProfileContent() {
                                         🎟️ {ogTickets} OG Raffle Tickets
                                     </span>
                                     <span className="profile-tag green">
-                                        🏅 {unlockedCount}/5 Badges
+                                        🏅 {unlockedCount}/6 Badges
                                     </span>
+                                    {maxDaysHeld > 0 && (
+                                        <span className="profile-tag cyan" style={{ background: 'rgba(56, 189, 248, 0.12)', color: '#38bdf8', borderColor: 'rgba(56, 189, 248, 0.3)' }}>
+                                            💎 {maxDaysHeld}d Holding Streak
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -315,12 +335,17 @@ function ProfileContent() {
 
                         <div className="giveaway-odds-grid">
                             <div className="giveaway-stat-box">
-                                <div className="stat-box-label">Your OG NFTs (Tickets)</div>
+                                <div className="stat-box-label">Your OG Tickets</div>
                                 <div className="stat-box-value pink">{ogTickets}</div>
-                                <div className="stat-box-sub">Season 1-5 drawings held</div>
+                                <div className="stat-box-sub">Base tickets (1 per OG NFT)</div>
                             </div>
                             <div className="giveaway-stat-box">
-                                <div className="stat-box-label">Total Raffle Pool</div>
+                                <div className="stat-box-label">Holding Bonus</div>
+                                <div className="stat-box-value" style={{ color: '#38bdf8' }}>+{diamondHandsBonusTickets}</div>
+                                <div className="stat-box-sub">{maxDaysHeld >= 14 ? `Loyalty bonus (${maxDaysHeld}d streak)` : 'Hold 14+ days for bonus ticket'}</div>
+                            </div>
+                            <div className="giveaway-stat-box">
+                                <div className="stat-box-label">Total Pool</div>
                                 <div className="stat-box-value">{TOTAL_OG_TICKETS}</div>
                                 <div className="stat-box-sub">Total OG tickets in circulation</div>
                             </div>
@@ -332,9 +357,9 @@ function ProfileContent() {
                         </div>
 
                         <div className="giveaway-odds-footer">
-                            {ogTickets > 0 ? (
+                            {totalUserTickets > 0 ? (
                                 <span style={{ color: '#10b981', fontWeight: 600 }}>
-                                    ✅ You hold {ogTickets} raffle tickets for the next monthly OG giveaway draw!
+                                    ✅ You have {totalUserTickets} total raffle tickets ({ogTickets} base + {diamondHandsBonusTickets} holding loyalty bonus) for the next draw!
                                 </span>
                             ) : (
                                 <span style={{ color: 'var(--text-secondary)' }}>
@@ -352,7 +377,7 @@ function ProfileContent() {
                                     🏅 My Achievements & Badges
                                 </h3>
                                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', margin: '4px 0 0 0' }}>
-                                    Unlocked {unlockedCount} of 6 badges
+                                    Unlocked {unlockedCount} of 7 badges
                                 </p>
                             </div>
 
@@ -371,7 +396,7 @@ function ProfileContent() {
                         <div className="badge-progress-card" style={{ marginBottom: '1.5rem' }}>
                             <div className="badge-progress-header">
                                 <span className="badge-progress-title">Overall Progress</span>
-                                <span className="badge-progress-stats">{unlockedCount} / 6 Unlocked ({progressPercent.toFixed(0)}%)</span>
+                                <span className="badge-progress-stats">{unlockedCount} / 7 Unlocked ({progressPercent.toFixed(0)}%)</span>
                             </div>
                             <div className="badge-progress-bar-bg">
                                 <div 
@@ -517,6 +542,30 @@ function ProfileContent() {
                                     </div>
                                     <span className="badge-detail-card-status-badge">
                                         {isHonorary ? "Unlocked" : "Locked"}
+                                    </span>
+                                </div>
+
+                                {/* 6. Diamond Hands */}
+                                <div className={`badge-detail-card carousel-badge-card ${isDiamondHands ? 'unlocked' : 'locked'}`}>
+                                    <div className="badge-detail-card-icon">
+                                        💎
+                                        {!isDiamondHands && <div className="badge-detail-card-lock">🔒</div>}
+                                    </div>
+                                    <h3 className="badge-detail-card-title">Diamond Hands</h3>
+                                    <p className="badge-detail-card-desc">
+                                        Awarded to legendary collectors who have held an NFT in their wallet for at least 365 days.
+                                    </p>
+                                    <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '16px', textAlign: 'left', width: '100%' }}>
+                                        <strong>Requirement:</strong> Hold ≥ 1 NFT for 365+ days
+                                        <div style={{ marginTop: '6px', color: isDiamondHands ? '#10b981' : 'var(--text-secondary)' }}>
+                                            {isDiamondHands 
+                                                ? `✅ Diamond Hands achieved: ${maxDaysHeld} days held!` 
+                                                : `❌ Current longest hold: ${maxDaysHeld} / 365 days`
+                                            }
+                                        </div>
+                                    </div>
+                                    <span className="badge-detail-card-status-badge">
+                                        {isDiamondHands ? "Unlocked" : "Locked"}
                                     </span>
                                 </div>
 

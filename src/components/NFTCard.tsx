@@ -20,6 +20,50 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false, isAllCollec
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isStudioOpen, setIsStudioOpen] = useState(false);
     const [selectedAvatarId, setSelectedAvatarId] = useState<string | null>(null);
+    const [holdingDays, setHoldingDays] = useState<number | null>(null);
+
+    useEffect(() => {
+        if (isUnowned || !isFlipped || holdingDays !== null) return;
+        let isMounted = true;
+
+        const fetchHoldingTime = async () => {
+            const now = Math.floor(Date.now() / 1000);
+            let ts: number | null = null;
+
+            try {
+                const res = await fetch(`https://api.multiversx.com/nfts/${nft.identifier}/transactions?status=success&size=5`);
+                if (res.ok) {
+                    const txs = await res.json();
+                    if (Array.isArray(txs) && txs.length > 0 && txs[0]?.timestamp) {
+                        ts = txs[0].timestamp;
+                    }
+                }
+            } catch (e) {}
+
+            if (!ts) {
+                try {
+                    const singleRes = await fetch(`https://api.multiversx.com/nfts/${nft.identifier}`);
+                    if (singleRes.ok) {
+                        const sData = await singleRes.json();
+                        if (sData?.timestamp) {
+                            ts = sData.timestamp;
+                        }
+                    }
+                } catch (e) {}
+            }
+
+            if (isMounted && ts) {
+                const days = Math.max(1, Math.floor((now - ts) / 86400));
+                setHoldingDays(days);
+            }
+        };
+
+        fetchHoldingTime();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [isUnowned, isFlipped, nft.identifier, holdingDays]);
 
     useEffect(() => {
         const checkAvatar = () => {
@@ -219,6 +263,29 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false, isAllCollec
                                 "{mission}"
                             </div>
                         </div>
+
+                        {!isUnowned && holdingDays !== null && (
+                            <div>
+                                <div style={{ fontSize: '0.68rem', textTransform: 'uppercase', color: 'var(--text-secondary)', letterSpacing: '1px', marginBottom: '4px' }}>
+                                    Holding Streak
+                                </div>
+                                <div style={{ 
+                                    fontSize: '0.82rem', 
+                                    fontWeight: 700, 
+                                    color: '#34d399', 
+                                    background: 'rgba(16, 185, 129, 0.12)', 
+                                    border: '1px solid rgba(16, 185, 129, 0.3)',
+                                    padding: '4px 10px',
+                                    borderRadius: '8px',
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '6px'
+                                }}>
+                                    <span>🗓️</span>
+                                    <span>Holding for {holdingDays} days</span>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '14px', marginTop: '20px', marginBottom: '8px' }}>

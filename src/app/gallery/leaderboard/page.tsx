@@ -23,6 +23,8 @@ interface NFTItem {
       value: string | number;
     }>;
   };
+  timestamp?: number;
+  holdingDays?: number;
 }
 
 interface Holder {
@@ -179,7 +181,41 @@ export default function LeaderboardPage() {
       if (!res.ok) {
         throw new Error("Failed to fetch user NFT details");
       }
-      const userNfts = await res.json();
+      const rawNfts = await res.json();
+      const now = Math.floor(Date.now() / 1000);
+
+      const userNfts = await Promise.all(
+        (rawNfts || []).map(async (nft: any) => {
+          let holdingTimestamp: number | null = null;
+          try {
+            const txRes = await fetch(`https://api.multiversx.com/nfts/${nft.identifier}/transactions?status=success&size=5`);
+            if (txRes.ok) {
+              const txs = await txRes.json();
+              if (Array.isArray(txs) && txs.length > 0) {
+                const lastRx = txs.find((t: any) => t.receiver === address || t.action?.arguments?.receiver === address);
+                if (lastRx && lastRx.timestamp) {
+                  holdingTimestamp = lastRx.timestamp;
+                } else if (txs[0] && txs[0].timestamp) {
+                  holdingTimestamp = txs[0].timestamp;
+                }
+              }
+            }
+          } catch (e) {}
+
+          if (!holdingTimestamp && nft.timestamp) {
+            holdingTimestamp = nft.timestamp;
+          }
+
+          const finalTs = holdingTimestamp || now;
+          const daysHeld = Math.max(1, Math.floor((now - finalTs) / 86400));
+          return {
+            ...nft,
+            timestamp: finalTs,
+            holdingDays: daysHeld
+          };
+        })
+      );
+
       setNftDetails(prev => ({ ...prev, [address]: userNfts || [] }));
     } catch (err: any) {
       console.error(`Error fetching details for ${address}:`, err);
@@ -238,7 +274,8 @@ export default function LeaderboardPage() {
               identifier: nft.identifier,
               name: nft.name,
               season: cat.label,
-              mission
+              mission,
+              holdingDays: nft.holdingDays || 1
             };
           })
         };
@@ -280,6 +317,7 @@ export default function LeaderboardPage() {
         }
       }
 
+      const now = Math.floor(Date.now() / 1000);
       // Group NFTs by owner
       const grouped: Record<string, NFTItem[]> = {};
       allNftsWithOwner.forEach((nft: any) => {
@@ -288,12 +326,16 @@ export default function LeaderboardPage() {
           if (!grouped[ownerAddr]) {
             grouped[ownerAddr] = [];
           }
+          const ts = nft.timestamp || now;
+          const daysHeld = Math.max(1, Math.floor((now - ts) / 86400));
           grouped[ownerAddr].push({
             identifier: nft.identifier,
             name: nft.name,
             url: nft.url,
             media: nft.media,
-            metadata: nft.metadata
+            metadata: nft.metadata,
+            timestamp: ts,
+            holdingDays: daysHeld
           });
         }
       });
@@ -644,6 +686,18 @@ export default function LeaderboardPage() {
                                       {seasonLabel}: <strong>{count}</strong> {count === 1 ? 'NFT' : 'NFTs'}
                                     </div>
                                   ))}
+                                  {(() => {
+                                    const holdingDaysList = userNfts.map(n => n.holdingDays || 0).filter(d => d > 0);
+                                    const maxDays = holdingDaysList.length > 0 ? Math.max(...holdingDaysList) : 0;
+                                    return maxDays > 0 ? (
+                                      <div 
+                                        className="season-pill"
+                                        style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', borderColor: 'rgba(56, 189, 248, 0.3)' }}
+                                      >
+                                        💎 Max Hold: <strong>{maxDays}d</strong>
+                                      </div>
+                                    ) : null;
+                                  })()}
                                   {Object.keys(seasons).length === 0 && (
                                     <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
                                       No season attributes found for this holder's NFTs.
@@ -683,6 +737,11 @@ export default function LeaderboardPage() {
                                         <div className={`admin-nft-season-tag ${cat.class}`}>
                                           {cat.label}
                                         </div>
+                                        {nft.holdingDays !== undefined && (
+                                          <div style={{ fontSize: '0.72rem', color: '#34d399', fontWeight: 700, marginTop: '4px' }}>
+                                            🗓️ {nft.holdingDays}d hold
+                                          </div>
+                                        )}
                                       </div>
                                     );
                                   })}

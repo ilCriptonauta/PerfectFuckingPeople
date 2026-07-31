@@ -200,13 +200,10 @@ export default function GalleryPage() {
                         </div>
                         <div className="badges-card-content">
                             <div className="badges-card-title">
-                                My Badges
+                                My Fucking Profile
                             </div>
                             <div className="badges-card-desc">
-                                {isLoading 
-                                    ? "Loading achievements..." 
-                                    : `You have unlocked ${unlockedCount} of 5 achievements. Click to view them.`
-                                }
+                                Explore your badges and your vault.
                             </div>
                         </div>
                         <div className="badges-card-arrow">

@@ -709,6 +709,53 @@ export function HeroSection() {
                         <div className="stat-sublabel">Accumulated trading volume</div>
                     </div>
                 </div>
+
+                {/* Footer Section */}
+                <footer style={{
+                    marginTop: '5rem',
+                    paddingTop: '2rem',
+                    borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+                    width: '100%',
+                    maxWidth: '1000px',
+                    textAlign: 'center',
+                    color: 'var(--text-secondary)',
+                    fontSize: '0.95rem',
+                    lineHeight: '1.6',
+                    zIndex: 1
+                }}>
+                    <p style={{ margin: 0 }}>
+                        Perfect Fucking People is designed by{' '}
+                        <a 
+                            href="https://x.com/ilcriptonauta" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            style={{ 
+                                color: '#8b5cf6', 
+                                fontWeight: 700, 
+                                textDecoration: 'none',
+                                transition: 'all 0.2s ease'
+                            }}
+                        >
+                            ilCriptonauta
+                        </a>
+                        . Produced and distributed by{' '}
+                        ✏️{' '}
+                        <a 
+                            href="https://x.com/unperfectstudio" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            style={{ 
+                                color: '#ec4899', 
+                                fontWeight: 700, 
+                                textDecoration: 'none',
+                                transition: 'all 0.2s ease'
+                            }}
+                        >
+                            Unperfect Studio
+                        </a>
+                        {' '}✏️
+                    </p>
+                </footer>
             </section>
         </div>
     );

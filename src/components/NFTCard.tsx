@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { MultiversXNFT } from '@/types/nft.types';
 import Image from 'next/image';
@@ -19,6 +19,31 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false, isAllCollec
     const [hasBeenFlipped, setHasBeenFlipped] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isStudioOpen, setIsStudioOpen] = useState(false);
+    const [selectedAvatarId, setSelectedAvatarId] = useState<string | null>(null);
+
+    useEffect(() => {
+        const checkAvatar = () => {
+            try {
+                const stored = localStorage.getItem("pfp_user_avatar");
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    setSelectedAvatarId(parsed?.identifier || null);
+                } else {
+                    setSelectedAvatarId(null);
+                }
+            } catch (e) {
+                setSelectedAvatarId(null);
+            }
+        };
+
+        checkAvatar();
+        if (typeof window !== "undefined") {
+            window.addEventListener("pfp_avatar_changed", checkAvatar);
+            return () => window.removeEventListener("pfp_avatar_changed", checkAvatar);
+        }
+    }, []);
+
+    const isCurrentAvatar = selectedAvatarId === nft.identifier;
 
     const getAttribute = (traitType: string) => {
         return nft.metadata?.attributes?.find(a => a.trait_type === traitType)?.value || 'N/A';
@@ -288,6 +313,48 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false, isAllCollec
                                 <line x1="12" y1="15" x2="12" y2="3" />
                             </svg>
                         </a>
+                        {!isUnowned && (
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    const avatarObj = {
+                                        identifier: nft.identifier,
+                                        name: nft.name,
+                                        character: String(character),
+                                        imageUrl
+                                    };
+                                    localStorage.setItem("pfp_user_avatar", JSON.stringify(avatarObj));
+                                    window.dispatchEvent(new Event("pfp_avatar_changed"));
+                                }}
+                                className={`btn-set-avatar ${isCurrentAvatar ? 'active' : ''}`}
+                                title={isCurrentAvatar ? "Current Profile Avatar" : "Set as Profile Avatar"}
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: '36px',
+                                    height: '36px',
+                                    borderRadius: '10px',
+                                    border: isCurrentAvatar ? '1px solid #10b981' : '1px solid rgba(16, 185, 129, 0.4)',
+                                    background: isCurrentAvatar ? 'rgba(16, 185, 129, 0.35)' : 'rgba(16, 185, 129, 0.15)',
+                                    color: isCurrentAvatar ? '#34d399' : '#6ee7b7',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s ease',
+                                    boxShadow: isCurrentAvatar ? '0 0 12px rgba(16, 185, 129, 0.4)' : 'none'
+                                }}
+                            >
+                                {isCurrentAvatar ? (
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                ) : (
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                        <circle cx="12" cy="7" r="4" />
+                                    </svg>
+                                )}
+                            </button>
+                        )}
                     </div>
                     
                     <div style={{ 

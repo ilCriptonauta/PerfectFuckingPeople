@@ -18,6 +18,7 @@ function ProfileContent() {
     const [herotag, setHerotag] = useState<string | null>(null);
     const [isFetchingAccount, setIsFetchingAccount] = useState<boolean>(false);
 
+    const [userAvatar, setUserAvatar] = useState<{ identifier: string; character: string; imageUrl: string } | null>(null);
     const carouselRef = useRef<HTMLDivElement>(null);
 
     const displayAddress = simulateAddress || address;
@@ -27,6 +28,30 @@ function ProfileContent() {
 
     useEffect(() => {
         setMounted(true);
+    }, []);
+
+    useEffect(() => {
+        const loadAvatar = () => {
+            try {
+                const stored = localStorage.getItem("pfp_user_avatar");
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    if (parsed && parsed.imageUrl) {
+                        setUserAvatar(parsed);
+                        return;
+                    }
+                }
+                setUserAvatar(null);
+            } catch (e) {
+                setUserAvatar(null);
+            }
+        };
+
+        loadAvatar();
+        if (typeof window !== "undefined") {
+            window.addEventListener("pfp_avatar_changed", loadAvatar);
+            return () => window.removeEventListener("pfp_avatar_changed", loadAvatar);
+        }
     }, []);
 
     // Fetch Herotag (username) from MultiversX Account API
@@ -216,8 +241,22 @@ function ProfileContent() {
                     <div className="profile-top-grid">
                         {/* Left Column: Welcome Greeting */}
                         <div className="profile-welcome-panel glass-panel">
-                            <div className="profile-avatar-badge">
-                                ⚡
+                            <div className="profile-avatar-badge" style={{ overflow: 'hidden', padding: 0, border: '2px solid rgba(236, 72, 153, 0.4)' }}>
+                                {userAvatar?.imageUrl ? (
+                                    <img 
+                                        src={userAvatar.imageUrl} 
+                                        alt={userAvatar.character || "Profile Avatar"} 
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    />
+                                ) : nfts.length > 0 && (nfts[0].media?.[0]?.thumbnailUrl || nfts[0].url) ? (
+                                    <img 
+                                        src={nfts[0].media?.[0]?.thumbnailUrl || nfts[0].url} 
+                                        alt="Profile Avatar" 
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    />
+                                ) : (
+                                    "⚡"
+                                )}
                             </div>
                             <div className="profile-welcome-info">
                                 <span className="profile-welcome-subtitle">Welcome Back</span>

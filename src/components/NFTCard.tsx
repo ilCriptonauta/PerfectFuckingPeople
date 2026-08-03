@@ -423,18 +423,6 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false, isAllCollec
                             </button>
                         )}
                     </div>
-                    
-                    <div style={{ 
-                        marginTop: '16px', 
-                        paddingTop: '12px', 
-                        borderTop: '1px solid rgba(255,255,255,0.1)',
-                        fontSize: '0.75rem',
-                        color: 'var(--text-secondary)',
-                        textAlign: 'left',
-                        fontStyle: 'italic'
-                    }}>
-                        Click to flip back
-                    </div>
                 </div>
             </div>
 

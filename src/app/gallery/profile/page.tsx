@@ -6,10 +6,12 @@ import Link from "next/link";
 import { useWalletNFTs } from "@/hooks/useWalletNFTs";
 import { useNFTHoldingTimes } from "@/hooks/useNFTHoldingTimes";
 import { MultiversXNFT } from "@/types/nft.types";
+import { getHoodTycoonStats, getRankInfo, HoodTycoonCareerStats } from "@/utils/hoodTycoonStats";
 
 function ProfileContent() {
     const searchParams = useSearchParams();
     const [mounted, setMounted] = useState(false);
+    const [activeTab, setActiveTab] = useState<'holder' | 'hood_tycoon'>('holder');
 
     const simulateAddress = searchParams.get("simulate");
     const isSimulating = !!simulateAddress;
@@ -21,6 +23,7 @@ function ProfileContent() {
 
     const [userAvatar, setUserAvatar] = useState<{ identifier: string; character: string; imageUrl: string } | null>(null);
     const carouselRef = useRef<HTMLDivElement>(null);
+    const hoodCarouselRef = useRef<HTMLDivElement>(null);
 
     const displayAddress = simulateAddress || address;
     const shortAddress = displayAddress
@@ -28,9 +31,28 @@ function ProfileContent() {
         : "";
 
     const { holdingTimes } = useNFTHoldingTimes(nfts, displayAddress);
+    const [hoodStats, setHoodStats] = useState<HoodTycoonCareerStats>(() => getHoodTycoonStats(displayAddress));
 
     useEffect(() => {
-        setMounted(true);
+        if (displayAddress) {
+            queueMicrotask(() => {
+                setHoodStats(getHoodTycoonStats(displayAddress));
+            });
+        }
+    }, [displayAddress]);
+
+    useEffect(() => {
+        const handleStatsUpdated = (e: CustomEvent<HoodTycoonCareerStats>) => {
+            if (e.detail) {
+                setHoodStats(e.detail);
+            }
+        };
+        window.addEventListener('hood_tycoon_stats_updated', handleStatsUpdated as EventListener);
+        return () => window.removeEventListener('hood_tycoon_stats_updated', handleStatsUpdated as EventListener);
+    }, [displayAddress]);
+
+    useEffect(() => {
+        queueMicrotask(() => setMounted(true));
     }, []);
 
     useEffect(() => {
@@ -45,7 +67,7 @@ function ProfileContent() {
                     }
                 }
                 setUserAvatar(null);
-            } catch (e) {
+            } catch {
                 setUserAvatar(null);
             }
         };
@@ -60,11 +82,13 @@ function ProfileContent() {
     // Fetch Herotag (username) from MultiversX Account API
     useEffect(() => {
         if (!displayAddress) {
-            setHerotag(null);
             return;
         }
 
-        setIsFetchingAccount(true);
+        queueMicrotask(() => {
+            setIsFetchingAccount(true);
+        });
+
         fetch(`https://api.multiversx.com/accounts/${displayAddress}`)
             .then((res) => res.json())
             .then((data) => {
@@ -76,8 +100,7 @@ function ProfileContent() {
                     setHerotag(null);
                 }
             })
-            .catch((err) => {
-                console.error("Error fetching account herotag:", err);
+            .catch(() => {
                 setHerotag(null);
             })
             .finally(() => {
@@ -113,7 +136,7 @@ function ProfileContent() {
     const heldSeasons = new Set<number>();
     let hasCollectibles = false;
     let hasHonorary = false;
-    let honoraryNames: string[] = [];
+    const honoraryNames: string[] = [];
     let ogTickets = 0;
 
     nfts.forEach((nft) => {
@@ -179,10 +202,11 @@ function ProfileContent() {
         welcomeName = shortAddress;
     }
 
-    const scrollCarousel = (direction: "left" | "right") => {
-        if (carouselRef.current) {
+    const scrollCarousel = (direction: "left" | "right", targetRef?: React.RefObject<HTMLDivElement | null>) => {
+        const ref = targetRef || carouselRef;
+        if (ref.current) {
             const scrollAmount = direction === "left" ? -340 : 340;
-            carouselRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+            ref.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
         }
     };
 
@@ -226,6 +250,70 @@ function ProfileContent() {
                 )}
             </header>
 
+            {/* Dedicated Profile Navigation Tabs */}
+            <div style={{
+                display: 'flex',
+                gap: '12px',
+                margin: '24px 0',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                paddingBottom: '14px',
+                flexWrap: 'wrap'
+            }}>
+                <button
+                    onClick={() => setActiveTab('holder')}
+                    style={{
+                        padding: '12px 24px',
+                        borderRadius: '14px',
+                        fontSize: '0.95rem',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                        border: activeTab === 'holder' ? '2px solid #ec4899' : '1px solid rgba(255, 255, 255, 0.12)',
+                        background: activeTab === 'holder' ? 'linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(0,0,0,0.6))' : 'rgba(0, 0, 0, 0.4)',
+                        color: activeTab === 'holder' ? '#f472b6' : '#a1a1aa',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        boxShadow: activeTab === 'holder' ? '0 4px 20px rgba(236, 72, 153, 0.25)' : 'none',
+                        transition: 'all 0.2s ease'
+                    }}
+                >
+                    <span>👤</span> Holder Overview
+                </button>
+
+                <button
+                    onClick={() => setActiveTab('hood_tycoon')}
+                    style={{
+                        padding: '12px 24px',
+                        borderRadius: '14px',
+                        fontSize: '0.95rem',
+                        fontWeight: 800,
+                        cursor: 'pointer',
+                        border: activeTab === 'hood_tycoon' ? '2px solid #facc15' : '1px solid rgba(255, 255, 255, 0.12)',
+                        background: activeTab === 'hood_tycoon' ? 'linear-gradient(135deg, rgba(250, 204, 21, 0.2), rgba(0,0,0,0.6))' : 'rgba(0, 0, 0, 0.4)',
+                        color: activeTab === 'hood_tycoon' ? '#facc15' : '#a1a1aa',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        boxShadow: activeTab === 'hood_tycoon' ? '0 4px 20px rgba(250, 204, 21, 0.25)' : 'none',
+                        transition: 'all 0.2s ease'
+                    }}
+                >
+                    <span>🎲</span> HOOD TYCOON
+                    <span style={{
+                        fontSize: '0.7rem',
+                        padding: '2px 8px',
+                        borderRadius: '6px',
+                        background: '#facc15',
+                        color: '#000',
+                        fontWeight: 900,
+                        textTransform: 'uppercase',
+                        marginLeft: '4px'
+                    }}>
+                        {getRankInfo(hoodStats.streetCred).badge} {getRankInfo(hoodStats.streetCred).title}
+                    </span>
+                </button>
+            </div>
+
             {isLoading || isFetchingAccount ? (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', marginTop: '2rem' }}>
                     <div className="profile-top-grid">
@@ -244,6 +332,430 @@ function ProfileContent() {
                     <p style={{ marginTop: '1rem', color: 'var(--text-secondary)' }}>
                         Please connect your MultiversX wallet to view your profile.
                     </p>
+                </div>
+            ) : activeTab === 'hood_tycoon' ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                    {/* Rank Hero Banner */}
+                    <div className="glass-panel" style={{
+                        padding: '28px',
+                        borderRadius: '20px',
+                        border: '2px solid rgba(250, 204, 21, 0.4)',
+                        background: 'linear-gradient(135deg, rgba(250, 204, 21, 0.12) 0%, rgba(147, 51, 234, 0.12) 100%)',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        flexWrap: 'wrap',
+                        gap: '20px'
+                    }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                            <div style={{
+                                width: '64px',
+                                height: '64px',
+                                borderRadius: '50%',
+                                background: 'linear-gradient(135deg, #ca8a04, #eab308)',
+                                border: '2px solid #fde047',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '2rem',
+                                boxShadow: '0 0 20px rgba(250, 204, 21, 0.4)'
+                            }}>
+                                {getRankInfo(hoodStats.streetCred).badge}
+                            </div>
+                            <div>
+                                <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                                    HOOD TYCOON CAREER RANK
+                                </span>
+                                <h2 style={{ fontSize: '1.6rem', fontWeight: 900, color: getRankInfo(hoodStats.streetCred).color, margin: '2px 0 0 0' }}>
+                                    {getRankInfo(hoodStats.streetCred).title}
+                                </h2>
+                            </div>
+                        </div>
+
+                        <Link
+                            href="/#hood-tycoon"
+                            style={{
+                                background: 'linear-gradient(135deg, #ca8a04, #facc15)',
+                                color: '#000',
+                                fontWeight: 900,
+                                fontSize: '0.85rem',
+                                padding: '10px 20px',
+                                borderRadius: '12px',
+                                textDecoration: 'none',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.5px',
+                                boxShadow: '0 4px 20px rgba(250, 204, 21, 0.4)',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '6px'
+                            }}
+                        >
+                            <span>🎮 Hood Tycoon</span>
+                            <span style={{ fontSize: '0.65rem', background: '#000', color: '#facc15', padding: '2px 6px', borderRadius: '4px', fontWeight: 900 }}>COMING SOON</span>
+                        </Link>
+                    </div>
+
+                    {/* 5 Stat Cards Grid */}
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                        gap: '16px'
+                    }}>
+                        {/* Stat 0: $PFKC Balance */}
+                        {(() => {
+                            const totalHoldingCoins = nfts.reduce((acc, nft) => {
+                                const h = holdingTimes[nft.identifier];
+                                const days = h ? (h.daysHeld || 0) : 0;
+                                const sVal = getNFTSeasonValue(nft);
+                                const isOGItem = sVal !== "collectibles" && sVal !== "";
+                                const rate = isOGItem ? 2 : 1;
+                                return acc + (days * rate);
+                            }, 0);
+                            const totalCoins = (hoodStats.coins || 150) + totalHoldingCoins;
+                            return (
+                                <div className="glass-panel" style={{
+                                    padding: '20px',
+                                    borderRadius: '16px',
+                                    border: '2px solid rgba(250, 204, 21, 0.6)',
+                                    background: 'linear-gradient(135deg, rgba(250, 204, 21, 0.15), rgba(0,0,0,0.6))',
+                                    boxShadow: '0 4px 20px rgba(250, 204, 21, 0.2)'
+                                }}>
+                                    <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#facc15', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                        🪙 Available $PFKC
+                                    </span>
+                                    <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#fff', marginTop: '4px', textShadow: '0 0 10px rgba(250, 204, 21, 0.5)' }}>
+                                        {totalCoins} <span style={{ fontSize: '0.9rem', color: '#facc15', fontWeight: 800 }}>$PFKC</span>
+                                    </div>
+                                    <div style={{ fontSize: '0.72rem', color: '#4ade80', marginTop: '4px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                        <span>💎</span> +{totalHoldingCoins} $PFKC from Holding (+2 $PFKC/Day per OG, +1 $PFKC/Day per Collectibles)
+                                    </div>
+                                </div>
+                            );
+                        })()}
+
+                        {/* Stat 1: Total REP */}
+                        <div className="glass-panel" style={{ padding: '20px', borderRadius: '16px', border: '1px solid rgba(250, 204, 21, 0.3)' }}>
+                            <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#a1a1aa', textTransform: 'uppercase' }}>
+                                🏆 Total REP
+                            </span>
+                            <div style={{ fontSize: '2rem', fontWeight: 900, color: '#facc15', marginTop: '6px' }}>
+                                {hoodStats.streetCred} <span style={{ fontSize: '0.9rem', color: '#fde047' }}>REP</span>
+                            </div>
+                        </div>
+
+                        {/* Stat 2: Win/Loss Ratio */}
+                        <div className="glass-panel" style={{ padding: '20px', borderRadius: '16px', border: '1px solid rgba(56, 189, 248, 0.3)' }}>
+                            <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#a1a1aa', textTransform: 'uppercase' }}>
+                                ⚔️ Record (W / L)
+                            </span>
+                            <div style={{ fontSize: '1.6rem', fontWeight: 900, color: '#38bdf8', marginTop: '6px' }}>
+                                {hoodStats.wins}W - {hoodStats.losses}L
+                                <span style={{ fontSize: '0.85rem', color: '#a1a1aa', marginLeft: '8px', fontWeight: 600 }}>
+                                    ({hoodStats.totalGames > 0 ? Math.round((hoodStats.wins / hoodStats.totalGames) * 100) : 0}% Win Rate)
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Stat 3: Best Score & Streak */}
+                        <div className="glass-panel" style={{ padding: '20px', borderRadius: '16px', border: '1px solid rgba(168, 85, 247, 0.3)' }}>
+                            <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#a1a1aa', textTransform: 'uppercase' }}>
+                                🔥 Best Score & Streak
+                            </span>
+                            <div style={{ fontSize: '1.4rem', fontWeight: 900, color: '#c084fc', marginTop: '6px' }}>
+                                Best: {hoodStats.bestScore} Pts
+                                <span style={{ fontSize: '0.85rem', color: '#fde047', marginLeft: '10px' }}>
+                                    🔥 {hoodStats.currentStreak} Streak
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Stat 4: Total Matches */}
+                        <div className="glass-panel" style={{ padding: '20px', borderRadius: '16px', border: '1px solid rgba(74, 222, 128, 0.3)' }}>
+                            <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#a1a1aa', textTransform: 'uppercase' }}>
+                                🎮 Total Matches Played
+                            </span>
+                            <div style={{ fontSize: '2rem', fontWeight: 900, color: '#4ade80', marginTop: '6px' }}>
+                                {hoodStats.totalGames} <span style={{ fontSize: '0.9rem', color: '#a1a1aa' }}>Matches</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Section: Badges Carousel under Hood Tycoon Stats */}
+                    {(() => {
+                        const totalHoldingCoins = nfts.reduce((acc, nft) => {
+                            const h = holdingTimes[nft.identifier];
+                            const days = h ? (h.daysHeld || 0) : 0;
+                            const sVal = getNFTSeasonValue(nft);
+                            const isOGItem = sVal !== "collectibles" && sVal !== "";
+                            const rate = isOGItem ? 2 : 1;
+                            return acc + (days * rate);
+                        }, 0);
+                        const currentBalance = (hoodStats.coins || 150) + totalHoldingCoins;
+
+                        const isFirstHustle = hoodStats.totalGames >= 1;
+                        const isFirstVictory = hoodStats.wins >= 1;
+                        const isHotStreak = hoodStats.bestStreak >= 3;
+                        const isBribeMaster = currentBalance >= 500;
+                        const isStreetCredBoss = hoodStats.streetCred >= 500;
+                        const isCenturyMaster = hoodStats.bestScore >= 100;
+
+                        const unlockedGameBadges = [
+                            isFirstHustle,
+                            isFirstVictory,
+                            isHotStreak,
+                            isBribeMaster,
+                            isStreetCredBoss,
+                            isCenturyMaster
+                        ].filter(Boolean).length;
+
+                        const isDonOfTheBlock = unlockedGameBadges === 6 && hoodStats.streetCred >= 1500;
+                        const totalGameUnlockedCount = unlockedGameBadges + (isDonOfTheBlock ? 1 : 0);
+                        const gameProgressPercent = (totalGameUnlockedCount / 7) * 100;
+
+                        return (
+                            <div className="profile-badges-section" style={{ marginTop: '8px' }}>
+                                <div className="badges-section-header">
+                                    <div>
+                                        <h3 style={{ fontSize: '1.4rem', fontWeight: 900, margin: 0, display: 'flex', alignItems: 'center', gap: '8px', color: '#fff' }}>
+                                            <span>🎲</span> Hood Tycoon Game Achievements
+                                        </h3>
+                                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', margin: '4px 0 0 0' }}>
+                                            Unlocked {totalGameUnlockedCount} of 7 Game Badges • Scroll to view all
+                                        </p>
+                                    </div>
+
+                                    {/* Carousel Controls */}
+                                    <div className="carousel-nav-buttons">
+                                        <button onClick={() => scrollCarousel("left", hoodCarouselRef)} className="carousel-btn" aria-label="Previous Badges">
+                                            ←
+                                        </button>
+                                        <button onClick={() => scrollCarousel("right", hoodCarouselRef)} className="carousel-btn" aria-label="Next Badges">
+                                            →
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Progress Bar */}
+                                <div className="badge-progress-card" style={{ marginBottom: '1.25rem' }}>
+                                    <div className="badge-progress-header">
+                                        <span className="badge-progress-title">Game Career Progress</span>
+                                        <span className="badge-progress-stats">{totalGameUnlockedCount} / 7 Unlocked ({gameProgressPercent.toFixed(0)}%)</span>
+                                    </div>
+                                    <div className="badge-progress-bar-bg">
+                                        <div 
+                                            className="badge-progress-bar-fill" 
+                                            style={{ width: `${gameProgressPercent}%`, background: 'linear-gradient(90deg, #ca8a04, #facc15)' }}
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Badges Carousel Track */}
+                                <div className="badges-carousel-container" ref={hoodCarouselRef}>
+                                    <div className="badges-carousel-track">
+                                        {/* 1. First Hustle */}
+                                        <div className={`badge-detail-card carousel-badge-card ${isFirstHustle ? 'unlocked' : 'locked'}`}>
+                                            <div className="badge-detail-card-icon">
+                                                🧢
+                                                {!isFirstHustle && <div className="badge-detail-card-lock">🔒</div>}
+                                            </div>
+                                            <h3 className="badge-detail-card-title">First Hustle</h3>
+                                            <p className="badge-detail-card-desc">
+                                                Stepped onto the block and played your first match in Hood Tycoon.
+                                            </p>
+                                            <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '16px', textAlign: 'left', width: '100%' }}>
+                                                <strong>Requirement:</strong> Play ≥ 1 match
+                                                <div style={{ marginTop: '6px', color: isFirstHustle ? '#10b981' : 'var(--text-secondary)' }}>
+                                                    {isFirstHustle ? `✅ Played ${hoodStats.totalGames} match(es)` : "❌ No matches played yet"}
+                                                </div>
+                                            </div>
+                                            <span className="badge-detail-card-status-badge">
+                                                {isFirstHustle ? "Unlocked" : "Locked"}
+                                            </span>
+                                        </div>
+
+                                        {/* 2. Block Victory */}
+                                        <div className={`badge-detail-card carousel-badge-card ${isFirstVictory ? 'unlocked' : 'locked'}`}>
+                                            <div className="badge-detail-card-icon">
+                                                🏆
+                                                {!isFirstVictory && <div className="badge-detail-card-lock">🔒</div>}
+                                            </div>
+                                            <h3 className="badge-detail-card-title">Block Victory</h3>
+                                            <p className="badge-detail-card-desc">
+                                                Outsmarted the rival Bot and conquered your first Hood Tycoon victory.
+                                            </p>
+                                            <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '16px', textAlign: 'left', width: '100%' }}>
+                                                <strong>Requirement:</strong> Win ≥ 1 match
+                                                <div style={{ marginTop: '6px', color: isFirstVictory ? '#10b981' : 'var(--text-secondary)' }}>
+                                                    {isFirstVictory ? `✅ Wins: ${hoodStats.wins}` : "❌ Win 1 match"}
+                                                </div>
+                                            </div>
+                                            <span className="badge-detail-card-status-badge">
+                                                {isFirstVictory ? "Unlocked" : "Locked"}
+                                            </span>
+                                        </div>
+
+                                        {/* 3. Hot Streak */}
+                                        <div className={`badge-detail-card carousel-badge-card ${isHotStreak ? 'unlocked' : 'locked'}`}>
+                                            <div className="badge-detail-card-icon">
+                                                🔥
+                                                {!isHotStreak && <div className="badge-detail-card-lock">🔒</div>}
+                                            </div>
+                                            <h3 className="badge-detail-card-title">Hot Streak</h3>
+                                            <p className="badge-detail-card-desc">
+                                                Dominating the streets! Achieved a winning streak of 3 consecutive matches.
+                                            </p>
+                                            <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '16px', textAlign: 'left', width: '100%' }}>
+                                                <strong>Requirement:</strong> Streak ≥ 3 wins
+                                                <div style={{ marginTop: '6px', color: isHotStreak ? '#10b981' : 'var(--text-secondary)' }}>
+                                                    {isHotStreak ? `✅ Best streak: 🔥 ${hoodStats.bestStreak}` : `❌ Best streak: ${hoodStats.bestStreak} / 3`}
+                                                </div>
+                                            </div>
+                                            <span className="badge-detail-card-status-badge">
+                                                {isHotStreak ? "Unlocked" : "Locked"}
+                                            </span>
+                                        </div>
+
+                                        {/* 4. Bribe Master */}
+                                        <div className={`badge-detail-card carousel-badge-card ${isBribeMaster ? 'unlocked' : 'locked'}`}>
+                                            <div className="badge-detail-card-icon">
+                                                🪙
+                                                {!isBribeMaster && <div className="badge-detail-card-lock">🔒</div>}
+                                            </div>
+                                            <h3 className="badge-detail-card-title">Bribe Master</h3>
+                                            <p className="badge-detail-card-desc">
+                                                High roller status! Accumulated a balance of 500 or more Hood Coins.
+                                            </p>
+                                            <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '16px', textAlign: 'left', width: '100%' }}>
+                                                <strong>Requirement:</strong> Balance ≥ 500 Coins
+                                                <div style={{ marginTop: '6px', color: isBribeMaster ? '#10b981' : 'var(--text-secondary)' }}>
+                                                    {isBribeMaster ? `✅ Balance: ${currentBalance} Coins` : `❌ Current: ${currentBalance} / 500 Coins`}
+                                                </div>
+                                            </div>
+                                            <span className="badge-detail-card-status-badge">
+                                                {isBribeMaster ? "Unlocked" : "Locked"}
+                                            </span>
+                                        </div>
+
+                                        {/* 5. Street Cred Boss */}
+                                        <div className={`badge-detail-card carousel-badge-card ${isStreetCredBoss ? 'unlocked' : 'locked'}`}>
+                                            <div className="badge-detail-card-icon">
+                                                💼
+                                                {!isStreetCredBoss && <div className="badge-detail-card-lock">🔒</div>}
+                                            </div>
+                                            <h3 className="badge-detail-card-title">Street Cred Boss</h3>
+                                            <p className="badge-detail-card-desc">
+                                                Respected in all 4 districts! Earned 500 or more Total Street Cred points.
+                                            </p>
+                                            <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '16px', textAlign: 'left', width: '100%' }}>
+                                                <strong>Requirement:</strong> Street Cred ≥ 500 Pts
+                                                <div style={{ marginTop: '6px', color: isStreetCredBoss ? '#10b981' : 'var(--text-secondary)' }}>
+                                                    {isStreetCredBoss ? `✅ Total Cred: ${hoodStats.streetCred} Pts` : `❌ Progress: ${hoodStats.streetCred} / 500 Pts`}
+                                                </div>
+                                            </div>
+                                            <span className="badge-detail-card-status-badge">
+                                                {isStreetCredBoss ? "Unlocked" : "Locked"}
+                                            </span>
+                                        </div>
+
+                                        {/* 6. Century Master */}
+                                        <div className={`badge-detail-card carousel-badge-card ${isCenturyMaster ? 'unlocked' : 'locked'}`}>
+                                            <div className="badge-detail-card-icon">
+                                                ⚡
+                                                {!isCenturyMaster && <div className="badge-detail-card-lock">🔒</div>}
+                                            </div>
+                                            <h3 className="badge-detail-card-title">Century Master</h3>
+                                            <p className="badge-detail-card-desc">
+                                                Flawless victory! Scored 100 or more street points in a single match.
+                                            </p>
+                                            <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '16px', textAlign: 'left', width: '100%' }}>
+                                                <strong>Requirement:</strong> Match score ≥ 100 Pts
+                                                <div style={{ marginTop: '6px', color: isCenturyMaster ? '#10b981' : 'var(--text-secondary)' }}>
+                                                    {isCenturyMaster ? `✅ Best match score: ${hoodStats.bestScore} Pts` : `❌ Best score: ${hoodStats.bestScore} / 100 Pts`}
+                                                </div>
+                                            </div>
+                                            <span className="badge-detail-card-status-badge">
+                                                {isCenturyMaster ? "Unlocked" : "Locked"}
+                                            </span>
+                                        </div>
+
+                                        {/* 7. Don of the Block */}
+                                        <div className={`badge-detail-card carousel-badge-card ${isDonOfTheBlock ? 'unlocked' : 'locked'}`}>
+                                            <div className="badge-detail-card-icon">
+                                                👑
+                                                {!isDonOfTheBlock && <div className="badge-detail-card-lock">🔒</div>}
+                                            </div>
+                                            <h3 className="badge-detail-card-title">Don of the Block</h3>
+                                            <p className="badge-detail-card-desc">
+                                                The undisputed master of Hood Politics. Unlocked all 6 game achievements and reached 1500+ Cred.
+                                            </p>
+                                            <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '16px', textAlign: 'left', width: '100%' }}>
+                                                <strong>Requirement:</strong> Unlock 6 game badges + 1500 Cred
+                                                <div style={{ marginTop: '6px', color: isDonOfTheBlock ? '#10b981' : 'var(--text-secondary)' }}>
+                                                    {isDonOfTheBlock ? "✅ You are the Don of Hood Tycoon!" : `❌ Progress: ${unlockedGameBadges} / 6 badges unlocked`}
+                                                </div>
+                                            </div>
+                                            <span className="badge-detail-card-status-badge">
+                                                {isDonOfTheBlock ? "Unlocked" : "Locked"}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })()}
+
+                    {/* Recent Match History */}
+                    <div className="glass-panel" style={{ padding: '24px', borderRadius: '20px' }}>
+                        <h3 style={{ fontSize: '1.1rem', fontWeight: 900, color: '#fff', margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span>📜</span> Recent Match History
+                        </h3>
+
+                        {hoodStats.history.length === 0 ? (
+                            <div style={{ textAlign: 'center', padding: '30px', color: '#a1a1aa', fontSize: '0.9rem' }}>
+                                No matches played yet. Click <strong>Play Hood Tycoon Now</strong> to launch your first battle!
+                            </div>
+                        ) : (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                {hoodStats.history.map((m, idx) => (
+                                    <div
+                                        key={m.id || idx}
+                                        style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                            padding: '12px 16px',
+                                            borderRadius: '12px',
+                                            background: 'rgba(0, 0, 0, 0.5)',
+                                            border: `1px solid ${m.result === 'win' ? 'rgba(16, 185, 129, 0.4)' : m.result === 'loss' ? 'rgba(244, 63, 94, 0.4)' : 'rgba(255, 255, 255, 0.1)'}`
+                                        }}
+                                    >
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                            <span style={{
+                                                fontSize: '0.75rem',
+                                                fontWeight: 900,
+                                                padding: '4px 10px',
+                                                borderRadius: '6px',
+                                                textTransform: 'uppercase',
+                                                background: m.result === 'win' ? 'rgba(16, 185, 129, 0.2)' : m.result === 'loss' ? 'rgba(244, 63, 94, 0.2)' : 'rgba(255, 255, 255, 0.1)',
+                                                color: m.result === 'win' ? '#10b981' : m.result === 'loss' ? '#f43f5e' : '#fff'
+                                            }}>
+                                                {m.result}
+                                            </span>
+                                            <span style={{ fontSize: '0.9rem', fontWeight: 800, color: '#fff' }}>
+                                                You ({m.playerScore}) - Bot ({m.botScore})
+                                            </span>
+                                        </div>
+
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', fontSize: '0.8rem', color: '#a1a1aa' }}>
+                                            <span style={{ color: '#facc15', fontWeight: 800 }}>+{m.streetCredEarned} REP</span>
+                                            <span>{m.date}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
             ) : (
                 <div className="profile-main-layout">

@@ -276,7 +276,7 @@ export function SharedNFTClient({ nft, theme = "cyberpunk", tag = "" }: SharedNF
                                 <div style={{ height: "1px", background: "rgba(255, 255, 255, 0.1)", margin: "2px 0" }} />
 
                                 <div style={{ fontSize: "1rem", fontStyle: "italic", color: "rgba(255, 255, 255, 0.85)", lineHeight: "1.4" }}>
-                                    "{mission !== "N/A" ? mission : "Perfect Fucking People"}"
+                                    &quot;{mission !== "N/A" ? mission : "Perfect Fucking People"}&quot;
                                 </div>
                             </div>
 
@@ -342,7 +342,7 @@ export function SharedNFTClient({ nft, theme = "cyberpunk", tag = "" }: SharedNF
                                         marginBottom: "16px",
                                     }}
                                 >
-                                    "{mission !== "N/A" ? mission : "Perfect Fucking People"}"
+                                    &quot;{mission !== "N/A" ? mission : "Perfect Fucking People"}&quot;
                                 </div>
 
                                 {/* Attributes */}

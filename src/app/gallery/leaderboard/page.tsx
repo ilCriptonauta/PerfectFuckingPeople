@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useGetIsLoggedIn } from "@multiversx/sdk-dapp/out/react/account/useGetIsLoggedIn";
 import { useGetAccountInfo } from "@multiversx/sdk-dapp/out/react/account/useGetAccountInfo";
+import { MultiversXNFT } from "@/types/nft.types";
+import { getGameLeaderboardStandings, GameLeaderboardEntry } from "@/utils/hoodTycoonStats";
 
 const COLLECTION_ID = "PFP-717e46";
 const ADMIN_ADDRESS = "erd1vhkwevjs3v0564x7j4j7z2jl4n9zhpfvys9ddvn5m6j40fqn4fssxl65u8";
@@ -33,6 +35,26 @@ interface Holder {
   username: string;
 }
 
+function getPlayerGameBadges(entry: GameLeaderboardEntry) {
+  const isFirstHustle = entry.totalGames >= 1;
+  const isBlockVictory = entry.wins >= 1;
+  const isHotStreak = entry.bestStreak >= 3;
+  const isBribeMaster = entry.coins >= 500;
+  const isStreetCredBoss = entry.streetCred >= 500;
+  const isCenturyMaster = entry.totalGames >= 10;
+  const isDonOfTheBlock = entry.totalGames >= 5 && entry.streetCred >= 1500;
+
+  return [
+    { title: 'First Hustle', icon: '🎮', unlocked: isFirstHustle, desc: 'Played at least 1 match' },
+    { title: 'Block Victory', icon: '🏙️', unlocked: isBlockVictory, desc: 'Won at least 1 match' },
+    { title: 'Hot Streak', icon: '🔥', unlocked: isHotStreak, desc: '3+ Win Streak' },
+    { title: 'Bribe Master', icon: '🪙', unlocked: isBribeMaster, desc: '500+ $PFKC Balance' },
+    { title: 'Street Cred Boss', icon: '💼', unlocked: isStreetCredBoss, desc: '500+ REP Points' },
+    { title: 'Century Master', icon: '💯', unlocked: isCenturyMaster, desc: '10+ Total Matches' },
+    { title: 'Don of the Block', icon: '👑', unlocked: isDonOfTheBlock, desc: 'Dominant Boss Status' },
+  ];
+}
+
 export default function LeaderboardPage() {
   const isLoggedIn = useGetIsLoggedIn();
   const router = useRouter();
@@ -52,6 +74,13 @@ export default function LeaderboardPage() {
   
   const [copiedAddress, setCopiedAddress] = useState<string | null>(null);
   const [expandedAddress, setExpandedAddress] = useState<string | null>(null);
+  const [expandedGameAddress, setExpandedGameAddress] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'holders' | 'game'>('holders');
+
+  const totalDistributedCoins = useMemo(() => {
+    const standings = getGameLeaderboardStandings(holders, currentAddress);
+    return standings.reduce((sum, entry) => sum + (entry.coins || 150), 0);
+  }, [holders, currentAddress]);
 
   // Lazy loading details for holders
   const [nftDetails, setNftDetails] = useState<Record<string, NFTItem[]>>({});
@@ -87,18 +116,18 @@ export default function LeaderboardPage() {
       setIsLoading(true);
       setError(null);
       try {
-        // 1. Fetch the list of accounts holding collection NFTs
-        const res = await fetch(`https://api.multiversx.com/collections/${COLLECTION_ID}/accounts?size=100`);
+        // 1. Fetch the list of accounts holding collection NFTs (size 1000 to cover all tokens)
+        const res = await fetch(`https://api.multiversx.com/collections/${COLLECTION_ID}/accounts?size=1000`);
         if (!res.ok) {
           throw new Error("Failed to fetch collection accounts");
         }
         const data = await res.json();
         
-        // 2. Aggregate balances and filter out contract addresses
+        // 2. Aggregate balances and filter out contract addresses (starts with erd1qqqqqqqqqqqqqpg)
         const counts: Record<string, number> = {};
-        data.forEach((item: any) => {
+        data.forEach((item: { address?: string }) => {
           if (item.address) {
-            if (!item.address.startsWith("erd1qqqqqqqqqqqqqpgq")) {
+            if (!item.address.startsWith("erd1qqqqqqqqqqqqqpg")) {
               counts[item.address] = (counts[item.address] || 0) + 1;
             }
           }
@@ -117,7 +146,7 @@ export default function LeaderboardPage() {
           if (accsRes.ok) {
             const accountsInfo = await accsRes.json();
             const usernameMap: Record<string, string> = {};
-            accountsInfo.forEach((acc: any) => {
+            accountsInfo.forEach((acc: { address: string; username?: string }) => {
               if (acc.username) {
                 usernameMap[acc.address] = acc.username;
               }
@@ -132,9 +161,9 @@ export default function LeaderboardPage() {
         }
 
         setHolders(sortedHolders);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Error building leaderboard:", err);
-        setError(err.message || "Failed to load leaderboard data");
+        setError(err instanceof Error ? err.message : "Failed to load leaderboard data");
       } finally {
         setIsLoading(false);
       }
@@ -185,14 +214,14 @@ export default function LeaderboardPage() {
       const now = Math.floor(Date.now() / 1000);
 
       const userNfts = await Promise.all(
-        (rawNfts || []).map(async (nft: any) => {
+        (rawNfts || []).map(async (nft: MultiversXNFT) => {
           let holdingTimestamp: number | null = null;
           try {
             const txRes = await fetch(`https://api.multiversx.com/nfts/${nft.identifier}/transactions?status=success&size=5`);
             if (txRes.ok) {
               const txs = await txRes.json();
               if (Array.isArray(txs) && txs.length > 0) {
-                const lastRx = txs.find((t: any) => t.receiver === address || t.action?.arguments?.receiver === address);
+                const lastRx = txs.find((t: { receiver?: string; action?: { arguments?: { receiver?: string } }; timestamp?: number }) => t.receiver === address || t.action?.arguments?.receiver === address);
                 if (lastRx && lastRx.timestamp) {
                   holdingTimestamp = lastRx.timestamp;
                 } else if (txs[0] && txs[0].timestamp) {
@@ -200,7 +229,7 @@ export default function LeaderboardPage() {
                 }
               }
             }
-          } catch (e) {}
+          } catch {}
 
           if (!holdingTimestamp && nft.timestamp) {
             holdingTimestamp = nft.timestamp;
@@ -217,9 +246,10 @@ export default function LeaderboardPage() {
       );
 
       setNftDetails(prev => ({ ...prev, [address]: userNfts || [] }));
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(`Error fetching details for ${address}:`, err);
-      setDetailsErrors(prev => ({ ...prev, [address]: err.message || "Failed to load details" }));
+      const msg = err instanceof Error ? err.message : "Failed to load details";
+      setDetailsErrors(prev => ({ ...prev, [address]: msg }));
     } finally {
       setLoadingDetails(prev => ({ ...prev, [address]: false }));
     }
@@ -292,11 +322,46 @@ export default function LeaderboardPage() {
     URL.revokeObjectURL(url);
   };
 
+  const exportTokenomicsSupply = () => {
+    const standings = getGameLeaderboardStandings(holders, currentAddress);
+    const totalSupply = standings.reduce((sum, entry) => sum + (entry.coins || 150), 0);
+
+    const tokenomicsReport = {
+      tokenName: "Perfect Fucking Coin",
+      tokenTicker: "PFKC",
+      collectionId: COLLECTION_ID,
+      snapshotTimestamp: new Date().toISOString(),
+      totalCoinsDistributed: totalSupply,
+      totalHoldersCount: standings.length,
+      holdersSnapshot: standings.map(entry => ({
+        address: entry.address,
+        username: entry.username || getShortAddress(entry.address),
+        pfkcBalance: entry.coins || 150,
+        streetCredRep: entry.streetCred || 0,
+        totalGamesPlayed: entry.totalGames || 0,
+        wins: entry.wins || 0,
+        losses: entry.losses || 0,
+        winRatePercent: entry.winRate || 0,
+        rankTitle: entry.rankTitle || 'Unranked'
+      }))
+    };
+
+    const blob = new Blob([JSON.stringify(tokenomicsReport, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const downloadAnchor = document.createElement("a");
+    downloadAnchor.href = url;
+    downloadAnchor.download = `PFKC_Tokenomics_Supply_Snapshot_${COLLECTION_ID}.json`;
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    document.body.removeChild(downloadAnchor);
+    URL.revokeObjectURL(url);
+  };
+
   const ensureAllDetailsLoaded = async (currentHoldersList: Holder[]) => {
     setIsFetchingAllDetails(true);
     try {
       // Fetch all NFTs with owners (paging by 100 to avoid MultiversX API size limits)
-      let allNftsWithOwner: any[] = [];
+      let allNftsWithOwner: (MultiversXNFT & { owner?: string })[] = [];
       let from = 0;
       const pageSize = 100;
       let hasMore = true;
@@ -320,7 +385,7 @@ export default function LeaderboardPage() {
       const now = Math.floor(Date.now() / 1000);
       // Group NFTs by owner
       const grouped: Record<string, NFTItem[]> = {};
-      allNftsWithOwner.forEach((nft: any) => {
+      allNftsWithOwner.forEach((nft) => {
         const ownerAddr = nft.owner;
         if (ownerAddr) {
           if (!grouped[ownerAddr]) {
@@ -348,7 +413,7 @@ export default function LeaderboardPage() {
 
       setNftDetails(newNftDetails);
       return newNftDetails;
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error pre-fetching OG data in bulk:", err);
       return nftDetails;
     } finally {
@@ -516,10 +581,120 @@ export default function LeaderboardPage() {
               >
                 🎁 OG Giveaway
               </button>
+
+              <button 
+                onClick={exportTokenomicsSupply}
+                className="btn-admin-action"
+                style={{ background: 'linear-gradient(135deg, rgba(250, 204, 21, 0.25), rgba(0,0,0,0.8))', border: '1px solid rgba(250, 204, 21, 0.5)', color: '#facc15' }}
+                title="Export complete Tokenomics Supply & Holders Breakdown (.json) for token issuance"
+              >
+                🪙 Export Tokenomics (.json)
+              </button>
             </div>
           </div>
         )}
       </header>
+
+      {/* Tab Navigation Switcher */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '12px',
+        marginBottom: '2rem',
+        flexWrap: 'wrap'
+      }}>
+        <button
+          onClick={() => setActiveTab('holders')}
+          style={{
+            padding: '12px 28px',
+            borderRadius: '16px',
+            fontWeight: 900,
+            fontSize: '0.95rem',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            border: activeTab === 'holders' ? '2px solid var(--accent-secondary)' : '1px solid var(--border)',
+            background: activeTab === 'holders' ? 'linear-gradient(135deg, rgba(236, 72, 153, 0.25), rgba(0,0,0,0.7))' : 'rgba(18, 18, 26, 0.7)',
+            color: activeTab === 'holders' ? '#fff' : 'var(--text-secondary)',
+            boxShadow: activeTab === 'holders' ? '0 0 25px rgba(236, 72, 153, 0.3)' : 'none'
+          }}
+        >
+          🖼️ NFT Holders Leaderboard ({holders.length})
+        </button>
+
+        <button
+          onClick={() => setActiveTab('game')}
+          style={{
+            padding: '12px 28px',
+            borderRadius: '16px',
+            fontWeight: 900,
+            fontSize: '0.95rem',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            border: activeTab === 'game' ? '2px solid #facc15' : '1px solid var(--border)',
+            background: activeTab === 'game' ? 'linear-gradient(135deg, rgba(250, 204, 21, 0.25), rgba(0,0,0,0.7))' : 'rgba(18, 18, 26, 0.7)',
+            color: activeTab === 'game' ? '#facc15' : 'var(--text-secondary)',
+            boxShadow: activeTab === 'game' ? '0 0 25px rgba(250, 204, 21, 0.3)' : 'none'
+          }}
+        >
+          👑 Hood Tycoon Game Leaderboard
+        </button>
+      </div>
+
+      {/* Total $PFKC Distributed Banner */}
+      {!isLoading && !error && (
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          background: 'linear-gradient(135deg, rgba(250, 204, 21, 0.12), rgba(18, 18, 26, 0.85))',
+          border: '1px solid rgba(250, 204, 21, 0.35)',
+          boxShadow: '0 8px 30px rgba(250, 204, 21, 0.15)',
+          borderRadius: '16px',
+          padding: '16px 24px',
+          marginBottom: '1.75rem',
+          flexWrap: 'wrap',
+          gap: '12px'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+            <div style={{
+              width: '44px',
+              height: '44px',
+              borderRadius: '50%',
+              background: 'rgba(250, 204, 21, 0.2)',
+              border: '1px solid rgba(250, 204, 21, 0.5)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '1.4rem'
+            }}>
+              🪙
+            </div>
+            <div>
+              <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#facc15', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                Total $PFKC Distributed
+              </div>
+              <div style={{ fontSize: '1.6rem', fontWeight: 900, color: '#fff', margin: '2px 0 0 0' }}>
+                {totalDistributedCoins.toLocaleString('en-US')} <span style={{ fontSize: '0.9rem', color: '#facc15' }}>$PFKC</span>
+              </div>
+            </div>
+          </div>
+
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            background: 'rgba(0, 0, 0, 0.4)',
+            padding: '8px 14px',
+            borderRadius: '10px',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            fontSize: '0.78rem',
+            color: '#a1a1aa',
+            fontWeight: 600
+          }}>
+            <span>💎 Holding Yield (+2 $PFKC/day OG, +1 $PFKC/day Collectible) + In-Game Rewards</span>
+          </div>
+        </div>
+      )}
 
       {isLoading ? (
         <div className="leaderboard-table-card" style={{ padding: '3rem', textAlign: 'center' }}>
@@ -532,22 +707,223 @@ export default function LeaderboardPage() {
             borderTopColor: 'var(--accent-secondary)',
             animation: 'spin 1s linear infinite'
           }}></div>
-          <p style={{ color: 'var(--text-secondary)' }}>Loading holders data...</p>
+          <p style={{ color: 'var(--text-secondary)' }}>Loading leaderboard data...</p>
         </div>
       ) : error ? (
         <div className="glass-panel" style={{ padding: '3rem', textAlign: 'center', color: '#ff4d4d' }}>
           <p>Error loading leaderboard: {error}</p>
         </div>
+      ) : activeTab === 'game' ? (
+        /* Hood Tycoon Game Leaderboard Table */
+        <div className="leaderboard-table-card">
+          <div className="leaderboard-table-responsive">
+            <table className="leaderboard-table">
+              <thead>
+                <tr>
+                  <th style={{ width: '6%' }}>Rank</th>
+                  <th style={{ width: '34%' }}>Player</th>
+                  <th style={{ width: '12%' }}>REP</th>
+                  <th style={{ width: '16%' }}>Record (W/L)</th>
+                  <th style={{ width: '8%' }}>Streak</th>
+                  <th style={{ width: '24%', textAlign: 'right' }}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {getGameLeaderboardStandings(holders, currentAddress).map((entry, idx) => {
+                  const rank = idx + 1;
+                  const isMe = Boolean(currentAddress && entry.address.toLowerCase() === currentAddress.toLowerCase());
+
+                  return (
+                    <React.Fragment key={entry.address}>
+                      <tr 
+                        className="leaderboard-row clickable"
+                        onClick={() => setExpandedGameAddress(expandedGameAddress === entry.address ? null : entry.address)}
+                      >
+                        <td>
+                          <div className="rank-cell">
+                            {rank === 1 ? (
+                              <div className="rank-badge rank-1" title="Don of Hood Tycoon">👑</div>
+                            ) : rank === 2 ? (
+                              <div className="rank-badge rank-2">🥈</div>
+                            ) : rank === 3 ? (
+                              <div className="rank-badge rank-3">🥉</div>
+                            ) : (
+                              <div className="rank-badge rank-other">{rank}</div>
+                            )}
+                          </div>
+                        </td>
+                        <td>
+                          <div className="identity-cell">
+                            <div className="herotag-name" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <span>
+                                {entry.username || getShortAddress(entry.address)}
+                              </span>
+                              {isMe && <span className="owner-badge">You</span>}
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div style={{ fontWeight: 900, color: entry.streetCred > 0 ? '#facc15' : '#71717a', fontSize: '1.05rem' }}>
+                            {entry.streetCred} <span style={{ fontSize: '0.75rem', color: '#a1a1aa' }}>REP</span>
+                          </div>
+                        </td>
+                        <td>
+                          <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#fff' }}>
+                            <span style={{ color: entry.wins > 0 ? '#4ade80' : '#71717a' }}>{entry.wins}W</span> - <span style={{ color: entry.losses > 0 ? '#f87171' : '#71717a' }}>{entry.losses}L</span>
+                            <div style={{ fontSize: '0.72rem', color: '#a1a1aa' }}>
+                              {entry.totalGames > 0 ? `${entry.winRate}% Win Rate` : 'No matches played'}
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div style={{ fontSize: '0.9rem', fontWeight: 800, color: entry.bestStreak > 0 ? '#f59e0b' : '#71717a' }}>
+                            {entry.bestStreak > 0 ? `🔥 ${entry.bestStreak}` : '0'}
+                          </div>
+                        </td>
+                        <td>
+                          <div className="actions-cell" style={{ justifyContent: 'flex-end' }}>
+                            <Link 
+                              href={`/gallery/profile?simulate=${entry.address}`} 
+                              className="btn-action btn-action-primary"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              Inspect
+                            </Link>
+                          </div>
+                        </td>
+                      </tr>
+
+                      {/* Expandable Game Career Dossier Panel */}
+                      {expandedGameAddress === entry.address && (
+                        <tr className="expanded-detail-row">
+                          <td colSpan={6}>
+                            <div className="expanded-detail-container" style={{
+                              background: 'linear-gradient(135deg, rgba(18, 18, 26, 0.95), rgba(0, 0, 0, 0.95))',
+                              border: '1px solid rgba(250, 204, 21, 0.35)',
+                              borderRadius: '16px',
+                              padding: '24px',
+                              boxShadow: '0 8px 32px rgba(0,0,0,0.6)'
+                            }}>
+                              {/* Dossier Header */}
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
+                                <div>
+                                  <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#facc15', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                                    🎮 Player Career Dossier
+                                  </div>
+                                  <h3 style={{ fontSize: '1.3rem', fontWeight: 900, color: '#fff', margin: '4px 0 0 0' }}>
+                                    {entry.username || getShortAddress(entry.address)}
+                                  </h3>
+                                  <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', fontFamily: 'monospace', marginTop: '2px' }}>
+                                    {entry.address}
+                                  </div>
+                                </div>
+
+                                <div style={{
+                                  fontSize: '0.85rem',
+                                  fontWeight: 800,
+                                  padding: '8px 18px',
+                                  borderRadius: '20px',
+                                  background: 'linear-gradient(135deg, rgba(250, 204, 21, 0.2), rgba(0,0,0,0.7))',
+                                  color: entry.badge === '👑' ? '#facc15' : '#38bdf8',
+                                  border: '1px solid rgba(250, 204, 21, 0.4)',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '6px'
+                                }}>
+                                  {entry.badge} {entry.rankTitle}
+                                </div>
+                              </div>
+
+                              {/* Stats Summary Cards */}
+                              <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
+                                gap: '12px',
+                                marginBottom: '20px'
+                              }}>
+                                <div style={{ background: 'rgba(255,255,255,0.03)', padding: '14px', borderRadius: '12px', border: '1px solid rgba(250, 204, 21, 0.2)' }}>
+                                  <div style={{ fontSize: '0.7rem', color: '#a1a1aa', textTransform: 'uppercase', fontWeight: 700 }}>Total REP</div>
+                                  <div style={{ fontSize: '1.35rem', fontWeight: 900, color: '#facc15', marginTop: '2px' }}>{entry.streetCred} REP</div>
+                                </div>
+
+                                <div style={{ background: 'rgba(255,255,255,0.03)', padding: '14px', borderRadius: '12px', border: '1px solid rgba(250, 204, 21, 0.2)' }}>
+                                  <div style={{ fontSize: '0.7rem', color: '#a1a1aa', textTransform: 'uppercase', fontWeight: 700 }}>$PFKC Balance</div>
+                                  <div style={{ fontSize: '1.35rem', fontWeight: 900, color: '#fff', marginTop: '2px' }}>{entry.coins} $PFKC</div>
+                                </div>
+
+                                <div style={{ background: 'rgba(255,255,255,0.03)', padding: '14px', borderRadius: '12px', border: '1px solid rgba(56, 189, 248, 0.2)' }}>
+                                  <div style={{ fontSize: '0.7rem', color: '#a1a1aa', textTransform: 'uppercase', fontWeight: 700 }}>Win / Loss Record</div>
+                                  <div style={{ fontSize: '1.35rem', fontWeight: 900, color: '#38bdf8', marginTop: '2px' }}>
+                                    {entry.wins}W - {entry.losses}L <span style={{ fontSize: '0.75rem', color: '#a1a1aa' }}>({entry.winRate}%)</span>
+                                  </div>
+                                </div>
+
+                                <div style={{ background: 'rgba(255,255,255,0.03)', padding: '14px', borderRadius: '12px', border: '1px solid rgba(245, 158, 11, 0.2)' }}>
+                                  <div style={{ fontSize: '0.7rem', color: '#a1a1aa', textTransform: 'uppercase', fontWeight: 700 }}>Best Win Streak</div>
+                                  <div style={{ fontSize: '1.35rem', fontWeight: 900, color: '#f59e0b', marginTop: '2px' }}>🔥 {entry.bestStreak} Wins</div>
+                                </div>
+                              </div>
+
+                              {/* Achievements List */}
+                              <div style={{ marginBottom: '20px' }}>
+                                <div style={{ fontSize: '0.8rem', fontWeight: 800, color: '#a1a1aa', textTransform: 'uppercase', marginBottom: '10px' }}>
+                                  🏆 Hood Tycoon Achievements
+                                </div>
+                                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                                  {getPlayerGameBadges(entry).map((b) => (
+                                    <div key={b.title} style={{
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      gap: '8px',
+                                      padding: '8px 12px',
+                                      borderRadius: '10px',
+                                      background: b.unlocked ? 'rgba(250, 204, 21, 0.12)' : 'rgba(255,255,255,0.02)',
+                                      border: b.unlocked ? '1px solid rgba(250, 204, 21, 0.4)' : '1px solid rgba(255,255,255,0.06)',
+                                      opacity: b.unlocked ? 1 : 0.4
+                                    }} title={b.desc}>
+                                      <span style={{ fontSize: '1rem' }}>{b.icon}</span>
+                                      <div>
+                                        <div style={{ fontSize: '0.75rem', fontWeight: 800, color: b.unlocked ? '#facc15' : '#a1a1aa' }}>{b.title}</div>
+                                        <div style={{ fontSize: '0.65rem', color: b.unlocked ? '#4ade80' : '#71717a' }}>{b.unlocked ? 'Unlocked' : 'Locked'}</div>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+
+                              {/* Drawer Action Buttons */}
+                              <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '16px' }}>
+                                <Link 
+                                  href={`/gallery/profile?simulate=${entry.address}`} 
+                                  className="btn-action btn-action-primary"
+                                  onClick={(e) => e.stopPropagation()}
+                                  style={{ padding: '8px 18px', fontSize: '0.85rem' }}
+                                >
+                                  👤 View Full Profile
+                                </Link>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
       ) : (
+        /* NFT Holders Collection Table */
         <div className="leaderboard-table-card">
           <div className="leaderboard-table-responsive">
             <table className="leaderboard-table">
             <thead>
               <tr>
-                <th style={{ width: '10%' }}>Rank</th>
-                <th style={{ width: '50%' }}>Holder</th>
-                <th style={{ width: '20%' }}>NFTs Owned</th>
-                <th style={{ width: '20%', textAlign: 'right' }}>Actions</th>
+                <th style={{ width: '6%' }}>Rank</th>
+                <th style={{ width: '46%' }}>Holder</th>
+                <th style={{ width: '24%' }}>NFTs Owned</th>
+                <th style={{ width: '24%', textAlign: 'right' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -627,15 +1003,6 @@ export default function LeaderboardPage() {
                           >
                             Inspect
                           </Link>
-                          <a 
-                            href={`https://explorer.multiversx.com/accounts/${holder.address}`} 
-                            target="_blank" 
-                            rel="noopener noreferrer" 
-                            className="btn-action"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            Explorer
-                          </a>
                         </div>
                       </td>
                     </tr>
@@ -700,7 +1067,7 @@ export default function LeaderboardPage() {
                                   })()}
                                   {Object.keys(seasons).length === 0 && (
                                     <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                                      No season attributes found for this holder's NFTs.
+                                      No season attributes found for this holder&apos;s NFTs.
                                     </div>
                                   )}
                                 </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useGetIsLoggedIn } from "@multiversx/sdk-dapp/out/react/account/useGetIsLoggedIn";
 import { ConnectButton } from "@/components/ConnectButton";
@@ -13,7 +13,6 @@ import { MultiversXNFT } from "@/types/nft.types";
 
 export default function GalleryPage() {
     const isLoggedIn = useGetIsLoggedIn();
-    const router = useRouter();
     const searchParams = useSearchParams();
     const [mounted, setMounted] = useState(false);
 
@@ -72,8 +71,6 @@ export default function GalleryPage() {
 
     const isPerfectHolder = isOriginalOG && isCollector && isWhale && isSerialCollector;
 
-    const unlockedCount = [isOriginalOG, isCollector, isWhale, isSerialCollector, isPerfectHolder].filter(Boolean).length;
-
     const filteredNfts = nfts.filter((nft: MultiversXNFT) => {
         if (selectedSeason === "all") return true;
         return getNFTSeasonValue(nft) === selectedSeason;
@@ -85,7 +82,9 @@ export default function GalleryPage() {
     });
 
     useEffect(() => {
-        setMounted(true);
+        queueMicrotask(() => {
+            setMounted(true);
+        });
         
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -105,7 +104,9 @@ export default function GalleryPage() {
         document.addEventListener("click", handleDocumentClick);
 
         // Fetch all collection NFTs
-        setIsAllNftsLoading(true);
+        queueMicrotask(() => {
+            setIsAllNftsLoading(true);
+        });
         fetch("https://api.multiversx.com/collections/PFP-717e46/nfts?size=500")
             .then(res => res.json())
             .then(data => {
@@ -126,8 +127,10 @@ export default function GalleryPage() {
 
     useEffect(() => {
         if (targetNft) {
-            setFlippedCardId(targetNft);
-            setViewMode("all");
+            queueMicrotask(() => {
+                setFlippedCardId(targetNft);
+                setViewMode("all");
+            });
         }
     }, [targetNft]);
 
@@ -225,6 +228,25 @@ export default function GalleryPage() {
                             </div>
                         </div>
                         <div className="leaderboard-card-arrow">
+                            →
+                        </div>
+                    </Link>
+
+                    {/* Game Card: Hood Tycoon CTA */}
+                    <Link href="/#hood-tycoon" className="leaderboard-card" style={{ borderColor: 'rgba(234, 179, 8, 0.4)', background: 'linear-gradient(135deg, rgba(234, 179, 8, 0.1), rgba(0,0,0,0.6))' }}>
+                        <div className="leaderboard-card-badge" style={{ background: 'rgba(234, 179, 8, 0.2)', color: '#facc15' }}>
+                            🎲
+                        </div>
+                        <div className="leaderboard-card-content">
+                            <div className="leaderboard-card-title" style={{ color: '#facc15', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <span>Hood Tycoon</span>
+                                <span style={{ fontSize: '0.65rem', background: '#facc15', color: '#000', padding: '2px 6px', borderRadius: '4px', fontWeight: 900 }}>COMING SOON</span>
+                            </div>
+                            <div className="leaderboard-card-desc">
+                                Preview the upcoming street-tycoon strategy card game on the Home page!
+                            </div>
+                        </div>
+                        <div className="leaderboard-card-arrow" style={{ color: '#facc15' }}>
                             →
                         </div>
                     </Link>

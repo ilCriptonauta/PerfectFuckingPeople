@@ -14,17 +14,18 @@ export function useWalletNFTs(simulatedAddress?: string) {
 
     useEffect(() => {
         if (!address) {
-            setNfts([]);
             return;
         }
+
+        const controller = new AbortController();
 
         const fetchNFTs = async () => {
             setIsLoading(true);
             setError(null);
             try {
-                // Fetch up to 100 NFTs from the collection for the address
                 const response = await fetch(
-                    `https://api.multiversx.com/accounts/${address}/nfts?collections=${COLLECTION_ID}&size=500`
+                    `https://api.multiversx.com/accounts/${address}/nfts?collections=${COLLECTION_ID}&size=500`,
+                    { signal: controller.signal }
                 );
                 
                 if (!response.ok) {
@@ -32,17 +33,30 @@ export function useWalletNFTs(simulatedAddress?: string) {
                 }
                 
                 const data = await response.json();
-                setNfts(data || []);
-            } catch (err: any) {
+                if (!controller.signal.aborted) {
+                    setNfts(data || []);
+                }
+            } catch (err: unknown) {
+                if (err instanceof Error && err.name === 'AbortError') {
+                    return;
+                }
                 console.error("Error fetching NFTs:", err);
-                setError(err.message || 'Unknown error occurred');
+                if (!controller.signal.aborted) {
+                    setError(err instanceof Error ? err.message : 'Unknown error occurred');
+                }
             } finally {
-                setIsLoading(false);
+                if (!controller.signal.aborted) {
+                    setIsLoading(false);
+                }
             }
         };
 
         fetchNFTs();
+
+        return () => {
+            controller.abort();
+        };
     }, [address]);
 
-    return { nfts, isLoading, error, address };
+    return { nfts: address ? nfts : [], isLoading, error, address };
 }

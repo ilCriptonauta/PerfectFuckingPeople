@@ -206,17 +206,39 @@ export async function generateHolderCardJpg(options: CardOptions): Promise<strin
     ctx.lineWidth = 3;
     ctx.stroke();
 
+    // Helper: Load image with timeout safety
+    const loadImageWithTimeout = (src: string, crossOrigin?: string, timeoutMs = 6000): Promise<HTMLImageElement> => {
+        return new Promise((resolve, reject) => {
+            const image = new Image();
+            let timer: ReturnType<typeof setTimeout> | null = setTimeout(() => {
+                timer = null;
+                reject(new Error("Image load timeout"));
+            }, timeoutMs);
+
+            if (crossOrigin) {
+                image.crossOrigin = crossOrigin;
+            }
+            image.onload = () => {
+                if (timer) {
+                    clearTimeout(timer);
+                    resolve(image);
+                }
+            };
+            image.onerror = (e) => {
+                if (timer) {
+                    clearTimeout(timer);
+                    reject(e);
+                }
+            };
+            image.src = src;
+        });
+    };
+
     // Load image safely via Next.js proxy route
     if (imageUrl) {
         try {
             const proxiedSrc = getProxiedImageUrl(imageUrl);
-            const img = await new Promise<HTMLImageElement>((resolve, reject) => {
-                const image = new Image();
-                image.crossOrigin = "anonymous";
-                image.onload = () => resolve(image);
-                image.onerror = (e) => reject(e);
-                image.src = proxiedSrc;
-            });
+            const img = await loadImageWithTimeout(proxiedSrc, "anonymous", 6000);
 
             // Clip and draw image cover inside exact 1:1 square
             ctx.save();
@@ -243,12 +265,7 @@ export async function generateHolderCardJpg(options: CardOptions): Promise<strin
         } catch (err) {
             console.warn("Canvas image loading error, trying fallback without crossOrigin:", err);
             try {
-                const imgFallback = await new Promise<HTMLImageElement>((resolve, reject) => {
-                    const image = new Image();
-                    image.onload = () => resolve(image);
-                    image.onerror = reject;
-                    image.src = imageUrl;
-                });
+                const imgFallback = await loadImageWithTimeout(imageUrl, undefined, 4000);
                 ctx.save();
                 roundRect(imgMarginX, imgY, boxW, imgH, 32);
                 ctx.clip();

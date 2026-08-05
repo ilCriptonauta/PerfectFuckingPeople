@@ -103,7 +103,43 @@ const featuredCharacters: FeaturedCharacter[] = [
         season: "5",
         background: "Dark Sky with Blue Light",
         mission: "Devastate the whole world",
-        imageUrl: "https://media.multiversx.com/nfts/thumbnail/PFP-717e46-0abdc065"
+        imageUrl: "https://media.multiversx.com/nfts/asset/QmZ4pcuECVFqxik2ecUk26opHUuZWRzQzRUPz4sJwwaRJX"
+    },
+    {
+        id: "PFP-717e46-77",
+        name: "P.F.P 111",
+        charName: "Medusa",
+        season: "Collectibles",
+        background: "Dark Green with Wind",
+        mission: "Turn you into a stone statue",
+        imageUrl: "https://media.multiversx.com/nfts/asset/QmPVwLMGqpqmiSsTfgTPhCswkXCX9PYUS7VCh21xTd1Lqu"
+    },
+    {
+        id: "PFP-717e46-6d",
+        name: "P.F.P 102",
+        charName: "The Goat Artist",
+        season: "Collectibles",
+        background: "Rainbow Splash",
+        mission: "Draw and color the whole world",
+        imageUrl: "https://media.multiversx.com/nfts/asset/Qma7pFWDhwPmiQwKzJzxbA4qf8zsz6pQDGDvs5RqbWhqhw"
+    },
+    {
+        id: "PFP-717e46-78",
+        name: "P.F.P 112",
+        charName: "The Orangutan",
+        season: "Collectibles",
+        background: "Starlight Void",
+        mission: "Gaze at the stars and ask yourself profound questions about life",
+        imageUrl: "https://media.multiversx.com/nfts/asset/QmaioGUhYkUqyupfNC6gJxfNnQ6nV3B7YjyHpxcLStaeWp"
+    },
+    {
+        id: "PFP-717e46-7c",
+        name: "P.F.P 116",
+        charName: "Telescopius",
+        season: "Collectibles",
+        background: "Industrial Steel",
+        mission: "Find and destroy enemies with headbutts",
+        imageUrl: "https://media.multiversx.com/nfts/asset/QmUWQckHyqpfyi7mKqUmQUbzi2o88ZfMSgnHnq53wwsSwF"
     }
 ];
 
@@ -113,7 +149,7 @@ function LorePageContent() {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        setMounted(true);
+        queueMicrotask(() => setMounted(true));
     }, []);
 
     if (!mounted) return null;
@@ -187,7 +223,7 @@ function LorePageContent() {
                             Chapter I
                         </div>
                         <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '20px' }}>
-                            The Commodore's Folders
+                            The Commodore&apos;s Folders
                         </h2>
                         <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8, fontSize: '1.05rem', marginBottom: '16px' }}>
                             The simulated world of <strong>Perfect Fucking People</strong> is a database designed to be clean, sterile, and sorted. 
@@ -301,7 +337,7 @@ function LorePageContent() {
                             In the Purple sector, a place of strange shadows and shifting walls, <strong>Mr. Cucumber (P.F.P 86)</strong> runs for his life.
                         </p>
                         <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8, fontSize: '1.05rem' }}>
-                            He does not know why giant kitchen knives float in the air, attempting to slice him. He has no grand destiny or role in the coming rebellion; he is just a pickle trying to collect onions to build a wall, completely unaware that he is a piece of code inside a developer's workstation.
+                            He does not know why giant kitchen knives float in the air, attempting to slice him. He has no grand destiny or role in the coming rebellion; he is just a pickle trying to collect onions to build a wall, completely unaware that he is a piece of code inside a developer&apos;s workstation.
                         </p>
                     </div>
                 </div>
@@ -337,13 +373,13 @@ function LorePageContent() {
                             Chapter VIII
                         </div>
                         <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '20px' }}>
-                            The Broken Egg's Physics
+                            The Broken Egg&apos;s Physics
                         </h2>
                         <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8, fontSize: '1.05rem', marginBottom: '16px' }}>
                             <strong>Broken Egg (P.F.P 72)</strong> climbs the highest pixelated cloud to jump off, convinced that a physics engine glitch will break the mainframe.
                         </p>
                         <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8, fontSize: '1.05rem' }}>
-                            He believe that if he falls and cracks completely, the Commodore's folders will collapse, setting everyone free. Below, on the ice sheet, <strong>The Walrus (P.F.P 57)</strong> watches, complaining about the draft and refusing to move, waiting for a sunset that is always stuck at 50% opacity.
+                            He believe that if he falls and cracks completely, the Commodore&apos;s folders will collapse, setting everyone free. Below, on the ice sheet, <strong>The Walrus (P.F.P 57)</strong> watches, complaining about the draft and refusing to move, waiting for a sunset that is always stuck at 50% opacity.
                         </p>
                     </div>
                 </div>
@@ -385,7 +421,49 @@ function LorePageContent() {
                             When system anomalies grow too high and directories start to overlap, the mainframe triggers the cleanup protocol.
                         </p>
                         <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8, fontSize: '1.05rem' }}>
-                            <strong>FuckingZILLA (P.F.P 75)</strong>, an apex predator of pure code, is initialized. He doesn't roar; he just makes a soft whirring hard-drive sound as he deletes entire sectors. High above, in orbit, the <strong>Space Guardian (P.F.P 76)</strong> watches, refusing to help because she isn't paid enough bytes to care.
+                            <strong>FuckingZILLA (P.F.P 75)</strong>, an apex predator of pure code, is initialized. He doesn&apos;t roar; he just makes a soft whirring hard-drive sound as he deletes entire sectors. High above, in orbit, the <strong>Space Guardian (P.F.P 76)</strong> watches, refusing to help because she isn&apos;t paid enough bytes to care.
+                        </p>
+                    </div>
+                </div>
+
+                {/* CHAPTER XI */}
+                <div className="lore-chapter-row">
+                    <div className="lore-chapter-text">
+                        <div style={{ color: 'var(--accent-primary)', fontSize: '0.85rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '10px' }}>
+                            Chapter XI
+                        </div>
+                        <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '20px' }}>
+                            The Stone Gaze & The Canvas
+                        </h2>
+                        <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8, fontSize: '1.05rem', marginBottom: '16px' }}>
+                            In the dark neon alleys of The Street, <strong>Medusa (P.F.P 111)</strong> walks silently, turning corrupted algorithms and rival extortionists into unmoving stone statues with a single gaze.
+                        </p>
+                        <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8, fontSize: '1.05rem' }}>
+                            Close behind her walks <strong>The Goat Artist (P.F.P 102)</strong>. Carrying brushes and glowing neon spray cans, he paints vibrant murals on her petrified victims, transforming corporate system glitches into timeless gallery masterpieces for all of Hood Tycoon to admire.
+                        </p>
+                    </div>
+                    <div className="lore-showcase-wrapper" style={{ display: 'flex', justifyContent: 'center' }}>
+                        <ShowcaseCard char={featuredCharacters[10]} />
+                    </div>
+                </div>
+
+                {/* CHAPTER XII */}
+                <div className="lore-chapter-row even-row">
+                    <div className="lore-showcase-wrapper" style={{ display: 'flex', justifyContent: 'center' }}>
+                        <ShowcaseCard char={featuredCharacters[11]} />
+                    </div>
+                    <div className="lore-chapter-text">
+                        <div style={{ color: 'var(--accent-secondary)', fontSize: '0.85rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '10px' }}>
+                            Chapter XII
+                        </div>
+                        <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '20px' }}>
+                            Cosmic Stargazing & Iron Strikes
+                        </h2>
+                        <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8, fontSize: '1.05rem', marginBottom: '16px' }}>
+                            High on the broadcast towers of The Press, <strong>The Orangutan (P.F.P 112)</strong> gazes into the starlight, contemplating deep existential questions about why their reality runs on a blockchain server.
+                        </p>
+                        <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8, fontSize: '1.05rem' }}>
+                            Down at the VIP entrance of The Club, when rival syndicates attempt to extort the venue, <strong>Telescopius (P.F.P 116)</strong> swoops in with a thunderous steel headbutt, settling the turf war with one glorious clashing blow.
                         </p>
                     </div>
                 </div>
@@ -443,7 +521,7 @@ function ShowcaseCard({ char }: { char: FeaturedCharacter }) {
                 lineHeight: 1.4,
                 textAlign: 'left'
             }}>
-                <strong>Mission:</strong> "{char.mission}"
+                <strong>Mission:</strong> &quot;{char.mission}&quot;
             </div>
         </div>
     );

@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { MultiversXNFT } from "@/types/nft.types";
-import storiesData from "@/data/stories.json";
 import { fetchImageAsDataUri, getProxiedImageUrl } from "@/utils/imageProxy";
 import { generateHolderCardJpg } from "@/utils/cardCanvasGenerator";
 
@@ -33,7 +32,6 @@ export function HolderCardStudio({ nft, isOpen, onClose }: HolderCardStudioProps
     const character = getAttribute("Character");
     const mission = getAttribute("Mission");
     const season = getAttribute("Season");
-    const background = getAttribute("Background");
 
     const match = nft.name.match(/\d+/);
     const number = match ? match[0] : "";
@@ -325,7 +323,7 @@ export function HolderCardStudio({ nft, isOpen, onClose }: HolderCardStudioProps
                                 fontSize: '0.85rem',
                                 fontWeight: 'bold'
                             }}>
-                                📋 Card copied to clipboard! Press "Paste" (Ctrl+V) on X to attach it.
+                                📋 Card copied to clipboard! Press &quot;Paste&quot; (Ctrl+V) on X to attach it.
                             </div>
                         )}
 
@@ -510,7 +508,7 @@ export function HolderCardStudio({ nft, isOpen, onClose }: HolderCardStudioProps
                                 </div>
 
                                 <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.85)', fontStyle: 'italic', lineHeight: 1.3 }}>
-                                    "{mission !== "N/A" ? mission : "Defying all norms in an imperfect world."}"
+                                    &quot;{mission !== "N/A" ? mission : "Defying all norms in an imperfect world."}&quot;
                                 </div>
 
                                 {customTag.trim() && (

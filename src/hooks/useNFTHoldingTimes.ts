@@ -7,19 +7,27 @@ export interface NFTHoldingInfo {
     acquiredDateStr: string;
 }
 
+interface MVXTx {
+    receiver?: string;
+    action?: { arguments?: { receiver?: string } };
+    timestamp?: number;
+}
+
 export function useNFTHoldingTimes(nfts: MultiversXNFT[], walletAddress: string | null) {
     const [holdingTimes, setHoldingTimes] = useState<Record<string, NFTHoldingInfo>>({});
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
         if (!nfts || nfts.length === 0 || !walletAddress) {
-            setHoldingTimes({});
-            setIsLoading(false);
             return;
         }
 
-        let isMounted = true;
-        setIsLoading(true);
+        const controller = new AbortController();
+        queueMicrotask(() => {
+            if (!controller.signal.aborted) {
+                setIsLoading(true);
+            }
+        });
 
         const fetchHoldingTimes = async () => {
             const now = Math.floor(Date.now() / 1000);
@@ -27,18 +35,20 @@ export function useNFTHoldingTimes(nfts: MultiversXNFT[], walletAddress: string 
 
             await Promise.all(
                 nfts.map(async (nft) => {
+                    if (controller.signal.aborted) return;
                     let holdingTimestamp: number | null = null;
 
                     // 1. Query recent transactions for this NFT
                     try {
                         const txRes = await fetch(
-                            `https://api.multiversx.com/nfts/${nft.identifier}/transactions?status=success&size=10`
+                            `https://api.multiversx.com/nfts/${nft.identifier}/transactions?status=success&size=10`,
+                            { signal: controller.signal }
                         );
                         if (txRes.ok) {
-                            const txs = await txRes.json();
+                            const txs: MVXTx[] = await txRes.json();
                             if (Array.isArray(txs) && txs.length > 0) {
                                 const lastRx = txs.find(
-                                    (t: any) =>
+                                    (t) =>
                                         t.receiver === walletAddress ||
                                         t.action?.arguments?.receiver === walletAddress
                                 );
@@ -49,15 +59,16 @@ export function useNFTHoldingTimes(nfts: MultiversXNFT[], walletAddress: string 
                                 }
                             }
                         }
-                    } catch (e) {
-                        // ignore API fetch error
+                    } catch {
+                        // ignore API fetch error or abort
                     }
 
                     // 2. Fallback: Query single NFT endpoint for creation timestamp
-                    if (!holdingTimestamp) {
+                    if (!holdingTimestamp && !controller.signal.aborted) {
                         try {
                             const singleRes = await fetch(
-                                `https://api.multiversx.com/nfts/${nft.identifier}`
+                                `https://api.multiversx.com/nfts/${nft.identifier}`,
+                                { signal: controller.signal }
                             );
                             if (singleRes.ok) {
                                 const singleData = await singleRes.json();
@@ -65,8 +76,8 @@ export function useNFTHoldingTimes(nfts: MultiversXNFT[], walletAddress: string 
                                     holdingTimestamp = singleData.timestamp;
                                 }
                             }
-                        } catch (e) {
-                            // ignore API fetch error
+                        } catch {
+                            // ignore API fetch error or abort
                         }
                     }
 
@@ -88,7 +99,7 @@ export function useNFTHoldingTimes(nfts: MultiversXNFT[], walletAddress: string 
                 })
             );
 
-            if (isMounted) {
+            if (!controller.signal.aborted) {
                 setHoldingTimes(results);
                 setIsLoading(false);
             }
@@ -97,9 +108,10 @@ export function useNFTHoldingTimes(nfts: MultiversXNFT[], walletAddress: string 
         fetchHoldingTimes();
 
         return () => {
-            isMounted = false;
+            controller.abort();
         };
     }, [nfts, walletAddress]);
 
-    return { holdingTimes, isLoading };
+    const activeHoldingTimes = nfts && nfts.length > 0 && walletAddress ? holdingTimes : {};
+    return { holdingTimes: activeHoldingTimes, isLoading };
 }

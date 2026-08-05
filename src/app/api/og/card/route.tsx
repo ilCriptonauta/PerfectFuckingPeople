@@ -24,13 +24,13 @@ export async function GET(request: NextRequest) {
                     const match = nft.name?.match(/\d+/);
                     if (match) number = match[0];
 
-                    const charAttr = nft.metadata?.attributes?.find((a: any) => a.trait_type === "Character");
+                    const charAttr = nft.metadata?.attributes?.find((a: { trait_type?: string; value?: string | number }) => a.trait_type === "Character");
                     if (charAttr) character = String(charAttr.value);
 
-                    const seasonAttr = nft.metadata?.attributes?.find((a: any) => a.trait_type === "Season");
+                    const seasonAttr = nft.metadata?.attributes?.find((a: { trait_type?: string; value?: string | number }) => a.trait_type === "Season");
                     if (seasonAttr) season = String(seasonAttr.value);
 
-                    const missionAttr = nft.metadata?.attributes?.find((a: any) => a.trait_type === "Mission");
+                    const missionAttr = nft.metadata?.attributes?.find((a: { trait_type?: string; value?: string | number }) => a.trait_type === "Mission");
                     if (missionAttr) mission = String(missionAttr.value);
                 }
             } catch (err) {
@@ -150,7 +150,7 @@ export async function GET(request: NextRequest) {
                                 </div>
                             </div>
                             <div style={{ fontSize: 22, color: "rgba(255, 255, 255, 0.85)", fontStyle: "italic", lineHeight: 1.4 }}>
-                                "{mission}"
+                                &quot;{mission}&quot;
                             </div>
                             {tag ? (
                                 <div style={{ fontSize: 20, color: currentTheme.accent, marginTop: 16, fontWeight: "bold" }}>
@@ -175,7 +175,8 @@ export async function GET(request: NextRequest) {
                 },
             }
         );
-    } catch (e: any) {
-        return new Response(`Failed to generate dynamic OG card image: ${e.message}`, { status: 500 });
+    } catch (e: unknown) {
+        const msg = e instanceof Error ? e.message : 'Unknown error';
+        return new Response(`Failed to generate dynamic OG card image: ${msg}`, { status: 500 });
     }
 }

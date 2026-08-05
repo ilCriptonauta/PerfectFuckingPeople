@@ -9,6 +9,11 @@ export async function GET(request: NextRequest) {
     }
 
     try {
+        const parsedUrl = new URL(imageUrl);
+        if (parsedUrl.protocol !== "http:" && parsedUrl.protocol !== "https:") {
+            return new NextResponse("Invalid protocol", { status: 400 });
+        }
+
         const response = await fetch(imageUrl, {
             headers: {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
@@ -33,7 +38,7 @@ export async function GET(request: NextRequest) {
                 "Access-Control-Allow-Methods": "GET, OPTIONS",
             },
         });
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("Error in proxy-image route:", error);
         return new NextResponse("Failed to proxy image", { status: 500 });
     }

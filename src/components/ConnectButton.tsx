@@ -28,9 +28,10 @@ export function ConnectButton() {
             unlockPanelManager.openUnlockPanel();
 
             console.log("[ConnectButton] openUnlockPanel() called");
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error("[ConnectButton] Failed to open unlock panel:", err);
-            alert("Error opening wallet panel: " + err.message);
+            const msg = err instanceof Error ? err.message : 'Unknown error';
+            alert("Error opening wallet panel: " + msg);
         }
     };
 

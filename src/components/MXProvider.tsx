@@ -27,7 +27,7 @@ export function MXProvider({ children }: { children: React.ReactNode }) {
 
                 // Step 2: Register MultiversX Web Components (Stencil custom elements)
                 // This MUST happen before any Manager tries to use ComponentFactory.create()
-                const sdkDappUi = await import("@multiversx/sdk-dapp-ui") as any;
+                const sdkDappUi = (await import("@multiversx/sdk-dapp-ui")) as unknown as { defineCustomElements?: (win: Window) => Promise<void> | void };
                 if (typeof sdkDappUi.defineCustomElements === "function") {
                     await sdkDappUi.defineCustomElements(window);
                     console.log("[MXProvider] defineCustomElements completed");
@@ -43,9 +43,9 @@ export function MXProvider({ children }: { children: React.ReactNode }) {
                 console.log("[MXProvider] mvx-unlock-panel registered:", unlockPanelDefined);
 
                 setInitialized(true);
-            } catch (err: any) {
+            } catch (err: unknown) {
                 console.error("[MXProvider] Initialization failed:", err);
-                setError(err.message || "Failed to initialize");
+                setError(err instanceof Error ? err.message : "Failed to initialize");
             }
         };
         initialize();

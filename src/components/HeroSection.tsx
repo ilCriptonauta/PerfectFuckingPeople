@@ -3,8 +3,12 @@
 import { useEffect, useState, useRef } from "react";
 import { ConnectButton } from "./ConnectButton";
 import { MultiversXNFT } from "@/types/nft.types";
+import { GameCard } from "@/types/game.types";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import gameCardsData from "@/data/game_cards.json";
+
+const gameCardsList = Object.values(gameCardsData);
 
 const shuffleArray = <T,>(array: T[]): T[] => {
     const arr = [...array];
@@ -23,6 +27,13 @@ export function HeroSection() {
     const [carouselNfts, setCarouselNfts] = useState<MultiversXNFT[]>([]);
     const [bannerNft, setBannerNft] = useState<MultiversXNFT | null>(null);
     const [loreNft, setLoreNft] = useState<MultiversXNFT | null>(null);
+    const [tycoonCard, setTycoonCard] = useState<GameCard | null>(() => {
+        if (gameCardsList.length > 0) {
+            return gameCardsList[Math.floor(Math.random() * gameCardsList.length)] as GameCard;
+        }
+        return null;
+    });
+    const [isTycoonFlipped, setIsTycoonFlipped] = useState<boolean>(false);
     const [collectionStats, setCollectionStats] = useState<{
         floorPrice: number | null;
         holderCount: number | null;
@@ -38,6 +49,14 @@ export function HeroSection() {
     });
     
     const [isScrolled, setIsScrolled] = useState<boolean>(false);
+
+    const handleShuffleTycoonCard = () => {
+        if (gameCardsList.length > 0) {
+            const randomIndex = Math.floor(Math.random() * gameCardsList.length);
+            const randomCard = JSON.parse(JSON.stringify(gameCardsList[randomIndex]));
+            setTycoonCard(randomCard);
+        }
+    };
     const bannerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -523,6 +542,230 @@ export function HeroSection() {
                 </div>
             </section>
 
+            {/* HOOD TYCOON Coming Soon Section */}
+            <section
+                id="hood-tycoon"
+                style={{
+                    minHeight: '75vh',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: '6rem 2rem',
+                    position: 'relative',
+                    background: 'linear-gradient(to bottom, #07030e 0%, #15092b 50%, #0a0a0f 100%)',
+                    overflow: 'hidden',
+                    borderTop: '1px solid rgba(234, 179, 8, 0.2)',
+                    borderBottom: '1px solid rgba(234, 179, 8, 0.15)'
+                }}
+            >
+                {/* Background Glow */}
+                <div style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: '700px',
+                    height: '350px',
+                    background: 'radial-gradient(ellipse, rgba(234, 179, 8, 0.08) 0%, rgba(10, 10, 15, 0) 70%)',
+                    borderRadius: '50%',
+                    zIndex: 0,
+                    pointerEvents: 'none'
+                }} />
+
+                <div className="banner-grid swapped" style={{ maxWidth: '1000px', zIndex: 1 }}>
+                    {/* LEFT COLUMN: 3D Flip Card (styled like OOX banner-nft-card) */}
+                    <div>
+                        {tycoonCard && (
+                            <div
+                                className={`banner-nft-card nft-card-perspective ${isTycoonFlipped ? 'flipped' : ''}`}
+                                onClick={() => setIsTycoonFlipped(!isTycoonFlipped)}
+                                style={{
+                                    cursor: 'pointer',
+                                    borderColor: 'rgba(234, 179, 8, 0.4)',
+                                    boxShadow: '0 20px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(234, 179, 8, 0.15)',
+                                    maxWidth: '380px'
+                                }}
+                            >
+                                <div className="nft-card-inner">
+                                    {/* FRONT */}
+                                    <div className="nft-card-front" style={{ background: 'transparent', border: 'none', borderRadius: 0, padding: 0 }}>
+                                        <div style={{ position: 'relative', width: '100%' }}>
+                                            <img
+                                                src={tycoonCard.imageUrl}
+                                                alt={tycoonCard.charName}
+                                                className="banner-nft-image"
+                                                loading="lazy"
+                                            />
+
+                                            {/* Top Right #ID Badge */}
+                                            <div style={{
+                                                position: 'absolute',
+                                                top: '12px',
+                                                right: '12px',
+                                                background: 'rgba(0, 0, 0, 0.7)',
+                                                backdropFilter: 'blur(6px)',
+                                                padding: '4px 10px',
+                                                borderRadius: '20px',
+                                                fontSize: '0.8rem',
+                                                fontWeight: 'bold',
+                                                color: '#fff',
+                                                border: '1px solid rgba(255, 255, 255, 0.15)'
+                                            }}>
+                                                #{tycoonCard.name.match(/\d+/)?.[0] || '0'}
+                                            </div>
+
+                                            {/* Flip Hint Overlay */}
+                                            <div className="flip-hint-overlay" style={{ borderRadius: '16px' }}>
+                                                <div className="flip-hint-content">
+                                                    <div className="flip-hint-icon">↻</div>
+                                                    <span className="flip-hint-text">TAP TO FLIP</span>
+                                                </div>
+                                                <div className="flip-hint-shimmer" />
+                                            </div>
+                                        </div>
+
+                                        {/* Bottom Info Bar (Matching OOX Banner Card) */}
+                                        <div className="banner-nft-info">
+                                            <div style={{ textAlign: 'left' }}>
+                                                <div className="banner-nft-name" style={{ color: '#fff', fontSize: '1.1rem', fontWeight: 800 }}>
+                                                    {tycoonCard.charName}
+                                                </div>
+                                                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                                                    {tycoonCard.name} • Season {tycoonCard.season}
+                                                </div>
+                                            </div>
+                                            <div style={{ textAlign: 'right' }}>
+                                                <div style={{ fontSize: '0.85rem', color: '#facc15', fontWeight: 800, textTransform: 'uppercase' }}>
+                                                    HOOD TYCOON
+                                                </div>
+                                                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                                                    Playable {tycoonCard.role}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* BACK (3D Flipped Game Stats) */}
+                                    <div
+                                        className="nft-card-back"
+                                        style={{
+                                            borderRadius: '20px',
+                                            background: 'linear-gradient(145deg, rgba(20, 20, 28, 0.95), rgba(10, 10, 15, 0.98))',
+                                            border: '1px solid rgba(234, 179, 8, 0.4)',
+                                            padding: '20px',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-between',
+                                            textAlign: 'left'
+                                        }}
+                                    >
+                                        <div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', paddingBottom: '8px', marginBottom: '12px' }}>
+                                                <div>
+                                                    <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#facc15' }}>
+                                                        {tycoonCard.charName}
+                                                    </div>
+                                                    <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+                                                        Playable {tycoonCard.role} • Season {tycoonCard.season}
+                                                    </div>
+                                                </div>
+                                                <div style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#fff' }}>
+                                                    #{tycoonCard.name.match(/\d+/)?.[0]}
+                                                </div>
+                                            </div>
+
+                                            {/* Ability Box */}
+                                            <div style={{ background: 'rgba(234, 179, 8, 0.1)', border: '1px solid rgba(234, 179, 8, 0.25)', borderRadius: '12px', padding: '10px 12px', marginBottom: '12px' }}>
+                                                <div style={{ fontSize: '0.8rem', fontWeight: 800, color: '#facc15', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                    <span>⚡</span> {tycoonCard.abilityName}
+                                                </div>
+                                                <p style={{ fontSize: '0.75rem', color: 'rgba(255, 255, 255, 0.85)', marginTop: '4px', lineHeight: 1.4 }}>
+                                                    {tycoonCard.abilityDescription}
+                                                </p>
+                                            </div>
+
+                                            {/* Game Stats */}
+                                            <div style={{ background: 'rgba(0, 0, 0, 0.5)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '12px', padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '0.75rem', fontFamily: 'monospace' }}>
+                                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                    <span style={{ color: 'var(--text-secondary)' }}>😎 Boldness:</span>
+                                                    <strong style={{ color: '#facc15' }}>{tycoonCard.stats.boldness}</strong>
+                                                </div>
+                                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                    <span style={{ color: 'var(--text-secondary)' }}>🗣️ Charisma:</span>
+                                                    <strong style={{ color: '#facc15' }}>{tycoonCard.stats.charisma}</strong>
+                                                </div>
+                                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                    <span style={{ color: 'var(--text-secondary)' }}>🕵️ Blackmail:</span>
+                                                    <strong style={{ color: '#facc15' }}>{tycoonCard.stats.blackmail}</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div style={{ textAlign: 'center', paddingTop: '8px', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                                            <span style={{ fontSize: '0.75rem', fontWeight: 800, color: '#facc15', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                                                ↩ Tap to Flip Back
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* RIGHT COLUMN: Paragraph Content */}
+                    <div className="banner-content">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+                            <span className="banner-subtitle" style={{ color: '#facc15', marginBottom: 0 }}>Playable NFT Experience</span>
+                            <span style={{
+                                padding: '4px 10px',
+                                borderRadius: '20px',
+                                fontSize: '0.7rem',
+                                fontWeight: 900,
+                                background: 'linear-gradient(135deg, #eab308, #ca8a04)',
+                                color: '#000',
+                                letterSpacing: '1px',
+                                textTransform: 'uppercase',
+                                boxShadow: '0 0 12px rgba(234, 179, 8, 0.4)'
+                            }}>
+                                COMING SOON
+                            </span>
+                        </div>
+
+                        <h2 className="banner-title" style={{ fontWeight: 900 }}>
+                            Welcome to <br />
+                            <span style={{
+                                background: 'linear-gradient(135deg, #facc15, #f59e0b, #ec4899)',
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent'
+                            }}>HOOD TYCOON</span>
+                        </h2>
+
+                        <p className="banner-desc">
+                            Your P.F.P NFTs are about to come alive! In <strong>Hood Tycoon</strong>, every character in your wallet becomes a unique, playable asset with street influence, secret bribe tactics, and game-changing abilities. Command your crew, bribe the block, and dominate the city.
+                        </p>
+
+                        <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginTop: '24px' }}>
+                            <button
+                                onClick={handleShuffleTycoonCard}
+                                className="btn-secondary"
+                                style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '8px',
+                                    padding: '14px 24px',
+                                    borderRadius: '12px',
+                                    fontSize: '0.95rem',
+                                    borderColor: 'rgba(234, 179, 8, 0.4)',
+                                    color: '#facc15'
+                                }}
+                            >
+                                <span>🎲 Shuffle Playable Character</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* Ecosystem (Seasons vs Collectibles) Section */}
             <section 
                 style={{
@@ -565,11 +808,11 @@ export function HeroSection() {
                         <div className="ecosystem-badge core">Seasons 1 - 5</div>
                         <h3 className="ecosystem-card-title">The Core Seasons</h3>
                         <p className="ecosystem-card-desc">
-                            The original drops that built the project's foundation. Composed entirely of exclusive 1/1s with unique attributes, backgrounds, and storylines. Available on the market starting at 30 USDC.
+                            The original drops that built the project&apos;s foundation. Composed entirely of exclusive 1/1s with unique attributes, backgrounds, and storylines. Available on the market starting at 30 USDC.
                         </p>
                         <ul className="ecosystem-list">
                             <li><span>🛡️</span> <strong>Handcrafted 1/1s:</strong> Every single character is a completely unique digital work of art.</li>
-                            <li><span>🔒</span> <strong>Collector's Keys:</strong> Purchasing a P.F.P from these seasons is the only way to gain membership.</li>
+                            <li><span>🔒</span> <strong>Collector&apos;s Keys:</strong> Purchasing a P.F.P from these seasons is the only way to gain membership.</li>
                             <li><span>👑</span> <strong>OG Privilege:</strong> Holding at least one core P.F.P instantly grants you the prestigious **OG Status**.</li>
                         </ul>
                     </div>
@@ -595,7 +838,7 @@ export function HeroSection() {
                     <div className="giveaway-content">
                         <h3 className="giveaway-title-main">Monthly OG Giveaways</h3>
                         <p className="giveaway-desc-main">
-                            While Collectibles are available for purchase on the marketplace, **once a month** we run exclusive giveaways specifically for **OG holders** (those owning at least one NFT from Seasons 1-5). One Collectible NFT is sent directly to a randomly selected OG's wallet as a free gift. Become an OG today to join the cycle!
+                            While Collectibles are available for purchase on the marketplace, **once a month** we run exclusive giveaways specifically for **OG holders** (those owning at least one NFT from Seasons 1-5). One Collectible NFT is sent directly to a randomly selected OG&apos;s wallet as a free gift. Become an OG today to join the cycle!
                         </p>
                     </div>
                 </div>

@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
+
+interface NFTAttribute {
+    trait_type?: string;
+    value?: string | number;
+}
 
 interface SharePageProps {
     params: Promise<{
@@ -30,13 +34,13 @@ export async function generateMetadata({ params, searchParams }: SharePageProps)
                 const match = nft.name?.match(/\d+/);
                 if (match) number = match[0];
 
-                const charAttr = nft.metadata?.attributes?.find((a: any) => a.trait_type === "Character");
+                const charAttr = nft.metadata?.attributes?.find((a: NFTAttribute) => a.trait_type === "Character");
                 if (charAttr) character = String(charAttr.value);
 
-                const seasonAttr = nft.metadata?.attributes?.find((a: any) => a.trait_type === "Season");
+                const seasonAttr = nft.metadata?.attributes?.find((a: NFTAttribute) => a.trait_type === "Season");
                 if (seasonAttr) season = String(seasonAttr.value);
 
-                const missionAttr = nft.metadata?.attributes?.find((a: any) => a.trait_type === "Mission");
+                const missionAttr = nft.metadata?.attributes?.find((a: NFTAttribute) => a.trait_type === "Mission");
                 if (missionAttr) mission = String(missionAttr.value);
             }
         } catch (e) {

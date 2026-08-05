@@ -1,0 +1,1787 @@
+{
+  "PFP-717e46-04": {
+    "id": "PFP-717e46-04",
+    "name": "P.F.P 1",
+    "charName": "The Dreamer",
+    "season": "1",
+    "role": "boss",
+    "stats": {
+      "boldness": 6,
+      "charisma": 6,
+      "blackmail": 9
+    },
+    "abilityName": "The Dreamer Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmYipEPP4tK7dAPraP39LaZ39gXzEJ5wkJJWXVJrnoE9cg"
+  },
+  "PFP-717e46-05": {
+    "id": "PFP-717e46-05",
+    "name": "P.F.P 2",
+    "charName": "The Bear",
+    "season": "1",
+    "role": "boss",
+    "stats": {
+      "boldness": 9,
+      "charisma": 9,
+      "blackmail": 6
+    },
+    "abilityName": "The Bear Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmQixJxMCk11rZRkWGeoyBCu5oYB6Qdcxw6DxEpd1c3n1y"
+  },
+  "PFP-717e46-06": {
+    "id": "PFP-717e46-06",
+    "name": "P.F.P 3",
+    "charName": "The Rabbit",
+    "season": "1",
+    "role": "boss",
+    "stats": {
+      "boldness": 5,
+      "charisma": 9,
+      "blackmail": 9
+    },
+    "abilityName": "The Rabbit Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmVHqjbgs64vJyAwHJta7UK7yMe72pqgiCbkNZ3ryULxxe"
+  },
+  "PFP-717e46-07": {
+    "id": "PFP-717e46-07",
+    "name": "P.F.P 4",
+    "charName": "Hot Dog Boy",
+    "season": "1",
+    "role": "boss",
+    "stats": {
+      "boldness": 8,
+      "charisma": 6,
+      "blackmail": 8
+    },
+    "abilityName": "Street Feast",
+    "abilityDescription": "Festa di Strada: Concede +4 punti influenza bonus a tutti i membri della Crew alleati.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmeHGtJ25K1WxBFHQo6mjBfFbNHAcz6GJpL1ijqgReC2fX"
+  },
+  "PFP-717e46-08": {
+    "id": "PFP-717e46-08",
+    "name": "P.F.P 5",
+    "charName": "Tester",
+    "season": "1",
+    "role": "boss",
+    "stats": {
+      "boldness": 5,
+      "charisma": 7,
+      "blackmail": 5
+    },
+    "abilityName": "Tester Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmcQzXzQ8pJB2P3wnYBvo7twa5D3h2wif5Bx7aqEHtaNcx"
+  },
+  "PFP-717e46-09": {
+    "id": "PFP-717e46-09",
+    "name": "P.F.P 6",
+    "charName": "The Publisher",
+    "season": "1",
+    "role": "boss",
+    "stats": {
+      "boldness": 5,
+      "charisma": 5,
+      "blackmail": 8
+    },
+    "abilityName": "Fuga di Notizie",
+    "abilityDescription": "Come Boss, spia le carte coperte e le bustarelle dell’avversario in una zona.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmSQcD5YmZ2D3EyVWdVjjaFvc2jV6yud2G2JDcyx4mQGuP"
+  },
+  "PFP-717e46-0a": {
+    "id": "PFP-717e46-0a",
+    "name": "P.F.P 7",
+    "charName": "The Alien",
+    "season": "1",
+    "role": "boss",
+    "stats": {
+      "boldness": 8,
+      "charisma": 7,
+      "blackmail": 6
+    },
+    "abilityName": "The Alien Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmPV3APaPgYEqw1QDB2BsBNvY2qCJSX1wRQytgG9D2Axyr"
+  },
+  "PFP-717e46-0b": {
+    "id": "PFP-717e46-0b",
+    "name": "P.F.P 8",
+    "charName": "The Clown",
+    "season": "1",
+    "role": "boss",
+    "stats": {
+      "boldness": 7,
+      "charisma": 6,
+      "blackmail": 6
+    },
+    "abilityName": "The Clown Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmdKMPNoLbkLPForGLKBtV1Nm4CJVjiJnQ5mr3ftcrwwyB"
+  },
+  "PFP-717e46-0c": {
+    "id": "PFP-717e46-0c",
+    "name": "P.F.P 9",
+    "charName": "The Mushroom",
+    "season": "1",
+    "role": "boss",
+    "stats": {
+      "boldness": 9,
+      "charisma": 5,
+      "blackmail": 6
+    },
+    "abilityName": "The Mushroom Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmQe7byBc5SxCg23MSs6MzCujufZNzHFN13HQW6tdbFzgL"
+  },
+  "PFP-717e46-0d": {
+    "id": "PFP-717e46-0d",
+    "name": "P.F.P 10",
+    "charName": "The Robot",
+    "season": "1",
+    "role": "boss",
+    "stats": {
+      "boldness": 9,
+      "charisma": 8,
+      "blackmail": 5
+    },
+    "abilityName": "The Robot Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmSdVYGytqyPvJctXU5haAx7GjJDVAQ9M1AwqJQ3NxWGmQ"
+  },
+  "PFP-717e46-0e": {
+    "id": "PFP-717e46-0e",
+    "name": "P.F.P 11",
+    "charName": "The Monkey",
+    "season": "1",
+    "role": "boss",
+    "stats": {
+      "boldness": 7,
+      "charisma": 9,
+      "blackmail": 6
+    },
+    "abilityName": "The Monkey Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmcmwavK46vQn66UTBud5MG7N3sZDG8E3FgnoFD4CHFCyC"
+  },
+  "PFP-717e46-0f": {
+    "id": "PFP-717e46-0f",
+    "name": "P.F.P 12",
+    "charName": "The Cowboy",
+    "season": "1",
+    "role": "boss",
+    "stats": {
+      "boldness": 7,
+      "charisma": 8,
+      "blackmail": 7
+    },
+    "abilityName": "The Cowboy Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmeqEJJuRJXcjjuV4yaeeYRvhXGxa1oBWowus9iMN7rMhP"
+  },
+  "PFP-717e46-10": {
+    "id": "PFP-717e46-10",
+    "name": "P.F.P 13",
+    "charName": "Bob",
+    "season": "1",
+    "role": "boss",
+    "stats": {
+      "boldness": 5,
+      "charisma": 6,
+      "blackmail": 5
+    },
+    "abilityName": "Bob Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmWpD8r8e6opYchcq5aMWXq8K7ipKDpvFrKs1g7hsntZGc"
+  },
+  "PFP-717e46-11": {
+    "id": "PFP-717e46-11",
+    "name": "P.F.P 14",
+    "charName": "The Butcher",
+    "season": "1",
+    "role": "boss",
+    "stats": {
+      "boldness": 8,
+      "charisma": 7,
+      "blackmail": 9
+    },
+    "abilityName": "The Butcher Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmcWGL57ucJcgbznCp6pZ8AYqZBsJkGYcnExDags67NQvf"
+  },
+  "PFP-717e46-12": {
+    "id": "PFP-717e46-12",
+    "name": "P.F.P 15",
+    "charName": "Lisa",
+    "season": "1",
+    "role": "boss",
+    "stats": {
+      "boldness": 8,
+      "charisma": 5,
+      "blackmail": 7
+    },
+    "abilityName": "Lisa Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmNQnksFCdGDmeVLN6FrUW4xgtTJuaK1wKa3cL4a6Bu8Qn"
+  },
+  "PFP-717e46-13": {
+    "id": "PFP-717e46-13",
+    "name": "P.F.P 16",
+    "charName": "Piguet Robot",
+    "season": "2",
+    "role": "boss",
+    "stats": {
+      "boldness": 5,
+      "charisma": 5,
+      "blackmail": 5
+    },
+    "abilityName": "Piguet Robot Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmWK29u9GBwjPqF4BQ8Je7vQfmRS5xZyhrN1cm7GmSqMQP"
+  },
+  "PFP-717e46-14": {
+    "id": "PFP-717e46-14",
+    "name": "P.F.P 17",
+    "charName": "Luffy",
+    "season": "2",
+    "role": "boss",
+    "stats": {
+      "boldness": 8,
+      "charisma": 7,
+      "blackmail": 8
+    },
+    "abilityName": "Luffy Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmeBHGp7T6aGBxZM5E6sGiaYLAKQWYEbyArKBTdX9WrjpY"
+  },
+  "PFP-717e46-16": {
+    "id": "PFP-717e46-16",
+    "name": "P.F.P 18",
+    "charName": "The Cow",
+    "season": "2",
+    "role": "boss",
+    "stats": {
+      "boldness": 5,
+      "charisma": 5,
+      "blackmail": 8
+    },
+    "abilityName": "The Cow Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmT5QpcSDjo8nL815t82r47M4SHaNgfLGLxThs9Fx9VqfZ"
+  },
+  "PFP-717e46-17": {
+    "id": "PFP-717e46-17",
+    "name": "P.F.P 19",
+    "charName": "Modern Pharaoh",
+    "season": "2",
+    "role": "boss",
+    "stats": {
+      "boldness": 8,
+      "charisma": 8,
+      "blackmail": 7
+    },
+    "abilityName": "Decreto Reale",
+    "abilityDescription": "Come Boss, annulla una votazione di maggioranza in una zona a tua scelta una volta per partita.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/Qmf5Q2rrGdTuU1Vgfts9FMJJ3yyrXi1MPYwUaScTSitAQ2"
+  },
+  "PFP-717e46-18": {
+    "id": "PFP-717e46-18",
+    "name": "P.F.P 20",
+    "charName": "Stanley",
+    "season": "2",
+    "role": "boss",
+    "stats": {
+      "boldness": 7,
+      "charisma": 6,
+      "blackmail": 9
+    },
+    "abilityName": "Stanley Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmRhTty3g6huXokmEyUza5AhpPb9rbTc6qd1BmEg6pMZ6y"
+  },
+  "PFP-717e46-19": {
+    "id": "PFP-717e46-19",
+    "name": "P.F.P 21",
+    "charName": "Pinocchio",
+    "season": "2",
+    "role": "boss",
+    "stats": {
+      "boldness": 7,
+      "charisma": 8,
+      "blackmail": 8
+    },
+    "abilityName": "Pinocchio Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmVaz4v6LBfs7bCXjwAScP6RQMarb8GShGoYzxG6DYXXug"
+  },
+  "PFP-717e46-1b": {
+    "id": "PFP-717e46-1b",
+    "name": "P.F.P 23",
+    "charName": "Kaonashi",
+    "season": "2",
+    "role": "boss",
+    "stats": {
+      "boldness": 8,
+      "charisma": 7,
+      "blackmail": 5
+    },
+    "abilityName": "Kaonashi Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmbRNtEdWrSEHoofK9CD44RfteQAXSt1aAiQqdZpTw3zpR"
+  },
+  "PFP-717e46-1c": {
+    "id": "PFP-717e46-1c",
+    "name": "P.F.P 24",
+    "charName": "Homelander",
+    "season": "2",
+    "role": "boss",
+    "stats": {
+      "boldness": 9,
+      "charisma": 9,
+      "blackmail": 5
+    },
+    "abilityName": "Homelander Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmUchqBmzzRQUSb2BxjrqcxRLc863eL7Nqz6DZ5ZMKLrNi"
+  },
+  "PFP-717e46-1d": {
+    "id": "PFP-717e46-1d",
+    "name": "P.F.P 25",
+    "charName": "The Pigeon",
+    "season": "2",
+    "role": "boss",
+    "stats": {
+      "boldness": 5,
+      "charisma": 8,
+      "blackmail": 6
+    },
+    "abilityName": "The Pigeon Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/Qma3NsGacPxRjCvJbWKJyiswL7XnwbUDDRreEJAX5uYqSa"
+  },
+  "PFP-717e46-1e": {
+    "id": "PFP-717e46-1e",
+    "name": "P.F.P 26",
+    "charName": "Spongebob",
+    "season": "2",
+    "role": "boss",
+    "stats": {
+      "boldness": 9,
+      "charisma": 9,
+      "blackmail": 8
+    },
+    "abilityName": "Spongebob Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/Qme53Y2xWxw17pfsgv6kY2CFb2KVrbbozRKaFRnsbBa2uZ"
+  },
+  "PFP-717e46-1f": {
+    "id": "PFP-717e46-1f",
+    "name": "P.F.P 27",
+    "charName": "The Jester",
+    "season": "2",
+    "role": "boss",
+    "stats": {
+      "boldness": 6,
+      "charisma": 5,
+      "blackmail": 8
+    },
+    "abilityName": "The Jester Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/Qmf7Kh36XQ25MhxucBEjRTT2joMN31P1X3CwvJ3P28gkWF"
+  },
+  "PFP-717e46-20": {
+    "id": "PFP-717e46-20",
+    "name": "P.F.P 28",
+    "charName": "The Mannequin",
+    "season": "2",
+    "role": "boss",
+    "stats": {
+      "boldness": 6,
+      "charisma": 8,
+      "blackmail": 9
+    },
+    "abilityName": "The Mannequin Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmZjjXHjQMXxS38vbiASmUpytoUK1AqfdEpFSLDdREPgrN"
+  },
+  "PFP-717e46-21": {
+    "id": "PFP-717e46-21",
+    "name": "P.F.P 29",
+    "charName": "The Gorilla",
+    "season": "2",
+    "role": "boss",
+    "stats": {
+      "boldness": 9,
+      "charisma": 9,
+      "blackmail": 6
+    },
+    "abilityName": "The Gorilla Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmRuhnyhntnvSnhbBzXNWJadSFfT9wD4KJrh9huPwoTMc7"
+  },
+  "PFP-717e46-22": {
+    "id": "PFP-717e46-22",
+    "name": "P.F.P 30",
+    "charName": "The Pig",
+    "season": "2",
+    "role": "boss",
+    "stats": {
+      "boldness": 6,
+      "charisma": 7,
+      "blackmail": 6
+    },
+    "abilityName": "The Pig Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmQ3vDZK7iBrizNpJBXMPDkSpmHR4bJU2jHbm49tidr284"
+  },
+  "PFP-717e46-23": {
+    "id": "PFP-717e46-23",
+    "name": "P.F.P 22",
+    "charName": "Jon Bro",
+    "season": "2",
+    "role": "boss",
+    "stats": {
+      "boldness": 7,
+      "charisma": 8,
+      "blackmail": 9
+    },
+    "abilityName": "Jon Bro Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmfAxnZgShxHvv6X3veeHWiYmfrUsLxvSd8sUDJPUHuVRc"
+  },
+  "PFP-717e46-24": {
+    "id": "PFP-717e46-24",
+    "name": "P.F.P 31",
+    "charName": "The Pittz",
+    "season": "3",
+    "role": "boss",
+    "stats": {
+      "boldness": 8,
+      "charisma": 5,
+      "blackmail": 5
+    },
+    "abilityName": "The Pittz Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/Qmeup6vZKmLxHcysg71gYKz9gLjwPvq2hjWRdLyJngMGTX"
+  },
+  "PFP-717e46-25": {
+    "id": "PFP-717e46-25",
+    "name": "P.F.P 32",
+    "charName": "Death",
+    "season": "3",
+    "role": "boss",
+    "stats": {
+      "boldness": 6,
+      "charisma": 9,
+      "blackmail": 7
+    },
+    "abilityName": "Death Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/Qmd888NRGxDLcNtge4QgAjxtAdxDLHwGP6KA6WpDmyHV3M"
+  },
+  "PFP-717e46-26": {
+    "id": "PFP-717e46-26",
+    "name": "P.F.P 33",
+    "charName": "Popeye",
+    "season": "3",
+    "role": "boss",
+    "stats": {
+      "boldness": 5,
+      "charisma": 5,
+      "blackmail": 5
+    },
+    "abilityName": "Popeye Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmSSdXWJ2hQQhuB3GMD6ykZVte9y5cjArpLEFQRodZkqav"
+  },
+  "PFP-717e46-27": {
+    "id": "PFP-717e46-27",
+    "name": "P.F.P 34",
+    "charName": "The Nun",
+    "season": "3",
+    "role": "boss",
+    "stats": {
+      "boldness": 8,
+      "charisma": 7,
+      "blackmail": 5
+    },
+    "abilityName": "The Nun Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmR388o2yctpEi9B5aJ4wUQK9xqh1yTRCzCqJdzZ74reqD"
+  },
+  "PFP-717e46-28": {
+    "id": "PFP-717e46-28",
+    "name": "P.F.P 35",
+    "charName": "Michelangelo",
+    "season": "3",
+    "role": "boss",
+    "stats": {
+      "boldness": 5,
+      "charisma": 7,
+      "blackmail": 9
+    },
+    "abilityName": "Michelangelo Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmXPR8GCjTET25fJKnhqsogLQAPrD496uBamnyW9cAo1xa"
+  },
+  "PFP-717e46-29": {
+    "id": "PFP-717e46-29",
+    "name": "P.F.P 36",
+    "charName": "The Minotaur",
+    "season": "3",
+    "role": "boss",
+    "stats": {
+      "boldness": 5,
+      "charisma": 7,
+      "blackmail": 7
+    },
+    "abilityName": "The Minotaur Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmRWWStJ3v4FPvNpGvf4AYinBHmoxqedtBBP7A7vxfJVY4"
+  },
+  "PFP-717e46-2a": {
+    "id": "PFP-717e46-2a",
+    "name": "P.F.P 37",
+    "charName": "Pepe",
+    "season": "3",
+    "role": "boss",
+    "stats": {
+      "boldness": 9,
+      "charisma": 8,
+      "blackmail": 9
+    },
+    "abilityName": "Pepe Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmX7FD74c4Kt8CwwV2X75x2Ld44xDrDioxfuMJZgzKYtsn"
+  },
+  "PFP-717e46-2b": {
+    "id": "PFP-717e46-2b",
+    "name": "P.F.P 38",
+    "charName": "The Skeleton",
+    "season": "3",
+    "role": "boss",
+    "stats": {
+      "boldness": 5,
+      "charisma": 9,
+      "blackmail": 9
+    },
+    "abilityName": "The Skeleton Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmWMa62hGr1nwucdDxUVt2rxXgt4zAizo9KCwnCWeKYi44"
+  },
+  "PFP-717e46-2c": {
+    "id": "PFP-717e46-2c",
+    "name": "P.F.P 39",
+    "charName": "Tony Tony Chopper (Big Version)",
+    "season": "3",
+    "role": "boss",
+    "stats": {
+      "boldness": 6,
+      "charisma": 5,
+      "blackmail": 5
+    },
+    "abilityName": "Tony Tony Chopper (Big Version) Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmW4WEvoc4BVmf4oNqscbQDmRyM36DYZsQFMK2XiLcLVcU"
+  },
+  "PFP-717e46-2d": {
+    "id": "PFP-717e46-2d",
+    "name": "P.F.P 40",
+    "charName": "The Caveman",
+    "season": "3",
+    "role": "boss",
+    "stats": {
+      "boldness": 6,
+      "charisma": 7,
+      "blackmail": 6
+    },
+    "abilityName": "The Caveman Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmQ1Fk2zjDmaA9Ufkpf2ruKig44VRUwgvmTEny42DMs84S"
+  },
+  "PFP-717e46-2e": {
+    "id": "PFP-717e46-2e",
+    "name": "P.F.P 41",
+    "charName": "The Nurse",
+    "season": "3",
+    "role": "boss",
+    "stats": {
+      "boldness": 7,
+      "charisma": 6,
+      "blackmail": 6
+    },
+    "abilityName": "The Nurse Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmXDq5EAUzUL1aeCzEoZZyW1dmuXMtvyRvzit81fhuc3Vi"
+  },
+  "PFP-717e46-30": {
+    "id": "PFP-717e46-30",
+    "name": "P.F.P 43",
+    "charName": "Mona Lisa",
+    "season": "3",
+    "role": "boss",
+    "stats": {
+      "boldness": 6,
+      "charisma": 7,
+      "blackmail": 9
+    },
+    "abilityName": "Mona Lisa Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmeDqSJAKAwtsewXA99i9CRQii2FC4jZWA95GfthN39apR"
+  },
+  "PFP-717e46-31": {
+    "id": "PFP-717e46-31",
+    "name": "P.F.P 44",
+    "charName": "Tom the Nerd",
+    "season": "3",
+    "role": "boss",
+    "stats": {
+      "boldness": 6,
+      "charisma": 7,
+      "blackmail": 7
+    },
+    "abilityName": "Tom the Nerd Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/Qmag8ENvLtYQ65PDygRRvcRtAguNFM2yej6fTdTrR4LM2H"
+  },
+  "PFP-717e46-32": {
+    "id": "PFP-717e46-32",
+    "name": "P.F.P 45",
+    "charName": "The Chicken",
+    "season": "3",
+    "role": "boss",
+    "stats": {
+      "boldness": 7,
+      "charisma": 8,
+      "blackmail": 8
+    },
+    "abilityName": "The Chicken Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmbMTv2TD9P6EwtNkKqUv23NQfM32QoNMi2QUC7Wfxjjno"
+  },
+  "PFP-717e46-33": {
+    "id": "PFP-717e46-33",
+    "name": "P.F.P 42",
+    "charName": "The Flower",
+    "season": "3",
+    "role": "boss",
+    "stats": {
+      "boldness": 8,
+      "charisma": 9,
+      "blackmail": 8
+    },
+    "abilityName": "The Flower Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmdDJ1jJx4KmnPcTMsQUT7rDDLotDiqWAiuyKZGyYTwTKo"
+  },
+  "PFP-717e46-34": {
+    "id": "PFP-717e46-34",
+    "name": "P.F.P 46",
+    "charName": "Banana Man",
+    "season": "4",
+    "role": "boss",
+    "stats": {
+      "boldness": 8,
+      "charisma": 9,
+      "blackmail": 8
+    },
+    "abilityName": "Banana Man Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/Qmc3e33JhzPK1yJprCptqzpCEbNoyAB48m1AKULQpEcKq9"
+  },
+  "PFP-717e46-35": {
+    "id": "PFP-717e46-35",
+    "name": "P.F.P 47",
+    "charName": "The Octopus",
+    "season": "4",
+    "role": "boss",
+    "stats": {
+      "boldness": 8,
+      "charisma": 7,
+      "blackmail": 8
+    },
+    "abilityName": "The Octopus Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmXsgQWi3tf3gtERzDzH9N7f3dtRrPADwyQ6fKLVG8zqDQ"
+  },
+  "PFP-717e46-36": {
+    "id": "PFP-717e46-36",
+    "name": "P.F.P 48",
+    "charName": "The Duck",
+    "season": "4",
+    "role": "boss",
+    "stats": {
+      "boldness": 7,
+      "charisma": 8,
+      "blackmail": 9
+    },
+    "abilityName": "The Duck Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmURAu4pHDLHJnm1xeQFJxrVhB9MKCLVr1txxyyZqs9Jq6"
+  },
+  "PFP-717e46-37": {
+    "id": "PFP-717e46-37",
+    "name": "P.F.P 49",
+    "charName": "The Snowboarder",
+    "season": "4",
+    "role": "boss",
+    "stats": {
+      "boldness": 9,
+      "charisma": 8,
+      "blackmail": 7
+    },
+    "abilityName": "The Snowboarder Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmcqFifjmy2TwYFYvHPN98bYA6MT4oXG82T39jGTLghSYb"
+  },
+  "PFP-717e46-39": {
+    "id": "PFP-717e46-39",
+    "name": "P.F.P 50",
+    "charName": "The Punk",
+    "season": "4",
+    "role": "boss",
+    "stats": {
+      "boldness": 5,
+      "charisma": 6,
+      "blackmail": 9
+    },
+    "abilityName": "The Punk Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmWTDHyRA39nR2das3g9X6LjEhvo53htQBJmFKL5dNnmDA"
+  },
+  "PFP-717e46-3a": {
+    "id": "PFP-717e46-3a",
+    "name": "P.F.P 51",
+    "charName": "Usopp",
+    "season": "4",
+    "role": "boss",
+    "stats": {
+      "boldness": 5,
+      "charisma": 6,
+      "blackmail": 9
+    },
+    "abilityName": "Usopp Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmYkLPRTS77rkWqn9WHABcvHM3La3YfppLhzVc3YthQ7uu"
+  },
+  "PFP-717e46-3b": {
+    "id": "PFP-717e46-3b",
+    "name": "P.F.P 52",
+    "charName": "Party T-Rex",
+    "season": "4",
+    "role": "boss",
+    "stats": {
+      "boldness": 7,
+      "charisma": 5,
+      "blackmail": 5
+    },
+    "abilityName": "Party T-Rex Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmUPQw2Axi7pQGXCF9K8kvTdhM4vGwY6N1UxuWzuVo1xHJ"
+  },
+  "PFP-717e46-3c": {
+    "id": "PFP-717e46-3c",
+    "name": "P.F.P 53",
+    "charName": "The Mummy",
+    "season": "4",
+    "role": "boss",
+    "stats": {
+      "boldness": 9,
+      "charisma": 9,
+      "blackmail": 6
+    },
+    "abilityName": "The Mummy Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmQCdh3eQkTGEKDrubaX6nPoiNbBAwaPES1QHYGuKTf7sW"
+  },
+  "PFP-717e46-3d": {
+    "id": "PFP-717e46-3d",
+    "name": "P.F.P 54",
+    "charName": "The Cyclops",
+    "season": "4",
+    "role": "boss",
+    "stats": {
+      "boldness": 7,
+      "charisma": 6,
+      "blackmail": 5
+    },
+    "abilityName": "The Cyclops Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmUTZzEQjBvYJeeRD5i5dg9oAZwQSXzd9UNEyE27XyBAJE"
+  },
+  "PFP-717e46-3e": {
+    "id": "PFP-717e46-3e",
+    "name": "P.F.P 55",
+    "charName": "The Joker",
+    "season": "4",
+    "role": "boss",
+    "stats": {
+      "boldness": 5,
+      "charisma": 5,
+      "blackmail": 9
+    },
+    "abilityName": "The Joker Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmWBY2ShHsiRrtXmVcT2XyZozSxUBGRUN3TzQ3n3airGWQ"
+  },
+  "PFP-717e46-3f": {
+    "id": "PFP-717e46-3f",
+    "name": "P.F.P 56",
+    "charName": "The Shark",
+    "season": "4",
+    "role": "boss",
+    "stats": {
+      "boldness": 7,
+      "charisma": 6,
+      "blackmail": 8
+    },
+    "abilityName": "The Shark Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmeGVNmKM4pcigvpHx3S9cNJa4JtemRVrZGTY3z97AgLnX"
+  },
+  "PFP-717e46-40": {
+    "id": "PFP-717e46-40",
+    "name": "P.F.P 57",
+    "charName": "The Walrus",
+    "season": "4",
+    "role": "boss",
+    "stats": {
+      "boldness": 8,
+      "charisma": 6,
+      "blackmail": 6
+    },
+    "abilityName": "The Walrus Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmXb8XKauG5PyANcKTH79Qjp2N5uM64vqv9U21WNB7bu1h"
+  },
+  "PFP-717e46-41": {
+    "id": "PFP-717e46-41",
+    "name": "P.F.P 58",
+    "charName": "The Tuna",
+    "season": "4",
+    "role": "boss",
+    "stats": {
+      "boldness": 9,
+      "charisma": 9,
+      "blackmail": 6
+    },
+    "abilityName": "The Tuna Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmPJivWYLiFbcpCcrTyiQjbhWv27pGXqqotumLR6E9RGza"
+  },
+  "PFP-717e46-42": {
+    "id": "PFP-717e46-42",
+    "name": "P.F.P 59",
+    "charName": "The Cat",
+    "season": "4",
+    "role": "boss",
+    "stats": {
+      "boldness": 8,
+      "charisma": 5,
+      "blackmail": 6
+    },
+    "abilityName": "The Cat Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmSSyGqtiREQhBrvfPywTtASDoF4r18gMEWtTmFaCL6nPC"
+  },
+  "PFP-717e46-43": {
+    "id": "PFP-717e46-43",
+    "name": "P.F.P 60",
+    "charName": "Box Boy",
+    "season": "4",
+    "role": "boss",
+    "stats": {
+      "boldness": 8,
+      "charisma": 5,
+      "blackmail": 6
+    },
+    "abilityName": "Box Boy Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmfSDPrZ9dqaJMvmBdD1PHPFfgzNW8kNwehkrVnRG9bFFa"
+  },
+  "PFP-717e46-44": {
+    "id": "PFP-717e46-44",
+    "name": "P.F.P 61",
+    "charName": "Arale",
+    "season": "5",
+    "role": "boss",
+    "stats": {
+      "boldness": 5,
+      "charisma": 6,
+      "blackmail": 6
+    },
+    "abilityName": "Arale Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmXCS8QKiUTa7LN5ANTQ6dwRua9Qn5nnd8DXq1E4dWsnhv"
+  },
+  "PFP-717e46-45": {
+    "id": "PFP-717e46-45",
+    "name": "P.F.P 62",
+    "charName": "The Frog",
+    "season": "5",
+    "role": "boss",
+    "stats": {
+      "boldness": 9,
+      "charisma": 9,
+      "blackmail": 6
+    },
+    "abilityName": "The Frog Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmaJykzjCbmhELsUPwpWEpj25DnXrEcjrtPh7ND8PpSAPD"
+  },
+  "PFP-717e46-46": {
+    "id": "PFP-717e46-46",
+    "name": "P.F.P 63",
+    "charName": "The Astronaut",
+    "season": "5",
+    "role": "boss",
+    "stats": {
+      "boldness": 8,
+      "charisma": 5,
+      "blackmail": 5
+    },
+    "abilityName": "The Astronaut Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmNYFGXNMkmYYsDcBDkm6LR2pjTipQ95Ho2T6CQyHBhY53"
+  },
+  "PFP-717e46-47": {
+    "id": "PFP-717e46-47",
+    "name": "P.F.P 64",
+    "charName": "Lena",
+    "season": "5",
+    "role": "boss",
+    "stats": {
+      "boldness": 9,
+      "charisma": 6,
+      "blackmail": 7
+    },
+    "abilityName": "Lena Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmZ7But1AyS8xeniV6ZEMKCUp84j2cVjCBMUbywHZNDWCc"
+  },
+  "PFP-717e46-48": {
+    "id": "PFP-717e46-48",
+    "name": "P.F.P 65",
+    "charName": "The Unicorn",
+    "season": "5",
+    "role": "boss",
+    "stats": {
+      "boldness": 7,
+      "charisma": 5,
+      "blackmail": 8
+    },
+    "abilityName": "The Unicorn Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmXvDrCit6Ymk5AZs55DA8LGMy4VkGuwKXe3mTZsqnEsjo"
+  },
+  "PFP-717e46-49": {
+    "id": "PFP-717e46-49",
+    "name": "P.F.P 66",
+    "charName": "The Smoker",
+    "season": "5",
+    "role": "boss",
+    "stats": {
+      "boldness": 6,
+      "charisma": 7,
+      "blackmail": 8
+    },
+    "abilityName": "The Smoker Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmXAVSdUS4ditBNHSqGe21KmdYyvNJwRHAz1dBJTwdGAfH"
+  },
+  "PFP-717e46-4a": {
+    "id": "PFP-717e46-4a",
+    "name": "P.F.P 67",
+    "charName": "TVBoy",
+    "season": "5",
+    "role": "boss",
+    "stats": {
+      "boldness": 8,
+      "charisma": 9,
+      "blackmail": 8
+    },
+    "abilityName": "TVBoy Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmWkyhs38SaTGWyPvrCFLjAuZUpMsyGd34WKL3wNfqiNxY"
+  },
+  "PFP-717e46-4b": {
+    "id": "PFP-717e46-4b",
+    "name": "P.F.P 68",
+    "charName": "The Guardian",
+    "season": "5",
+    "role": "boss",
+    "stats": {
+      "boldness": 5,
+      "charisma": 9,
+      "blackmail": 6
+    },
+    "abilityName": "The Guardian Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmXXNPBUgmZDtYjgmgQozbTjs4XzZePcRmrNiuJ4k5k39V"
+  },
+  "PFP-717e46-4c": {
+    "id": "PFP-717e46-4c",
+    "name": "P.F.P 69",
+    "charName": "The Explorer",
+    "season": "5",
+    "role": "boss",
+    "stats": {
+      "boldness": 5,
+      "charisma": 7,
+      "blackmail": 6
+    },
+    "abilityName": "The Explorer Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmfUiw1c5Eagbdp5TukEZ9r9fBNc1MNS8MqCF4QGUnMbND"
+  },
+  "PFP-717e46-4d": {
+    "id": "PFP-717e46-4d",
+    "name": "P.F.P 70",
+    "charName": "Diamond Man",
+    "season": "5",
+    "role": "boss",
+    "stats": {
+      "boldness": 5,
+      "charisma": 8,
+      "blackmail": 9
+    },
+    "abilityName": "Diamond Man Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmPgo9bG4knXc2cESatXaAT3rVs1RQRu18kbgohrPENMiJ"
+  },
+  "PFP-717e46-4e": {
+    "id": "PFP-717e46-4e",
+    "name": "P.F.P 71",
+    "charName": "The Mexican",
+    "season": "5",
+    "role": "boss",
+    "stats": {
+      "boldness": 8,
+      "charisma": 7,
+      "blackmail": 5
+    },
+    "abilityName": "The Mexican Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmNa4R7CC2awVzcVyJ9FnWWM56FRB9axVTSvgBN7VWNRTg"
+  },
+  "PFP-717e46-4f": {
+    "id": "PFP-717e46-4f",
+    "name": "P.F.P 72",
+    "charName": "Broken Egg",
+    "season": "5",
+    "role": "boss",
+    "stats": {
+      "boldness": 9,
+      "charisma": 9,
+      "blackmail": 9
+    },
+    "abilityName": "Broken Egg Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmaA2tp9aUczdiPZmDGZa5ypQCjN54G9zYXjkZx8DHMAtx"
+  },
+  "PFP-717e46-50": {
+    "id": "PFP-717e46-50",
+    "name": "P.F.P 73",
+    "charName": "Big Cloud",
+    "season": "5",
+    "role": "boss",
+    "stats": {
+      "boldness": 7,
+      "charisma": 7,
+      "blackmail": 9
+    },
+    "abilityName": "Big Cloud Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmZhYXVD9T2fGntAboYBniBc5MazAwj5NfGBoL4Z6A9CgU"
+  },
+  "PFP-717e46-51": {
+    "id": "PFP-717e46-51",
+    "name": "P.F.P 74",
+    "charName": "The Doctor",
+    "season": "5",
+    "role": "boss",
+    "stats": {
+      "boldness": 9,
+      "charisma": 8,
+      "blackmail": 5
+    },
+    "abilityName": "The Doctor Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmT9qSbzgtG8MG1nF4BcPKz16e8YwrbKWptzfeZMLqS9R6"
+  },
+  "PFP-717e46-52": {
+    "id": "PFP-717e46-52",
+    "name": "P.F.P 75",
+    "charName": "FuckingZILLA",
+    "season": "5",
+    "role": "boss",
+    "stats": {
+      "boldness": 7,
+      "charisma": 6,
+      "blackmail": 8
+    },
+    "abilityName": "FuckingZILLA Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmPHpzJMax4Q7wq4qMwT6aYeAAqnXYhNsuUVMjF8G3stgd"
+  },
+  "PFP-717e46-53": {
+    "id": "PFP-717e46-53",
+    "name": "P.F.P 76",
+    "charName": "Space Guardian",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 8,
+      "charisma": 9,
+      "blackmail": 9
+    },
+    "abilityName": "Space Guardian Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/Qmbj5LjYxkDm9jJsC6YsWpU6ozx3VuPhDfzJdsDz3CyZMo"
+  },
+  "PFP-717e46-54": {
+    "id": "PFP-717e46-54",
+    "name": "P.F.P 77",
+    "charName": "Dragon Boy",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 9,
+      "charisma": 6,
+      "blackmail": 7
+    },
+    "abilityName": "Dragon Boy Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmebrZKgZNXDEAmPbFppwguiANUXUwzVQLJj75mTF2e7yJ"
+  },
+  "PFP-717e46-55": {
+    "id": "PFP-717e46-55",
+    "name": "P.F.P 78",
+    "charName": "Mr. Ketchup",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 6,
+      "charisma": 7,
+      "blackmail": 8
+    },
+    "abilityName": "Mr. Ketchup Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmP96PSmUYToP7pwbSuEndFFxrUFietp6ZoWQKFykYQYse"
+  },
+  "PFP-717e46-56": {
+    "id": "PFP-717e46-56",
+    "name": "P.F.P 79",
+    "charName": "The Penguin",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 6,
+      "charisma": 8,
+      "blackmail": 9
+    },
+    "abilityName": "The Penguin Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmaFjiwbcfPRYthgETqsH14mwCJnQzboZ81kvcQMiJhBCT"
+  },
+  "PFP-717e46-57": {
+    "id": "PFP-717e46-57",
+    "name": "P.F.P 80",
+    "charName": "The Iron Goat",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 6,
+      "charisma": 5,
+      "blackmail": 9
+    },
+    "abilityName": "The Iron Goat Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmUHtJv5Q1AKUGr3LFqsLU2LzDKQouiP2ywqwcbp2HvBns"
+  },
+  "PFP-717e46-58": {
+    "id": "PFP-717e46-58",
+    "name": "P.F.P 81",
+    "charName": "The Gentleman",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 7,
+      "charisma": 8,
+      "blackmail": 5
+    },
+    "abilityName": "The Gentleman Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmWgitLJknX9UWrXi1mbGmdJwsuLSmrPKGkHH37c64v6em"
+  },
+  "PFP-717e46-59": {
+    "id": "PFP-717e46-59",
+    "name": "P.F.P 82",
+    "charName": "The Sailor",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 8,
+      "charisma": 9,
+      "blackmail": 6
+    },
+    "abilityName": "The Sailor Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/Qmf6T2D3TdbGRavtDCJKB28wjGKQwC8aMAZ5J4MmNxgAko"
+  },
+  "PFP-717e46-5a": {
+    "id": "PFP-717e46-5a",
+    "name": "P.F.P 83",
+    "charName": "Pandamonium",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 6,
+      "charisma": 7,
+      "blackmail": 6
+    },
+    "abilityName": "Pandamonium Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmeuEeb3pn3Qz5UJuvzgeqTTqBAtKRyJmKv9bpdN2PptqD"
+  },
+  "PFP-717e46-5b": {
+    "id": "PFP-717e46-5b",
+    "name": "P.F.P 84",
+    "charName": "The Scarecrow",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 6,
+      "charisma": 5,
+      "blackmail": 7
+    },
+    "abilityName": "The Scarecrow Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmPfTS1o4wDivMgRjXMP4rkFJwCuHzCeUucL4SjZTpQB2R"
+  },
+  "PFP-717e46-5c": {
+    "id": "PFP-717e46-5c",
+    "name": "P.F.P 85",
+    "charName": "The Cactus",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 6,
+      "charisma": 9,
+      "blackmail": 9
+    },
+    "abilityName": "The Cactus Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmVMtvJMTQ4vyBDLwnc38Xz4ciTD5reMS3dMDybWSTA6hZ"
+  },
+  "PFP-717e46-5d": {
+    "id": "PFP-717e46-5d",
+    "name": "P.F.P 86",
+    "charName": "Mr. Cucumber",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 6,
+      "charisma": 6,
+      "blackmail": 7
+    },
+    "abilityName": "Mr. Cucumber Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmRRyjaFUjNUqkBpVGhNrJpgZgp9Sqvuo2RtoSC55CSPNe"
+  },
+  "PFP-717e46-5e": {
+    "id": "PFP-717e46-5e",
+    "name": "P.F.P 87",
+    "charName": "Station Chief - Doodle Ed.",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 6,
+      "charisma": 7,
+      "blackmail": 8
+    },
+    "abilityName": "Station Chief - Doodle Ed. Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmbXNdhmLnNxZ9DQLxLW9Xm7QBt9e1xuhUnEuGhvPwdMyV"
+  },
+  "PFP-717e46-5f": {
+    "id": "PFP-717e46-5f",
+    "name": "P.F.P 88",
+    "charName": "The Commodore",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 7,
+      "charisma": 7,
+      "blackmail": 8
+    },
+    "abilityName": "The Commodore Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmcAgSz81qXvsm2qGg5YRSuxE2Uy6qs2fn99QZvDEU5M1A"
+  },
+  "PFP-717e46-60": {
+    "id": "PFP-717e46-60",
+    "name": "P.F.P 89",
+    "charName": "Fart Man",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 9,
+      "charisma": 9,
+      "blackmail": 7
+    },
+    "abilityName": "Fart Man Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/Qmd3YVcYLHkQhwnpM6nj38iBfKBFMnvbwAn1SHt77n6Mpc"
+  },
+  "PFP-717e46-61": {
+    "id": "PFP-717e46-61",
+    "name": "P.F.P 90",
+    "charName": "Retired Devil",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 9,
+      "charisma": 7,
+      "blackmail": 8
+    },
+    "abilityName": "Retired Devil Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmS2GL3GwpEBDyuwisMimdcPb64kBQa7pvUpB5nDmTq9gR"
+  },
+  "PFP-717e46-62": {
+    "id": "PFP-717e46-62",
+    "name": "P.F.P 91",
+    "charName": "The Plant",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 6,
+      "charisma": 9,
+      "blackmail": 8
+    },
+    "abilityName": "The Plant Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmfSDjgKkF3cSb5ugTYJfdAhDTpj7TYG7fX1e1D9EFUdjW"
+  },
+  "PFP-717e46-63": {
+    "id": "PFP-717e46-63",
+    "name": "P.F.P 92",
+    "charName": "The Smoker APE",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 9,
+      "charisma": 8,
+      "blackmail": 5
+    },
+    "abilityName": "The Smoker APE Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/Qmap5anSdmsafUgSgii5tcAufCVxqX6XtmXyhkUV9GgihA"
+  },
+  "PFP-717e46-64": {
+    "id": "PFP-717e46-64",
+    "name": "P.F.P 93",
+    "charName": "The Hunter",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 5,
+      "charisma": 8,
+      "blackmail": 5
+    },
+    "abilityName": "The Hunter Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmYaXaS7C4eNEozENvGhZT3XgXrJBHQTdyhDmfoPtXrvo5"
+  },
+  "PFP-717e46-65": {
+    "id": "PFP-717e46-65",
+    "name": "P.F.P 94",
+    "charName": "Bubble Boy",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 8,
+      "charisma": 7,
+      "blackmail": 6
+    },
+    "abilityName": "Bubble Boy Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmSKW26NmF9NUVPNfoLTKDKGMFThTiSLiLA5TzwG8yUovL"
+  },
+  "PFP-717e46-66": {
+    "id": "PFP-717e46-66",
+    "name": "P.F.P 95",
+    "charName": "The Buffalo",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 9,
+      "charisma": 8,
+      "blackmail": 7
+    },
+    "abilityName": "The Buffalo Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmacUhwvXW8YM7sSTaRK2HnSa9SnSiWTHDKi64kKyympij"
+  },
+  "PFP-717e46-67": {
+    "id": "PFP-717e46-67",
+    "name": "P.F.P 96",
+    "charName": "The Spartan",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 7,
+      "charisma": 8,
+      "blackmail": 8
+    },
+    "abilityName": "Muro di Sparta",
+    "abilityDescription": "Blocca tutti i tentativi di ricatto nella zona La Strada per questo turno.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmR6TBrLFx6Hv73UyQFuekXHuTTsNv4gMgQBYk1FFzUzUq"
+  },
+  "PFP-717e46-68": {
+    "id": "PFP-717e46-68",
+    "name": "P.F.P 97",
+    "charName": "Charlie Chaplin",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 5,
+      "charisma": 8,
+      "blackmail": 5
+    },
+    "abilityName": "Charlie Chaplin Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmWtLDNT2peiUZZ2s4XcS4QLM5pPbQDxKx1PNRPAw5uXCR"
+  },
+  "PFP-717e46-69": {
+    "id": "PFP-717e46-69",
+    "name": "P.F.P 98",
+    "charName": "The Ninja",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 6,
+      "charisma": 6,
+      "blackmail": 7
+    },
+    "abilityName": "The Ninja Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmVCKQTAHPUH2ta1imq2wsjm97rWdbHE3YtnHW5sJ8kkPK"
+  },
+  "PFP-717e46-6a": {
+    "id": "PFP-717e46-6a",
+    "name": "P.F.P 99",
+    "charName": "The Pirate",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 8,
+      "charisma": 7,
+      "blackmail": 6
+    },
+    "abilityName": "The Pirate Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmXN4ohJTiiqWFjgU3kJfePLCsEB7cB6ExHzf6UCpWbDJ1"
+  },
+  "PFP-717e46-6b": {
+    "id": "PFP-717e46-6b",
+    "name": "P.F.P 100",
+    "charName": "The Jedi",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 6,
+      "charisma": 7,
+      "blackmail": 6
+    },
+    "abilityName": "Mind Trick",
+    "abilityDescription": "Forces the opponent to reveal their played card in a zone before the bribe phase.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmNtbH1NF2sXo9s6xD7fcSBUzbuQMhH6CdVugY2whcMYzL"
+  },
+  "PFP-717e46-6c": {
+    "id": "PFP-717e46-6c",
+    "name": "P.F.P 101",
+    "charName": "Dead Astronaut",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 7,
+      "charisma": 7,
+      "blackmail": 7
+    },
+    "abilityName": "Dead Astronaut Tactics",
+    "abilityDescription": "Increases zone influence by +2 when played in matching territory.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmeY6AHJVY1hjaVAJ3b2J4zXyqUBkn42fGRfD1fdyanEAu"
+  },
+  "PFP-717e46-6d": {
+    "id": "PFP-717e46-6d",
+    "name": "P.F.P 102",
+    "charName": "The Goat Artist",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 9,
+      "charisma": 9,
+      "blackmail": 7
+    },
+    "abilityName": "Rainbow Canvas",
+    "abilityDescription": "Paints vibrant color over rival influence, granting +3 Influence boost in The Club.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/Qma7pFWDhwPmiQwKzJzxbA4qf8zsz6pQDGDvs5RqbWhqhw"
+  },
+  "PFP-717e46-6e": {
+    "id": "PFP-717e46-6e",
+    "name": "P.F.P 103",
+    "charName": "The Fastfood Boss",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 8,
+      "charisma": 9,
+      "blackmail": 7
+    },
+    "abilityName": "Deep Fryer Overload",
+    "abilityDescription": "Fries rival bribe coins into grease, reducing opponent zone power by 3.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmUXYhmoZhyJGYmRHiCzj7qPM8U5S4Pi1nn14ERBqhn5WV"
+  },
+  "PFP-717e46-70": {
+    "id": "PFP-717e46-70",
+    "name": "P.F.P 104",
+    "charName": "Totoro",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 7,
+      "charisma": 9,
+      "blackmail": 7
+    },
+    "abilityName": "Spiritual Shield",
+    "abilityDescription": "Grants immunity to negative modifiers and boosts friendly crew power by +2.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmQKriefPMqr58ch8ragYufop2HuacCTpbFNmMxxwVxR3a"
+  },
+  "PFP-717e46-71": {
+    "id": "PFP-717e46-71",
+    "name": "P.F.P 105",
+    "charName": "The Old Samurai",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 6,
+      "charisma": 5,
+      "blackmail": 7
+    },
+    "abilityName": "Katana Slash",
+    "abilityDescription": "Cuts rival bribe in half with a swift Bushido strike in The Street.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/Qmdw4xpauCuGoNQ3VeZY1nqif4d9RxeKpwQmEX1Nciy5ak"
+  },
+  "PFP-717e46-72": {
+    "id": "PFP-717e46-72",
+    "name": "P.F.P 106",
+    "charName": "Trojan Horse",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 5,
+      "charisma": 5,
+      "blackmail": 7
+    },
+    "abilityName": "Secret Ambush",
+    "abilityDescription": "Sneaks hidden influence into rival-controlled territory at end of turn.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmQi3GMAGTxiDR6SboJP2Vj4zNQZRdU1onURuN3WmdRDK1"
+  },
+  "PFP-717e46-73": {
+    "id": "PFP-717e46-73",
+    "name": "P.F.P 107",
+    "charName": "The Mistress",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 9,
+      "charisma": 5,
+      "blackmail": 7
+    },
+    "abilityName": "Puppet Master",
+    "abilityDescription": "Takes control of rival crew stat boost, redirecting it to your Boss.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmWPXHrMjZM52PWd72brDYMgyrBohBcbNbdXwtdRqrX4Bf"
+  },
+  "PFP-717e46-74": {
+    "id": "PFP-717e46-74",
+    "name": "P.F.P 108",
+    "charName": "The Beast",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 8,
+      "charisma": 5,
+      "blackmail": 7
+    },
+    "abilityName": "Nightmare Howl",
+    "abilityDescription": "Intimidates rival cards, lowering opponent Boldness stats by 40%.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmPUbcY9LYBHVoPYusz49CNpLYwTkDSCm7VwPDiJxHQjA2"
+  },
+  "PFP-717e46-75": {
+    "id": "PFP-717e46-75",
+    "name": "P.F.P 109",
+    "charName": "The Chubby Dancer",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 7,
+      "charisma": 6,
+      "blackmail": 7
+    },
+    "abilityName": "Nonstop Groove",
+    "abilityDescription": "Dazzles the crowd in The Club, earning +15 bonus $PFKC coins on win.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmZ4pcuECVFqxik2ecUk26opHUuZWRzQzRUPz4sJwwaRJX"
+  },
+  "PFP-717e46-76": {
+    "id": "PFP-717e46-76",
+    "name": "P.F.P 110",
+    "charName": "Sméagol",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 5,
+      "charisma": 6,
+      "blackmail": 9
+    },
+    "abilityName": "My Precious",
+    "abilityDescription": "Steals 2 bribe coins from rival vault fund and adds +3 Blackmail power.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmSaAwQLH11psrYGbhrZFAb3Keg4wHbvTZniFmifgKbA2o"
+  },
+  "PFP-717e46-77": {
+    "id": "PFP-717e46-77",
+    "name": "P.F.P 111",
+    "charName": "Medusa",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 9,
+      "charisma": 8,
+      "blackmail": 6
+    },
+    "abilityName": "Stone Statue",
+    "abilityDescription": "Petrifies the first opponent card revealed in the same zone, neutralizing its influence.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmPVwLMGqpqmiSsTfgTPhCswkXCX9PYUS7VCh21xTd1Lqu"
+  },
+  "PFP-717e46-78": {
+    "id": "PFP-717e46-78",
+    "name": "P.F.P 112",
+    "charName": "The Orangutan",
+    "season": "Colectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 6,
+      "charisma": 5,
+      "blackmail": 6
+    },
+    "abilityName": "Cosmic Contemplation",
+    "abilityDescription": "Gazes at the stars to foresee rival move, granting +3 Intel power in The Press.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmaioGUhYkUqyupfNC6gJxfNnQ6nV3B7YjyHpxcLStaeWp"
+  },
+  "PFP-717e46-79": {
+    "id": "PFP-717e46-79",
+    "name": "P.F.P 113",
+    "charName": "Bad Bunny",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 5,
+      "charisma": 7,
+      "blackmail": 5
+    },
+    "abilityName": "Club Chaos",
+    "abilityDescription": "Disrupts opponent tactics, reducing rival bribe multiplier by 50% in The Club.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmNhoq2vCpjesJcgghPqToeW3KXV5FUUavAwYQzYnEFf3b"
+  },
+  "PFP-717e46-7a": {
+    "id": "PFP-717e46-7a",
+    "name": "P.F.P 114",
+    "charName": "The Bread Boy",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 5,
+      "charisma": 9,
+      "blackmail": 5
+    },
+    "abilityName": "Bread Bag",
+    "abilityDescription": "Hides the bribe, making it immune to rival spies and extortion tactics.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmR6okK64udwn5bhA4jn83jRPZD3Lk44S1K1aLnXzPVqHY"
+  },
+  "PFP-717e46-7b": {
+    "id": "PFP-717e46-7b",
+    "name": "P.F.P 115",
+    "charName": "The Promoter",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 8,
+      "charisma": 6,
+      "blackmail": 9
+    },
+    "abilityName": "Fast Talk",
+    "abilityDescription": "Doubles the impact of your bribe in the zone with persuasive hype.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmSnCEJB3DjY6GxFZioQ3BunKQx1gKQ4YK1tSFmDcvUaxy"
+  },
+  "PFP-717e46-7c": {
+    "id": "PFP-717e46-7c",
+    "name": "P.F.P 116",
+    "charName": "Telescopius",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 5,
+      "charisma": 6,
+      "blackmail": 7
+    },
+    "abilityName": "Steel Headbutt",
+    "abilityDescription": "Headbutts and knocks out the rival character in the zone, canceling their power.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmUWQckHyqpfyi7mKqUmQUbzi2o88ZfMSgnHnq53wwsSwF"
+  },
+  "PFP-717e46-7d": {
+    "id": "PFP-717e46-7d",
+    "name": "P.F.P 117",
+    "charName": "Mandalorian Bear",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 5,
+      "charisma": 5,
+      "blackmail": 5
+    },
+    "abilityName": "This Is The Way",
+    "abilityDescription": "Shields friendly cards from extortion and increases zone reward by +5 Pts.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmdFrEy3d8dxfyFiwmoRST6YzT17deetY6atLdobeZTxjm"
+  },
+  "PFP-717e46-7e": {
+    "id": "PFP-717e46-7e",
+    "name": "P.F.P 118",
+    "charName": "Riddler",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 7,
+      "charisma": 8,
+      "blackmail": 6
+    },
+    "abilityName": "Enigma Puzzle",
+    "abilityDescription": "Confuses rival bot into playing cards in non-optimal zones.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmfSifPGVXKds5SEQuY2vrmDunMn6dAgJf1jnajRmdovez"
+  },
+  "PFP-717e46-7f": {
+    "id": "PFP-717e46-7f",
+    "name": "P.F.P 119",
+    "charName": "The Camel",
+    "season": "Collectibles",
+    "role": "crew",
+    "stats": {
+      "boldness": 9,
+      "charisma": 6,
+      "blackmail": 7
+    },
+    "abilityName": "Desert Endurance",
+    "abilityDescription": "Restores spent bribe coins by 25% after match conclusion.",
+    "imageUrl": "https://media.multiversx.com/nfts/asset/QmU9kBngkJhtGXqeXMmz1sfbDFf2TqVzThnFr1C5pqanVj"
+  }
+}

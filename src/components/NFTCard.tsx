@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { MultiversXNFT } from '@/types/nft.types';
-import Image from 'next/image';
 import storiesData from '@/data/stories.json';
 import { HolderCardStudio } from './HolderCardStudio';
 
@@ -38,7 +37,7 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false, isAllCollec
                         ts = txs[0].timestamp;
                     }
                 }
-            } catch (e) {}
+            } catch {}
 
             if (!ts) {
                 try {
@@ -49,7 +48,7 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false, isAllCollec
                             ts = sData.timestamp;
                         }
                     }
-                } catch (e) {}
+                } catch {}
             }
 
             if (isMounted && ts) {
@@ -75,7 +74,7 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false, isAllCollec
                 } else {
                     setSelectedAvatarId(null);
                 }
-            } catch (e) {
+            } catch {
                 setSelectedAvatarId(null);
             }
         };
@@ -260,7 +259,7 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false, isAllCollec
                                 Mission
                             </div>
                             <div style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.4 }}>
-                                "{mission}"
+                                &quot;{mission}&quot;
                             </div>
                         </div>
 
@@ -462,7 +461,7 @@ export function NFTCard({ nft, isFlipped, onFlip, isUnowned = false, isAllCollec
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', borderTop: '1px solid var(--border)', paddingTop: '16px', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
                                 <div><strong>ID:</strong> {nft.identifier}</div>
                                 <div><strong>Season:</strong> {season}</div>
-                                <div><strong>Mission:</strong> "{mission}"</div>
+                                <div><strong>Mission:</strong> &quot;{mission}&quot;</div>
                             </div>
 
                             {!isUnowned && (
